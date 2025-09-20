@@ -22,9 +22,7 @@
               <label class="label" for="password">비밀번호</label>
               <input id="password" name="password" class="input" type="password" required maxlength="100" autocomplete="current-password" />
             </div>
-            <!-- 서버에서 CSRF 토큰을 제공할 경우 아래 hidden 필드 사용
-            <input type="hidden" name="_csrf" value="{{csrfToken}}" />
-            -->
+            <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div id="login_error" class="notice danger-text" style="display:none;margin-top:12px"></div>
             <div class="actions" style="margin-top:16px">
               <button class="btn primary" type="submit">로그인</button>
