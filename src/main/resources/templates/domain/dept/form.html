@@ -38,6 +38,8 @@
             </div>
             <div class="card-body">
               <form data-validate>
+
+                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="section">
                   <div class="section-title">기본정보</div>
                   <div class="grid cols-12">

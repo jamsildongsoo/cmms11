@@ -153,6 +153,18 @@
     <script src="../assets/js/app.js"></script>
     <script>
       (function() {
+        const CSRF_ERROR_NAME = 'CsrfForbiddenError';
+
+        function toCsrfError(response) {
+          if (typeof createCsrfForbiddenError === 'function') {
+            return createCsrfForbiddenError(response);
+          }
+          const error = new Error('Forbidden');
+          error.name = CSRF_ERROR_NAME;
+          error.response = response;
+          return error;
+        }
+
         const slot = document.getElementById('layout-slot');
         if (!slot) return;
 
@@ -202,22 +214,28 @@
           currentContentUrl = contentUrl;
           if (opts.push === true) setState(contentUrl, true);
           fetch(contentUrl, { credentials: 'same-origin' })
-            .then(r => r.text())
+            .then(r => {
+              if (r.status === 403) {
+                throw toCsrfError(r);
+              }
+              return r.text();
+            })
             .then(html => {
               const parser = new DOMParser();
               const doc = parser.parseFromString(html, 'text/html');
               const main = doc.querySelector('main');
               slot.innerHTML = main ? main.innerHTML : (doc.body ? doc.body.innerHTML : html);
-              if (window.CMMSApp && typeof window.CMMSApp.init === 'function') {
-                window.CMMSApp.init(slot);
-              } else if (typeof window.syncCsrfHiddenFields === 'function') {
-                window.syncCsrfHiddenFields(slot);
+              if (typeof syncCsrfForms === 'function') {
+                syncCsrfForms();
               }
               setActive(currentContentUrl);
               const title = doc.querySelector('title');
               if (title && title.textContent) document.title = title.textContent + ' · CMMS';
             })
             .catch(err => {
+              if (err && err.name === CSRF_ERROR_NAME) {
+                return;
+              }
               slot.innerHTML = '<div class="notice danger-text">콘텐츠를 불러오지 못했습니다.</div>';
               console.error(err);
             });
@@ -241,6 +259,9 @@
                 window.location.href = '/auth/login.html';
                 return null;
               }
+              if (r.status === 403) {
+                throw toCsrfError(r);
+              }
               return r.ok ? r.json() : null;
             })
             .then(data => {
@@ -250,7 +271,10 @@
               el.textContent = `${name}${company}`;
               el.title = `ID: ${data.memberId || ''}${data.deptId ? `, 부서: ${data.deptId}` : ''}`.trim();
             })
-            .catch(() => {
+            .catch((err) => {
+              if (err && err.name === CSRF_ERROR_NAME) {
+                return;
+              }
               el.textContent = '사용자 정보 로드 실패';
             });
         })();
