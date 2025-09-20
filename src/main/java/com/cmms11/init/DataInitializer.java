@@ -33,6 +33,7 @@ public class DataInitializer implements ApplicationRunner {
     private final CompanyRepository companyRepository;
     private final SiteRepository siteRepository;
     private final DeptRepository deptRepository;
+
     private final CodeTypeRepository codeTypeRepository;
     private final CodeItemRepository codeItemRepository;
 
