@@ -83,7 +83,7 @@ public class WorkPermitService {
 
     private WorkPermit getExisting(String workPermitId) {
         return repository
-            .findByIdCompanyIdAndIdWorkPermitId(MemberUserDetailsService.DEFAULT_COMPANY, workPermitId)
+            .findByIdCompanyIdAndIdPermitId(MemberUserDetailsService.DEFAULT_COMPANY, workPermitId)
             .orElseThrow(() -> new NotFoundException("WorkPermit not found: " + workPermitId));
     }
 
@@ -109,7 +109,7 @@ public class WorkPermitService {
         if (requestedId != null && !requestedId.isBlank()) {
             String trimmed = requestedId.trim();
             repository
-                .findByIdCompanyIdAndIdWorkPermitId(companyId, trimmed)
+                .findByIdCompanyIdAndIdPermitId(companyId, trimmed)
                 .ifPresent(existing -> {
                     throw new IllegalArgumentException("WorkPermit already exists: " + trimmed);
                 });

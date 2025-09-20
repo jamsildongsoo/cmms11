@@ -33,7 +33,7 @@ public record WorkPermitResponse(
     String updatedBy
 ) {
     public static WorkPermitResponse from(WorkPermit workPermit) {
-        String workPermitId = workPermit.getId() != null ? workPermit.getId().getWorkPermitId() : null;
+        String workPermitId = workPermit.getId() != null ? workPermit.getId().getPermitId() : null;
         return new WorkPermitResponse(
             workPermitId,
             workPermit.getName(),

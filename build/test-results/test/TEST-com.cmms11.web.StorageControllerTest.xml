@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.cmms11.web.StorageControllerTest" tests="3" skipped="0" failures="2" errors="0" timestamp="2025-09-20T11:38:05.346Z" hostname="BOOK-87K1SFE0DT" time="0.08">
+  <properties/>
+  <testcase name="listStoragesSupportsPaginationAndSearch()" classname="com.cmms11.web.StorageControllerTest" time="0.027"/>
+  <testcase name="storageTemplatesAreServedThroughLayout()" classname="com.cmms11.web.StorageControllerTest" time="0.037">
+    <failure message="java.lang.AssertionError: Response content&#13;&#10;Expected: a string containing &quot;창고 목록&quot;&#13;&#10;     but: was &quot;&lt;!doctype html&gt;&#13;&#10;&lt;html lang=&quot;ko&quot;&gt;&#13;&#10;  &lt;head&gt;&#13;&#10;    &lt;meta charset=&quot;utf-8&quot; /&gt;&#13;&#10;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;&#13;&#10;    &lt;title&gt;ì°½ê³  ëª©ë¡&#x9d; Â· CMMS&lt;/title&gt;&#13;&#10;    &lt;link rel=&quot;stylesheet&quot; href=&quot;../../../static/assets/css/base.css&quot; /&gt;&#13;&#10;  &lt;/head&gt;&#13;&#10;  &lt;body&gt;&#13;&#10;    &lt;div class=&quot;page&quot;&gt;&#13;&#10;      &lt;header class=&quot;appbar&quot;&gt;&#13;&#10;        &lt;div class=&quot;appbar-inner&quot;&gt;&#13;&#10;          &lt;div class=&quot;brand&quot;&gt;ê¸°ë³¸ì &#x95;ë³´&lt;/div&gt;&#13;&#10;          &lt;div class=&quot;spacer&quot;&gt;&lt;/div&gt;&#13;&#10;          &lt;div class=&quot;meta&quot;&gt;&#13;&#10;            &lt;span class=&quot;badge&quot;&gt;memberId&lt;/span&gt;&#13;&#10;            &lt;span&gt;ì&#x9a;´ì&#x98;&#x81;ì¤&#x91;&lt;/span&gt;&#13;&#10;          &lt;/div&gt;&#13;&#10;        &lt;/div&gt;&#13;&#10;      &lt;/header&gt;&#13;&#10;      &lt;nav class=&quot;breadcrumbs&quot;&gt;&#13;&#10;        &lt;div class=&quot;container&quot;&gt;&#13;&#10;          &lt;a href=&quot;#&quot;&gt;ê¸°ë³¸ì &#x95;ë³´&lt;/a&gt;&#13;&#10;          &lt;span class=&quot;sep&quot;&gt;/&lt;/span&gt;&#13;&#10;          &lt;span&gt;ì°½ê³ &lt;/span&gt;&#13;&#10;        &lt;/div&gt;&#13;&#10;      &lt;/nav&gt;&#13;&#10;      &lt;main&gt;&#13;&#10;        &lt;div class=&quot;container&quot;&gt;&#13;&#10;          &lt;section class=&quot;card&quot;&gt;&#13;&#10;            &lt;div class=&quot;card-header&quot;&gt;&#13;&#10;              &lt;div class=&quot;card-title&quot;&gt;ì°½ê³  ëª©ë¡&#x9d;&lt;/div&gt;&#13;&#10;              &lt;div class=&quot;toolbar&quot;&gt;&#13;&#10;                &lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;ì &#x95;ë³´ë³´ê¸°&lt;/a&gt;&#13;&#10;                &lt;a class=&quot;btn primary&quot; href=&quot;form.html&quot;&gt;ì&#x83;&#x88;ë¡&#x9c; ë§&#x8c;ë&#x93;¤ê¸°&lt;/a&gt;&#13;&#10;              &lt;/div&gt;&#13;&#10;            &lt;/div&gt;&#13;&#10;            &lt;div class=&quot;card-body&quot;&gt;&#13;&#10;              &lt;div class=&quot;section&quot;&gt;&#13;&#10;                &lt;div class=&quot;section-title&quot;&gt;í&#x95;&#x84;í&#x84;°&lt;/div&gt;&#13;&#10;                &lt;div class=&quot;grid cols-12&quot;&gt;&#13;&#10;                  &lt;div class=&quot;col-span-3&quot;&gt;&#13;&#10;                    &lt;input class=&quot;input&quot; placeholder=&quot;ì°½ê³  ì½&#x94;ë&#x93;&#x9c;&quot; /&gt;&#13;&#10;                  &lt;/div&gt;&#13;&#10;                  &lt;div class=&quot;col-span-3&quot;&gt;&#13;&#10;                    &lt;input class=&quot;input&quot; placeholder=&quot;ì°½ê³  ëª&quot; /&gt;&#13;&#10;                  &lt;/div&gt;&#13;&#10;                  &lt;div class=&quot;col-span-6&quot; style=&quot;display:flex;gap:8px;justify-content:flex-end&quot;&gt;&#13;&#10;                    &lt;button class=&quot;btn&quot;&gt;ì´&#x88;ê¸°í&#x99;&#x94;&lt;/button&gt;&#13;&#10;                    &lt;button class=&quot;btn&quot;&gt;ê²&#x80;ì&#x83;&#x89;&lt;/button&gt;&#13;&#10;                  &lt;/div&gt;&#13;&#10;                &lt;/div&gt;&#13;&#10;              &lt;/div&gt;&#13;&#10;&#13;&#10;              &lt;table class=&quot;table&quot;&gt;&#13;&#10;                &lt;thead&gt;&#13;&#10;                  &lt;tr&gt;&#13;&#10;                    &lt;th style=&quot;width:140px&quot;&gt;ì°½ê³  ì½&#x94;ë&#x93;&#x9c;&lt;/th&gt;&#13;&#10;                    &lt;th&gt;ì°½ê³  ëª&lt;/th&gt;&#13;&#10;                    &lt;th style=&quot;width:200px&quot;&gt;ë¹&#x84;ê³ &lt;/th&gt;&#13;&#10;                  &lt;/tr&gt;&#13;&#10;                &lt;/thead&gt;&#13;&#10;                &lt;tbody&gt;&#13;&#10;                  &lt;tr data-row-link=&quot;form.html&quot;&gt;&#13;&#10;                    &lt;td&gt;&lt;a href=&quot;form.html&quot;&gt;ST001&lt;/a&gt;&lt;/td&gt;&#13;&#10;                    &lt;td&gt;ì¤&#x91;ì&#x95;&#x99; ì°½ê³ &lt;/td&gt;&#13;&#10;                    &lt;td&gt;ì&#x98;&#x88;ì&#x8b;&#x9c; ë&#x8d;°ì&#x9d;´í&#x84;°&lt;/td&gt;&#13;&#10;                  &lt;/tr&gt;&#13;&#10;                &lt;/tbody&gt;&#13;&#10;              &lt;/table&gt;&#13;&#10;&#13;&#10;              &lt;div class=&quot;row&quot; style=&quot;margin-top:12px&quot;&gt;&#13;&#10;                &lt;div class=&quot;spacer&quot;&gt;&lt;/div&gt;&#13;&#10;                &lt;div class=&quot;pagination&quot;&gt;&#13;&#10;                  &lt;button class=&quot;btn sm&quot; disabled&gt;ì&#x9d;´ì &#x84;&lt;/button&gt;&#13;&#10;                  &lt;button class=&quot;btn sm&quot;&gt;ë&#x8b;¤ì&#x9d;&#x8c;&lt;/button&gt;&#13;&#10;                &lt;/div&gt;&#13;&#10;              &lt;/div&gt;&#13;&#10;            &lt;/div&gt;&#13;&#10;          &lt;/section&gt;&#13;&#10;        &lt;/div&gt;&#13;&#10;      &lt;/main&gt;&#13;&#10;      &lt;footer&gt;&#13;&#10;        &lt;div class=&quot;container&quot;&gt;Â© ê¸°ë³¸ì &#x95;ë³´&lt;/div&gt;&#13;&#10;      &lt;/footer&gt;&#13;&#10;    &lt;/div&gt;&#13;&#10;    &lt;script src=&quot;../../../static/assets/js/app.js&quot;&gt;&lt;/script&gt;&#13;&#10;  &lt;/body&gt;&#13;&#10;&lt;/html&gt;&#13;&#10;&quot;" type="java.lang.AssertionError">java.lang.AssertionError: Response content
+Expected: a string containing &quot;창고 목록&quot;
+     but: was &quot;&lt;!doctype html&gt;
+&lt;html lang=&quot;ko&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+    &lt;title&gt;ì°½ê³  ëª©ë¡&#x9d; Â· CMMS&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../../../static/assets/css/base.css&quot; /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;page&quot;&gt;
+      &lt;header class=&quot;appbar&quot;&gt;
+        &lt;div class=&quot;appbar-inner&quot;&gt;
+          &lt;div class=&quot;brand&quot;&gt;ê¸°ë³¸ì &#x95;ë³´&lt;/div&gt;
+          &lt;div class=&quot;spacer&quot;&gt;&lt;/div&gt;
+          &lt;div class=&quot;meta&quot;&gt;
+            &lt;span class=&quot;badge&quot;&gt;memberId&lt;/span&gt;
+            &lt;span&gt;ì&#x9a;´ì&#x98;&#x81;ì¤&#x91;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/header&gt;
+      &lt;nav class=&quot;breadcrumbs&quot;&gt;
+        &lt;div class=&quot;container&quot;&gt;
+          &lt;a href=&quot;#&quot;&gt;ê¸°ë³¸ì &#x95;ë³´&lt;/a&gt;
+          &lt;span class=&quot;sep&quot;&gt;/&lt;/span&gt;
+          &lt;span&gt;ì°½ê³ &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;
+      &lt;main&gt;
+        &lt;div class=&quot;container&quot;&gt;
+          &lt;section class=&quot;card&quot;&gt;
+            &lt;div class=&quot;card-header&quot;&gt;
+              &lt;div class=&quot;card-title&quot;&gt;ì°½ê³  ëª©ë¡&#x9d;&lt;/div&gt;
+              &lt;div class=&quot;toolbar&quot;&gt;
+                &lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;ì &#x95;ë³´ë³´ê¸°&lt;/a&gt;
+                &lt;a class=&quot;btn primary&quot; href=&quot;form.html&quot;&gt;ì&#x83;&#x88;ë¡&#x9c; ë§&#x8c;ë&#x93;¤ê¸°&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;card-body&quot;&gt;
+              &lt;div class=&quot;section&quot;&gt;
+                &lt;div class=&quot;section-title&quot;&gt;í&#x95;&#x84;í&#x84;°&lt;/div&gt;
+                &lt;div class=&quot;grid cols-12&quot;&gt;
+                  &lt;div class=&quot;col-span-3&quot;&gt;
+                    &lt;input class=&quot;input&quot; placeholder=&quot;ì°½ê³  ì½&#x94;ë&#x93;&#x9c;&quot; /&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;col-span-3&quot;&gt;
+                    &lt;input class=&quot;input&quot; placeholder=&quot;ì°½ê³  ëª&quot; /&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;col-span-6&quot; style=&quot;display:flex;gap:8px;justify-content:flex-end&quot;&gt;
+                    &lt;button class=&quot;btn&quot;&gt;ì´&#x88;ê¸°í&#x99;&#x94;&lt;/button&gt;
+                    &lt;button class=&quot;btn&quot;&gt;ê²&#x80;ì&#x83;&#x89;&lt;/button&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;table class=&quot;table&quot;&gt;
+                &lt;thead&gt;
+                  &lt;tr&gt;
+                    &lt;th style=&quot;width:140px&quot;&gt;ì°½ê³  ì½&#x94;ë&#x93;&#x9c;&lt;/th&gt;
+                    &lt;th&gt;ì°½ê³  ëª&lt;/th&gt;
+                    &lt;th style=&quot;width:200px&quot;&gt;ë¹&#x84;ê³ &lt;/th&gt;
+                  &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                  &lt;tr data-row-link=&quot;form.html&quot;&gt;
+                    &lt;td&gt;&lt;a href=&quot;form.html&quot;&gt;ST001&lt;/a&gt;&lt;/td&gt;
+                    &lt;td&gt;ì¤&#x91;ì&#x95;&#x99; ì°½ê³ &lt;/td&gt;
+                    &lt;td&gt;ì&#x98;&#x88;ì&#x8b;&#x9c; ë&#x8d;°ì&#x9d;´í&#x84;°&lt;/td&gt;
+                  &lt;/tr&gt;
+                &lt;/tbody&gt;
+              &lt;/table&gt;
+
+              &lt;div class=&quot;row&quot; style=&quot;margin-top:12px&quot;&gt;
+                &lt;div class=&quot;spacer&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;pagination&quot;&gt;
+                  &lt;button class=&quot;btn sm&quot; disabled&gt;ì&#x9d;´ì &#x84;&lt;/button&gt;
+                  &lt;button class=&quot;btn sm&quot;&gt;ë&#x8b;¤ì&#x9d;&#x8c;&lt;/button&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+        &lt;/div&gt;
+      &lt;/main&gt;
+      &lt;footer&gt;
+        &lt;div class=&quot;container&quot;&gt;Â© ê¸°ë³¸ì &#x95;ë³´&lt;/div&gt;
+      &lt;/footer&gt;
+    &lt;/div&gt;
+    &lt;script src=&quot;../../../static/assets/js/app.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+&quot;
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$string$3(ContentResultMatchers.java:141)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.cmms11.web.StorageControllerTest.storageTemplatesAreServedThroughLayout(StorageControllerTest.java:105)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:124)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:99)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:94)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:63)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:92)
+	at jdk.proxy1/jdk.proxy1.$Proxy4.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:200)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:132)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
+  <testcase name="createUpdateAndDeleteStorage()" classname="com.cmms11.web.StorageControllerTest" time="0.014">
+    <failure message="java.lang.AssertionError: Status expected:&lt;201&gt; but was:&lt;403&gt;" type="java.lang.AssertionError">java.lang.AssertionError: Status expected:&lt;201&gt; but was:&lt;403&gt;
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.cmms11.web.StorageControllerTest.createUpdateAndDeleteStorage(StorageControllerTest.java:71)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:124)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:99)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:94)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:63)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:92)
+	at jdk.proxy1/jdk.proxy1.$Proxy4.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:200)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:132)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
+  <system-out><![CDATA[2025-09-20T20:38:05.340+09:00  INFO 8468 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.cmms11.web.StorageControllerTest]: StorageControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-20T20:38:05.343+09:00  INFO 8468 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.cmms11.Cmms11Application for test class com.cmms11.web.StorageControllerTest
+2025-09-20T20:38:05.363+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] GET /api/domain/storages status=200 duration=10ms
+2025-09-20T20:38:05.370+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] GET /api/domain/storages status=200 duration=6ms
+2025-09-20T20:38:05.405+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] GET /domain/storage/list.html status=200 duration=28ms
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /domain/storage/list.html
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {SPRING_SECURITY_CONTEXT=SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=admin, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_USER]]]}
+
+Handler:
+             Type = org.springframework.web.servlet.resource.ResourceHttpRequestHandler
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Set-Cookie:"XSRF-TOKEN=473678f4-c990-44c8-83f9-785a318eef1a; Path=/", "XSRF-TOKEN=473678f4-c990-44c8-83f9-785a318eef1a; Path=/", Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Last-Modified:"Sat, 20 Sep 2025 11:37:21 GMT", Content-Type:"text/html", Accept-Ranges:"bytes", Content-Length:"3148", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY"]
+     Content type = text/html
+             Body = <!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ì°½ê³  ëª©ë¡]]>&#x9d;<![CDATA[ Â· CMMS</title>
+    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">ê¸°ë³¸ì ]]>&#x95;<![CDATA[ë³´</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">memberId</span>
+            <span>ì]]>&#x9a;<![CDATA[´ì]]>&#x98;<![CDATA[]]>&#x81;<![CDATA[ì¤]]>&#x91;<![CDATA[</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">ê¸°ë³¸ì ]]>&#x95;<![CDATA[ë³´</a>
+          <span class="sep">/</span>
+          <span>ì°½ê³ </span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title">ì°½ê³  ëª©ë¡]]>&#x9d;<![CDATA[</div>
+              <div class="toolbar">
+                <a class="btn" href="#">ì ]]>&#x95;<![CDATA[ë³´ë³´ê¸°</a>
+                <a class="btn primary" href="form.html">ì]]>&#x83;<![CDATA[]]>&#x88;<![CDATA[ë¡]]>&#x9c;<![CDATA[ ë§]]>&#x8c;<![CDATA[ë]]>&#x93;<![CDATA[¤ê¸°</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="section">
+                <div class="section-title">í]]>&#x95;<![CDATA[]]>&#x84;<![CDATA[í]]>&#x84;<![CDATA[°</div>
+                <div class="grid cols-12">
+                  <div class="col-span-3">
+                    <input class="input" placeholder="ì°½ê³  ì½]]>&#x94;<![CDATA[ë]]>&#x93;<![CDATA[]]>&#x9c;<![CDATA[" />
+                  </div>
+                  <div class="col-span-3">
+                    <input class="input" placeholder="ì°½ê³  ëª" />
+                  </div>
+                  <div class="col-span-6" style="display:flex;gap:8px;justify-content:flex-end">
+                    <button class="btn">ì´]]>&#x88;<![CDATA[ê¸°í]]>&#x99;<![CDATA[]]>&#x94;<![CDATA[</button>
+                    <button class="btn">ê²]]>&#x80;<![CDATA[ì]]>&#x83;<![CDATA[]]>&#x89;<![CDATA[</button>
+                  </div>
+                </div>
+              </div>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width:140px">ì°½ê³  ì½]]>&#x94;<![CDATA[ë]]>&#x93;<![CDATA[]]>&#x9c;<![CDATA[</th>
+                    <th>ì°½ê³  ëª</th>
+                    <th style="width:200px">ë¹]]>&#x84;<![CDATA[ê³ </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-row-link="form.html">
+                    <td><a href="form.html">ST001</a></td>
+                    <td>ì¤]]>&#x91;<![CDATA[ì]]>&#x95;<![CDATA[]]>&#x99;<![CDATA[ ì°½ê³ </td>
+                    <td>ì]]>&#x98;<![CDATA[]]>&#x88;<![CDATA[ì]]>&#x8b;<![CDATA[]]>&#x9c;<![CDATA[ ë]]>&#x8d;<![CDATA[°ì]]>&#x9d;<![CDATA[´í]]>&#x84;<![CDATA[°</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="row" style="margin-top:12px">
+                <div class="spacer"></div>
+                <div class="pagination">
+                  <button class="btn sm" disabled>ì]]>&#x9d;<![CDATA[´ì ]]>&#x84;<![CDATA[</button>
+                  <button class="btn sm">ë]]>&#x8b;<![CDATA[¤ì]]>&#x9d;<![CDATA[]]>&#x8c;<![CDATA[</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">Â© ê¸°ë³¸ì ]]>&#x95;<![CDATA[ë³´</div>
+      </footer>
+    </div>
+    <script src="../../../static/assets/js/app.js"></script>
+  </body>
+</html>
+
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = [[Cookie@fb36502 name = 'XSRF-TOKEN', value = '473678f4-c990-44c8-83f9-785a318eef1a', comment = [null], domain = [null], maxAge = -1, path = '/', secure = false, version = 0, httpOnly = false], [Cookie@e7a353a name = 'XSRF-TOKEN', value = '473678f4-c990-44c8-83f9-785a318eef1a', comment = [null], domain = [null], maxAge = -1, path = '/', secure = false, version = 0, httpOnly = false]]
+2025-09-20T20:38:05.417+09:00  WARN 8468 --- [    Test worker] com.cmms11.config.SecurityConfig         : Access denied for POST /api/domain/storages - Could not verify the provided CSRF token because no token was found to compare.
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/domain/storages
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"88"]
+             Body = {
+  "id": {"storageId": "ST100"},
+  "name": "예비창고",
+  "note": "임시 보관"
+}
+
+    Session Attrs = {SPRING_SECURITY_CONTEXT=SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=admin, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_USER]]]}
+
+Handler:
+             Type = null
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 403
+    Error message = null
+          Headers = [Set-Cookie:"XSRF-TOKEN=62e7d6da-167d-4699-9945-2f0d8daa2c0d; Path=/", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY"]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = [[Cookie@69e34852 name = 'XSRF-TOKEN', value = '62e7d6da-167d-4699-9945-2f0d8daa2c0d', comment = [null], domain = [null], maxAge = -1, path = '/', secure = false, version = 0, httpOnly = false]]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -34,7 +34,7 @@ public record WorkOrderResponse(
     String updatedBy
 ) {
     public static WorkOrderResponse from(WorkOrder workOrder) {
-        String workOrderId = workOrder.getId() != null ? workOrder.getId().getWorkOrderId() : null;
+        String workOrderId = workOrder.getId() != null ? workOrder.getId().getOrderId() : null;
         return new WorkOrderResponse(
             workOrderId,
             workOrder.getName(),

@@ -14,6 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/templates/auth/");
         registry.addResourceHandler("/plant/**")
                 .addResourceLocations("classpath:/templates/plant/");
+        registry.addResourceHandler("/inventory/**")
+                .addResourceLocations("classpath:/templates/inventory/");
         registry.addResourceHandler("/domain/**")
                 .addResourceLocations("classpath:/templates/domain/");
         registry.addResourceHandler("/layout/**")
@@ -30,11 +32,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/templates/approval/");
         registry.addResourceHandler("/memo/**")
                 .addResourceLocations("classpath:/templates/memo/");
-        // Static assets (already under resources/static/assets)
+        registry.addResourceHandler("/code/**")
+                .addResourceLocations("classpath:/templates/code/");
         registry.addResourceHandler("/assets/**")
                 .addResourceLocations("classpath:/static/assets/");
-        // Compatibility for templates that reference /static/**
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/messages/**")
+                .addResourceLocations("classpath:/messages/");
     }
 }

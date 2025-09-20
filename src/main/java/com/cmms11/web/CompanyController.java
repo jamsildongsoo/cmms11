@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 /**
@@ -68,17 +70,5 @@ public class CompanyController {
     public ResponseEntity<Void> delete(@PathVariable String companyId) {
         service.delete(companyId);
         return ResponseEntity.noContent().build();
-    }
-
-    private String currentActor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return null;
-        }
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof String principalName && "anonymousUser".equals(principalName)) {
-            return null;
-        }
-        return authentication.getName();
     }
 }

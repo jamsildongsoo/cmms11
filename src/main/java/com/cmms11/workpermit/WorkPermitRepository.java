@@ -20,7 +20,7 @@ public interface WorkPermitRepository extends JpaRepository<WorkPermit, WorkPerm
 
     @Query(
         "select w from WorkPermit w " +
-        "where w.id.companyId = :companyId and (w.id.workPermitId like :keyword or w.name like :keyword)"
+        "where w.id.companyId = :companyId and (w.id.permitId like :keyword or w.name like :keyword)"
     )
     Page<WorkPermit> search(
         @Param("companyId") String companyId,
@@ -28,5 +28,5 @@ public interface WorkPermitRepository extends JpaRepository<WorkPermit, WorkPerm
         Pageable pageable
     );
 
-    Optional<WorkPermit> findByIdCompanyIdAndIdWorkPermitId(String companyId, String workPermitId);
+    Optional<WorkPermit> findByIdCompanyIdAndIdPermitId(String companyId, String permitId);
 }

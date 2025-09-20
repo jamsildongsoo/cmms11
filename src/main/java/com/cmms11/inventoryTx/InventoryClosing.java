@@ -35,7 +35,7 @@ public class InventoryClosing {
     @Column(name = "out_amount", precision = 18, scale = 2)
     private BigDecimal outAmount;
 
-    @Column(name = "move_qty", precision = 18, scale = 2)
+    @Column(name = "move_qty", precision = 18, scale = 3)
     private BigDecimal moveQty;
 
     @Column(name = "move_amount", precision = 18, scale = 2)
@@ -62,4 +62,3 @@ public class InventoryClosing {
     @Column(name = "closed_by", length = 10)
     private String closedBy;
 }
-

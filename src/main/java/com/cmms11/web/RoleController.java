@@ -17,7 +17,7 @@ public class RoleController {
     }
 
     @GetMapping("/{roleId}")
-    public ResponseEntity<?> get(@PathVariable String id) {
+    public ResponseEntity<?> get(@PathVariable("roleId") String roleId) {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
             .body(Map.of("message", "get role not implemented"));
     }
@@ -29,15 +29,14 @@ public class RoleController {
     }
 
     @PutMapping("/{roleId}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Map<String, Object> body) {
+    public ResponseEntity<?> update(@PathVariable("roleId") String roleId, @RequestBody Map<String, Object> body) {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
             .body(Map.of("message", "update role not implemented"));
     }
 
     @DeleteMapping("/{roleId}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
+    public ResponseEntity<?> delete(@PathVariable("roleId") String roleId) {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
             .body(Map.of("message", "delete role not implemented"));
     }
 }
-

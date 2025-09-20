@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.cmms11.web.InventoryControllerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-09-20T11:38:04.716Z" hostname="BOOK-87K1SFE0DT" time="0.061">
+  <properties/>
+  <testcase name="createInventoryReturnsCreatedResponse()" classname="com.cmms11.web.InventoryControllerTest" time="0.028"/>
+  <testcase name="listInventoriesReturnsPagedResult()" classname="com.cmms11.web.InventoryControllerTest" time="0.012"/>
+  <testcase name="getInventoryReturnsSuccess()" classname="com.cmms11.web.InventoryControllerTest" time="0.005"/>
+  <testcase name="updateInventoryReturnsOkResponse()" classname="com.cmms11.web.InventoryControllerTest" time="0.007"/>
+  <testcase name="deleteInventoryReturnsNoContent()" classname="com.cmms11.web.InventoryControllerTest" time="0.005"/>
+  <system-out><![CDATA[2025-09-20T20:38:04.315+09:00  INFO 8468 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.cmms11.web.InventoryControllerTest]: InventoryControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-20T20:38:04.333+09:00  INFO 8468 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.cmms11.Cmms11Application for test class com.cmms11.web.InventoryControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2025-09-20T20:38:04.371+09:00  INFO 8468 --- [    Test worker] com.cmms11.web.InventoryControllerTest   : Starting InventoryControllerTest using Java 21.0.8 with PID 8468 (started by polkn in C:\Users\polkn\codex\cmms11)
+2025-09-20T20:38:04.371+09:00  INFO 8468 --- [    Test worker] com.cmms11.web.InventoryControllerTest   : No active profile set, falling back to 1 default profile: "default"
+2025-09-20T20:38:04.640+09:00  INFO 8468 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name org.springframework.security.core.userdetails.UserDetailsService#0
+2025-09-20T20:38:04.709+09:00  INFO 8468 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-09-20T20:38:04.709+09:00  INFO 8468 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-09-20T20:38:04.710+09:00  INFO 8468 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-09-20T20:38:04.715+09:00  INFO 8468 --- [    Test worker] com.cmms11.web.InventoryControllerTest   : Started InventoryControllerTest in 0.376 seconds (process running for 30.763)
+2025-09-20T20:38:04.743+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] POST /api/inventories status=201 duration=18ms
+2025-09-20T20:38:04.750+09:00  WARN 8468 --- [    Test worker] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-09-20T20:38:04.756+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] GET /api/inventories status=200 duration=8ms
+2025-09-20T20:38:04.761+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] GET /api/inventories/2000000001 status=200 duration=2ms
+2025-09-20T20:38:04.769+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] PUT /api/inventories/2000000001 status=200 duration=3ms
+2025-09-20T20:38:04.776+09:00  INFO 8468 --- [    Test worker] com.cmms11.config.RequestLoggingFilter   : [REQ] DELETE /api/inventories/2000000001 status=204 duration=1ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

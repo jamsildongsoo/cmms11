@@ -24,31 +24,29 @@ class SiteServiceTest {
 
     @Test
     void createSearchAndSoftDeleteSite() {
-        SiteCreateRequest request = new SiteCreateRequest("S0001", "Main Site", "Primary");
-        Site created = service.create(request, "tester");
+        SiteRequest request = new SiteRequest("S0001", "Main Site", "Primary");
+        SiteResponse created = service.create(request);
 
-        assertThat(created.getId().getCompanyId()).isEqualTo(MemberUserDetailsService.DEFAULT_COMPANY);
-        assertThat(created.getDeleteMark()).isEqualTo("N");
-        assertThat(created.getCreatedBy()).isEqualTo("tester");
+        assertThat(created.siteId()).isEqualTo("S0001");
+        assertThat(created.name()).isEqualTo("Main Site");
 
-        Page<Site> page = service.list(null, PageRequest.of(0, 10));
+        Page<SiteResponse> page = service.list(null, PageRequest.of(0, 10));
         assertThat(page.getTotalElements()).isEqualTo(1);
 
-        Page<Site> searchPage = service.list("Main", PageRequest.of(0, 10));
+        Page<SiteResponse> searchPage = service.list("Main", PageRequest.of(0, 10));
         assertThat(searchPage.getTotalElements()).isEqualTo(1);
 
-        Site updated = service.update("S0001", new SiteUpdateRequest("Updated Site", "Updated"), "updater");
-        assertThat(updated.getName()).isEqualTo("Updated Site");
-        assertThat(updated.getUpdatedBy()).isEqualTo("updater");
+        SiteRequest updateRequest = new SiteRequest("S0001", "Updated Site", "Updated");
+        SiteResponse updated = service.update("S0001", updateRequest);
+        assertThat(updated.name()).isEqualTo("Updated Site");
 
-        service.delete("S0001", "deleter");
+        service.delete("S0001");
 
         SiteId id = new SiteId(MemberUserDetailsService.DEFAULT_COMPANY, "S0001");
         Site deleted = repository.findById(id).orElseThrow();
         assertThat(deleted.getDeleteMark()).isEqualTo("Y");
-        assertThat(deleted.getUpdatedBy()).isEqualTo("deleter");
 
-        Page<Site> emptyPage = service.list(null, PageRequest.of(0, 10));
+        Page<SiteResponse> emptyPage = service.list(null, PageRequest.of(0, 10));
         assertThat(emptyPage.getTotalElements()).isZero();
 
         assertThatThrownBy(() -> service.get("S0001"))

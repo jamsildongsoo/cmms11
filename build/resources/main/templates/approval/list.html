@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>결재 목록 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">전자결재</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">목록</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">전자결재</a>
+          <span class="sep">/</span>
+          <span>결재 목록</span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title">결재 목록</div>
+              <div class="toolbar">
+                <a class="btn primary" href="form.html">작성</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="section">
+                <div class="section-title">필터</div>
+                <div class="grid cols-12">
+                  <div class="col-span-3">
+                    <select>
+                      <option value="">상태(전체)</option>
+                      <option>작성중</option>
+                      <option>상신</option>
+                      <option>결재중</option>
+                      <option>완결</option>
+                      <option>반려</option>
+                    </select>
+                  </div>
+                  <div class="col-span-6">
+                    <input class="input" placeholder="검색어(제목/기안자)" />
+                  </div>
+                  <div class="col-span-3" style="display:flex;gap:8px;justify-content:flex-end">
+                    <button class="btn">초기화</button>
+                    <button class="btn">검색</button>
+                  </div>
+                </div>
+              </div>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width:140px">문서번호</th>
+                    <th>제목</th>
+                    <th style="width:120px">기안자</th>
+                    <th style="width:120px">상태</th>
+                    <th style="width:160px">상신일</th>
+                    <th style="width:160px">최종결재일</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-row-link="detail.html">
+                    <td><a href="detail.html">APR-2025-0001</a></td>
+                    <td>설비 구매 요청의 건</td>
+                    <td>admin</td>
+                    <td><span class="badge">결재중</span></td>
+                    <td>2025-09-01 11:20</td>
+                    <td>-</td>
+                  </tr>
+                  <tr data-row-link="detail.html">
+                    <td><a href="detail.html">APR-2025-0002</a></td>
+                    <td>안전 점검 결과 보고</td>
+                    <td>kim</td>
+                    <td><span class="badge">완결</span></td>
+                    <td>2025-08-21 09:00</td>
+                    <td>2025-08-22 13:30</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="row" style="margin-top:12px">
+                <div class="spacer"></div>
+                <div class="pagination">
+                  <button class="btn sm" disabled>이전</button>
+                  <button class="btn sm">다음</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">© 전자결재</div>
+      </footer>
+    </div>
+    <script src="../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+

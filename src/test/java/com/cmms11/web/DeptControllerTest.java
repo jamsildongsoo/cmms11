@@ -15,10 +15,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.cmms11.domain.dept.Dept;
-import com.cmms11.domain.dept.DeptCreateRequest;
 import com.cmms11.domain.dept.DeptId;
+import com.cmms11.domain.dept.DeptRequest;
+import com.cmms11.domain.dept.DeptResponse;
 import com.cmms11.domain.dept.DeptService;
-import com.cmms11.domain.dept.DeptUpdateRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +44,8 @@ class DeptControllerTest {
 
     @Test
     void listDeptsDelegatesToService() throws Exception {
-        Dept dept = new Dept();
-        dept.setId(new DeptId("C0001", "D0001"));
-        dept.setName("Maintenance");
-        dept.setDeleteMark("N");
-        Page<Dept> page = new PageImpl<>(List.of(dept), PageRequest.of(0, 20), 1);
+        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", "Handles maintenance", "N", null, null, null, null);
+        Page<DeptResponse> page = new PageImpl<>(List.of(deptResponse), PageRequest.of(0, 20), 1);
 
         when(service.list(eq("Main"), any(Pageable.class))).thenReturn(page);
 
@@ -62,12 +59,9 @@ class DeptControllerTest {
 
     @Test
     void getDeptReturnsEntity() throws Exception {
-        Dept dept = new Dept();
-        dept.setId(new DeptId("C0001", "D0001"));
-        dept.setName("Maintenance");
-        dept.setDeleteMark("N");
+        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", "Handles maintenance", "N", null, null, null, null);
 
-        when(service.get("D0001")).thenReturn(dept);
+        when(service.get("D0001")).thenReturn(deptResponse);
 
         mockMvc.perform(get("/api/domain/depts/D0001"))
             .andExpect(status().isOk())
@@ -79,12 +73,9 @@ class DeptControllerTest {
 
     @Test
     void createDeptReturnsCreated() throws Exception {
-        Dept dept = new Dept();
-        dept.setId(new DeptId("C0001", "D0001"));
-        dept.setName("Maintenance");
-        dept.setDeleteMark("N");
+        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", "Handles maintenance", "N", null, null, null, null);
 
-        when(service.create(any(DeptCreateRequest.class), isNull())).thenReturn(dept);
+        when(service.create(any(DeptRequest.class))).thenReturn(deptResponse);
 
         mockMvc.perform(post("/api/domain/depts")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -93,35 +84,32 @@ class DeptControllerTest {
             .andExpect(jsonPath("$.deptId").value("D0001"))
             .andExpect(jsonPath("$.name").value("Maintenance"));
 
-        verify(service).create(any(DeptCreateRequest.class), isNull());
+        verify(service).create(any(DeptRequest.class));
     }
 
     @Test
     void updateDeptReturnsUpdated() throws Exception {
-        Dept dept = new Dept();
-        dept.setId(new DeptId("C0001", "D0001"));
-        dept.setName("Updated Dept");
-        dept.setDeleteMark("N");
+        DeptResponse deptResponse = new DeptResponse("D0001", "Updated Dept", "Updated", "N", null, null, null, null);
 
-        when(service.update(eq("D0001"), any(DeptUpdateRequest.class), isNull())).thenReturn(dept);
+        when(service.update(eq("D0001"), any(DeptRequest.class))).thenReturn(deptResponse);
 
         mockMvc.perform(put("/api/domain/depts/D0001")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Updated Dept\",\"note\":\"Updated\",\"parentId\":\"P0001\"}"))
+                .content("{\"deptId\":\"D0001\",\"name\":\"Updated Dept\",\"note\":\"Updated\"}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.deptId").value("D0001"))
             .andExpect(jsonPath("$.name").value("Updated Dept"));
 
-        verify(service).update(eq("D0001"), any(DeptUpdateRequest.class), isNull());
+        verify(service).update(eq("D0001"), any(DeptRequest.class));
     }
 
     @Test
     void deleteDeptReturnsNoContent() throws Exception {
-        doNothing().when(service).delete(anyString(), any());
+        doNothing().when(service).delete(anyString());
 
         mockMvc.perform(delete("/api/domain/depts/D0001"))
             .andExpect(status().isNoContent());
 
-        verify(service).delete(eq("D0001"), isNull());
+        verify(service).delete(eq("D0001"));
     }
 }

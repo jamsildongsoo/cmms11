@@ -20,7 +20,7 @@ public interface WorkOrderRepository extends JpaRepository<WorkOrder, WorkOrderI
 
     @Query(
         "select w from WorkOrder w " +
-        "where w.id.companyId = :companyId and (w.id.workOrderId like :keyword or w.name like :keyword)"
+        "where w.id.companyId = :companyId and (w.id.orderId like :keyword or w.name like :keyword)"
     )
     Page<WorkOrder> search(
         @Param("companyId") String companyId,
@@ -28,5 +28,5 @@ public interface WorkOrderRepository extends JpaRepository<WorkOrder, WorkOrderI
         Pageable pageable
     );
 
-    Optional<WorkOrder> findByIdCompanyIdAndIdWorkOrderId(String companyId, String workOrderId);
+    Optional<WorkOrder> findByIdCompanyIdAndIdOrderId(String companyId, String orderId);
 }

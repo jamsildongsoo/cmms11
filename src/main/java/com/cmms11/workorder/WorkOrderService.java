@@ -83,7 +83,7 @@ public class WorkOrderService {
 
     private WorkOrder getExisting(String workOrderId) {
         return repository
-            .findByIdCompanyIdAndIdWorkOrderId(MemberUserDetailsService.DEFAULT_COMPANY, workOrderId)
+            .findByIdCompanyIdAndIdOrderId(MemberUserDetailsService.DEFAULT_COMPANY, workOrderId)
             .orElseThrow(() -> new NotFoundException("WorkOrder not found: " + workOrderId));
     }
 
@@ -109,7 +109,7 @@ public class WorkOrderService {
         if (requestedId != null && !requestedId.isBlank()) {
             String trimmed = requestedId.trim();
             repository
-                .findByIdCompanyIdAndIdWorkOrderId(companyId, trimmed)
+                .findByIdCompanyIdAndIdOrderId(companyId, trimmed)
                 .ifPresent(existing -> {
                     throw new IllegalArgumentException("WorkOrder already exists: " + trimmed);
                 });

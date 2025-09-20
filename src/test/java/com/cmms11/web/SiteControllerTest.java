@@ -15,10 +15,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.cmms11.domain.site.Site;
-import com.cmms11.domain.site.SiteCreateRequest;
 import com.cmms11.domain.site.SiteId;
+import com.cmms11.domain.site.SiteRequest;
+import com.cmms11.domain.site.SiteResponse;
 import com.cmms11.domain.site.SiteService;
-import com.cmms11.domain.site.SiteUpdateRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +44,8 @@ class SiteControllerTest {
 
     @Test
     void listSitesDelegatesToService() throws Exception {
-        Site site = new Site();
-        site.setId(new SiteId("C0001", "S0001"));
-        site.setName("Main Site");
-        site.setDeleteMark("N");
-        Page<Site> page = new PageImpl<>(List.of(site), PageRequest.of(0, 20), 1);
+        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", "Primary", "N", null, null, null, null);
+        Page<SiteResponse> page = new PageImpl<>(List.of(siteResponse), PageRequest.of(0, 20), 1);
 
         when(service.list(eq("Main"), any(Pageable.class))).thenReturn(page);
 
@@ -62,12 +59,9 @@ class SiteControllerTest {
 
     @Test
     void getSiteReturnsEntity() throws Exception {
-        Site site = new Site();
-        site.setId(new SiteId("C0001", "S0001"));
-        site.setName("Main Site");
-        site.setDeleteMark("N");
+        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", "Primary", "N", null, null, null, null);
 
-        when(service.get("S0001")).thenReturn(site);
+        when(service.get("S0001")).thenReturn(siteResponse);
 
         mockMvc.perform(get("/api/domain/sites/S0001"))
             .andExpect(status().isOk())
@@ -79,12 +73,9 @@ class SiteControllerTest {
 
     @Test
     void createSiteReturnsCreated() throws Exception {
-        Site site = new Site();
-        site.setId(new SiteId("C0001", "S0001"));
-        site.setName("Main Site");
-        site.setDeleteMark("N");
+        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", "Primary", "N", null, null, null, null);
 
-        when(service.create(any(SiteCreateRequest.class), isNull())).thenReturn(site);
+        when(service.create(any(SiteRequest.class))).thenReturn(siteResponse);
 
         mockMvc.perform(post("/api/domain/sites")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -93,35 +84,32 @@ class SiteControllerTest {
             .andExpect(jsonPath("$.siteId").value("S0001"))
             .andExpect(jsonPath("$.name").value("Main Site"));
 
-        verify(service).create(any(SiteCreateRequest.class), isNull());
+        verify(service).create(any(SiteRequest.class));
     }
 
     @Test
     void updateSiteReturnsUpdated() throws Exception {
-        Site site = new Site();
-        site.setId(new SiteId("C0001", "S0001"));
-        site.setName("Updated Site");
-        site.setDeleteMark("N");
+        SiteResponse siteResponse = new SiteResponse("S0001", "Updated Site", "Updated", "N", null, null, null, null);
 
-        when(service.update(eq("S0001"), any(SiteUpdateRequest.class), isNull())).thenReturn(site);
+        when(service.update(eq("S0001"), any(SiteRequest.class))).thenReturn(siteResponse);
 
         mockMvc.perform(put("/api/domain/sites/S0001")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Updated Site\",\"note\":\"Updated\"}"))
+                .content("{\"siteId\":\"S0001\",\"name\":\"Updated Site\",\"note\":\"Updated\"}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.siteId").value("S0001"))
             .andExpect(jsonPath("$.name").value("Updated Site"));
 
-        verify(service).update(eq("S0001"), any(SiteUpdateRequest.class), isNull());
+        verify(service).update(eq("S0001"), any(SiteRequest.class));
     }
 
     @Test
     void deleteSiteReturnsNoContent() throws Exception {
-        doNothing().when(service).delete(anyString(), any());
+        doNothing().when(service).delete(anyString());
 
         mockMvc.perform(delete("/api/domain/sites/S0001"))
             .andExpect(status().isNoContent());
 
-        verify(service).delete(eq("S0001"), isNull());
+        verify(service).delete(eq("S0001"));
     }
 }
