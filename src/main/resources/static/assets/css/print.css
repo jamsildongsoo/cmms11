@@ -1,0 +1,115 @@
+/* 출력 폼 전용 스타일 */
+.print-form { 
+  display: none; 
+}
+
+.print-form .doc { 
+  width: 210mm; 
+  min-height: 297mm; 
+  padding: 14mm 16mm; 
+  background: #fff; 
+  color: #000; 
+  border: 1px solid #ddd; 
+  box-sizing: border-box; 
+  font-size: 12px; 
+  line-height: 1.4; 
+}
+
+.print-form .doc-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 10px; 
+}
+
+.print-form .doc-title { 
+  font-size: 16px; 
+  font-weight: 700; 
+}
+
+.print-form .meta { 
+  font-size: 11px; 
+  color: #444; 
+}
+
+.print-form .section { 
+  margin-top: 10px; 
+}
+
+.print-form .section-title { 
+  font-weight: 700; 
+  margin-bottom: 6px; 
+}
+
+.print-form table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  table-layout: fixed; 
+}
+
+.print-form th, 
+.print-form td { 
+  border: 1px solid #999; 
+  padding: 6px 8px; 
+  vertical-align: middle; 
+}
+
+.print-form th { 
+  background: #f4f4f4; 
+  text-align: left; 
+  width: 22%; 
+  white-space: nowrap; 
+}
+
+.print-form td { 
+  width: auto; 
+}
+
+.print-form .row-cols-2 th { 
+  width: 25%; 
+}
+
+.print-form .row-cols-3 th { 
+  width: 20%; 
+}
+
+.print-form .row-cols-4 th { 
+  width: 15%; 
+}
+
+.print-form .muted { 
+  color: #777; 
+}
+
+.print-form .note { 
+  height: 48px; 
+}
+
+body.print-preview .print-form { 
+  display: block; 
+}
+
+body.print-preview main .card { 
+  display: none; 
+}
+
+@media print {
+  header, 
+  nav, 
+  footer, 
+  .toolbar, 
+  .card, 
+  .appbar, 
+  .breadcrumbs { 
+    display: none !important; 
+  }
+  
+  .print-form { 
+    display: block !important; 
+  }
+  
+  .print-form .doc { 
+    border: none; 
+    padding: 8mm 10mm; 
+  }
+}

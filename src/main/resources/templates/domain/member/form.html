@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>사용자 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">사용자 관리</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">memberId</span>
+            <span>님 환영합니다</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">기본정보</a>
+          <span class="sep">/</span>
+          <a href="list.html">사용자</a>
+          <span class="sep">/</span>
+          <span>등록/수정</span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title">사용자 등록/수정</div>
+              <div class="toolbar">
+                <a class="btn" href="list.html">목록</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <form data-validate>
+                <!-- 기본정보 -->
+                <div class="section">
+                  <div class="section-title">기본정보</div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-4">
+                      <label class="label required" for="member_id">사용자ID</label>
+                      <input id="member_id" name="member_id" class="input" required maxlength="5" placeholder="예: admin" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label required" for="name">이름</label>
+                      <input id="name" name="name" class="input" required maxlength="100" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label" for="dept_id">부서</label>
+                      <select id="dept_id" name="dept_id">
+                        <option value="">(선택)</option>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="EQ">설비</option>
+                        <option value="AS">자산</option>
+                        <option value="EL">전기</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-4">
+                      <label class="label" for="email">이메일</label>
+                      <input id="email" name="email" class="input" type="email" maxlength="100" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label" for="phone">전화번호</label>
+                      <input id="phone" name="phone" class="input" type="tel" maxlength="100" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label" for="password">비밀번호</label>
+                      <input id="password" name="password" class="input" type="password" maxlength="100" autocomplete="new-password" />
+                    </div>
+                  </div>
+                  <div class="form-row col-span-12">
+                    <label class="label" for="note">비고</label>
+                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                  </div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-3">
+                      <label class="label" for="delete_mark">상태</label>
+                      <select id="delete_mark" name="delete_mark">
+                        <option value="N">정상</option>
+                        <option value="Y">사용중지</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="actions" style="margin-top:16px">
+                  <button class="btn" type="button" onclick="history.back()">취소</button>
+                  <button class="btn primary" type="submit">저장</button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">© 사용자 관리</div>
+      </footer>
+    </div>
+    <script src="../../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+

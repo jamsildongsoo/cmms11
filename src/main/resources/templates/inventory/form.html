@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>자재/재고 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">자재/재고</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">memberId</span>
+            <span>운영팀</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">자산정보</a>
+          <span class="sep">/</span>
+          <a href="list.html">자재/재고</a>
+          <span class="sep">/</span>
+          <span>등록/수정</span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title">자재/재고 등록/수정</div>
+              <div class="toolbar">
+                <a class="btn" href="list.html">목록</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <form data-validate>
+                <!-- 기본정보 -->
+                <div class="section">
+                  <div class="section-title">기본정보</div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-3">
+                      <label class="label required" for="inventory_id">자재 번호</label>
+                      <input id="inventory_id" name="inventory_id" class="input" required maxlength="10" placeholder="예: I200000001" />
+                    </div>
+                    <div class="form-row col-span-9">
+                      <label class="label required" for="name">자재명</label>
+                      <input id="name" name="name" class="input" required maxlength="100" />
+                    </div>
+                  </div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-3">
+                      <label class="label required" for="asset_id">자산유형</label>
+                      <select id="asset_id" name="asset_id" required>
+                        <option value="">선택</option>
+                        <option value="EQPMT">설비</option>
+                        <option value="INVEN">재고</option>
+                      </select>
+                    </div>
+                    <div class="form-row col-span-3">
+                      <label class="label required" for="dept_id">관리부서</label>
+                      <select id="dept_id" name="dept_id" required>
+                        <option value="">선택</option>
+                        <option value="EQ">설비팀</option>
+                        <option value="AS">자산팀</option>
+                        <option value="EL">전기팀</option>
+                      </select>
+                    </div>
+                    <div class="form-row col-span-6">
+                      <label class="label" for="note">비고</label>
+                      <input id="note" name="note" class="input" maxlength="500" placeholder="기타 메모(최대 500자)" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 규격 / 모델 -->
+                <div class="section">
+                  <div class="section-title">규격 / 모델</div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-4">
+                      <label class="label" for="maker_name">제조사</label>
+                      <input id="maker_name" name="maker_name" class="input" maxlength="100" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label" for="model">모델</label>
+                      <input id="model" name="model" class="input" maxlength="100" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label" for="serial">시리얼</label>
+                      <input id="serial" name="serial" class="input" maxlength="100" />
+                    </div>
+                    <div class="form-row col-span-12">
+                      <label class="label" for="spec">스펙</label>
+                      <input id="spec" name="spec" class="input" maxlength="100" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 첨부 -->
+                <div class="section" data-attachments>
+                  <div class="section-title">첨부</div>
+                  <div class="attachments">
+                    <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
+                    <button type="button" class="btn" data-attachments-add>파일 선택</button>
+                    <div class="hint">선택한 파일이 아래 목록에 표시됩니다</div>
+                    <ul class="attachments-list" aria-live="polite" aria-label="첨부파일 목록">
+                      <li class="empty">첨부파일이 없습니다.</li>
+                    </ul>
+                  </div>
+                  <input type="hidden" id="file_group_id" name="file_group_id" />
+                </div>
+
+                <div class="actions" style="margin-top:16px">
+                  <button class="btn" type="button" onclick="history.back()">취소</button>
+                  <button class="btn" type="reset">초기화</button>
+                  <button class="btn primary" type="submit">저장</button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">© 자재/재고</div>
+      </footer>
+    </div>
+    <script src="../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+

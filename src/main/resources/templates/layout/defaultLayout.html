@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CMMS · Layout</title>
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <style>
+      html, body { height: 100%; overflow: hidden; }
+      /* Layout grid to keep footer fixed at bottom and content sized */
+      .layout {
+        display: grid;
+        grid-template-areas:
+          "header header"
+          "sidebar content"
+          "footer footer";
+        grid-template-rows: auto 1fr auto;
+        grid-template-columns: 250px 1fr;
+        height: 100vh; /* lock viewport height so only content scrolls */
+      }
+      .header { grid-area: header; }
+      .sidebar { grid-area: sidebar; border-right:1px solid var(--border); padding:12px; overflow:auto; }
+      .content { grid-area: content; overflow:auto; -webkit-overflow-scrolling: touch; }
+      .footer { grid-area: footer; }
+      /* Ensure a consistent visual height even when content is sparse */
+      #layout-slot { min-height: 480px; }
+      /* Sidebar menu */
+      .sidemenu { display:block; }
+      .menu-group { margin-bottom: 8px; border-radius: 6px; }
+      .menu-title { display:flex; align-items:center; width:100%; padding:8px 10px; background: var(--bg-subtle); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-weight:600; color:var(--fg); }
+      .menu-title:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+      .menu-items { padding:6px 8px 4px 12px; }
+      .menu-group:not(.open) .menu-items { display:none; }
+      .menu-item { display:block; padding:6px 4px; color: var(--fg); text-decoration: none; border-radius:4px; }
+      .menu-item:hover { background: var(--bg-subtle); }
+      .menu-item.active { background: var(--accent-a10); color: var(--accent-contrast); }
+      @media (max-width: 860px){
+        .layout {
+          grid-template-areas:
+            "header"
+            "content"
+            "footer";
+          grid-template-columns: 1fr;
+        }
+        .sidebar { display:none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header appbar">
+        <div class="appbar-inner">
+          <div class="brand">CMMS</div>
+          <div class="spacer"></div>
+          <nav class="meta">
+            <a class="btn sm" href="/api/auth/logout" data-hard-nav>로그아웃</a>
+          </nav>
+        </div>
+      </header>
+      <aside class="sidebar">
+        <nav class="sidemenu">
+          <!-- 설비관리 -->
+          <div class="menu-group open" data-group>
+            <button type="button" class="menu-title" aria-expanded="true">자산관리</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/form.html">등록</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/list.html">목록</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/history.html">이력</a>
+            </div>
+          </div>
+
+          <!-- 점검관리 -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">점검관리</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/plan.html">계획</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/form.html">등록(결과)</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/list.html">목록</a>
+            </div>
+          </div>
+
+          <!-- 작업관리 -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">작업관리</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workorder/form.html">등록(결과)</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workorder/list.html">목록</a>
+            </div>
+          </div>
+
+          <!-- 작업허가 -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">작업허가</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workpermit/form.html">등록(결과)</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workpermit/list.html">목록</a>
+            </div>
+          </div>
+
+          <!-- 재고처리  -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">재고처리</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/transaction.html">입고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/closing.html">마감</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/ledger.html">원장(레포트)</a>
+            </div>
+          </div>
+
+          <!-- 결재관리 -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">결재관리</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/approval/form.html">작성</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/approval/list.html">결재함</a>
+            </div>
+          </div>
+
+          <!-- 문서/게시 -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">문서/게시</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/memo/form.html">작성</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/memo/list.html">목록</a>
+            </div>
+          </div>
+
+          <!-- 기본정보(도메인) -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">기본정보</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/company/list.html">회사</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/site/list.html">창고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/dept/list.html">부서</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/func/list.html">기능위치치</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/storage/list.html">창고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/member/list.html">사용자</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/role/list.html">권한</a>
+            </div>
+          </div>
+        </nav>
+      </aside>
+      <main class="content">
+        <div class="container">
+          <div id="layout-slot"></div>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="container">© CMMS</div>
+      </footer>
+    </div>
+    <script src="../assets/js/app.js"></script>
+    <script>
+      (function() {
+        const slot = document.getElementById('layout-slot');
+        if (!slot) return;
+
+        let currentContentUrl = '../plant/list.html';
+
+        function resolveUrl(href, basePath) {
+          try {
+            const u = new URL(href, window.location.origin + basePath);
+            return u.pathname + u.search;
+          } catch (_) {
+            return href;
+          }
+        }
+
+        function setState(contentUrl, push) {
+          const url = '/layout/defaultLayout.html?content=' + encodeURIComponent(contentUrl);
+          const state = { content: contentUrl };
+          if (push) history.pushState(state, '', url);
+          else history.replaceState(state, '', url);
+        }
+
+        function setActive(contentUrl) {
+          try {
+            const links = document.querySelectorAll('.sidebar .menu-item');
+            const targetPath = new URL(contentUrl, window.location.origin).pathname;
+            links.forEach((a) => {
+              a.classList.remove('active');
+              const href = a.getAttribute('href') || '';
+              if (!href.startsWith('/layout/')) return;
+              const u = new URL(href, window.location.origin);
+              const c = u.searchParams.get('content') || '';
+              if (!c) return;
+              if (new URL(c, window.location.origin).pathname === targetPath) {
+                a.classList.add('active');
+                const grp = a.closest('.menu-group');
+                if (grp && !grp.classList.contains('open')) {
+                  grp.classList.add('open');
+                  const btn = grp.querySelector('.menu-title');
+                  if (btn) btn.setAttribute('aria-expanded', 'true');
+                }
+              }
+            });
+          } catch (_) { /* noop */ }
+        }
+
+        function loadContent(contentUrl, opts = { push: false }) {
+          currentContentUrl = contentUrl;
+          if (opts.push === true) setState(contentUrl, true);
+          fetch(contentUrl, { credentials: 'same-origin' })
+            .then(r => r.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+              const main = doc.querySelector('main');
+              slot.innerHTML = main ? main.innerHTML : (doc.body ? doc.body.innerHTML : html);
+              setActive(currentContentUrl);
+              const title = doc.querySelector('title');
+              if (title && title.textContent) document.title = title.textContent + ' · CMMS';
+            })
+            .catch(err => {
+              slot.innerHTML = '<div class="notice danger-text">콘텐츠를 불러오지 못했습니다.</div>';
+              console.error(err);
+            });
+        }
+
+        function navigate(targetHref) {
+          const contentUrl = targetHref.startsWith('/layout/')
+            ? (new URLSearchParams(new URL(targetHref, window.location.origin).search).get('content') || '../plant/list.html')
+            : resolveUrl(targetHref, currentContentUrl);
+          setState(contentUrl, true);
+          loadContent(contentUrl, { push: false });
+        }
+
+        // Intercept all clicks for SPA-like navigation
+        document.addEventListener('click', function(e) {
+          const anchor = e.target.closest('a[href]');
+          if (anchor && anchor.getAttribute('href')) {
+            const href = anchor.getAttribute('href');
+            // Bypass SPA for external, auth, or explicit hard-nav links
+            if (
+              href.startsWith('http') ||
+              href.startsWith('mailto:') ||
+              href.startsWith('#') ||
+              href.startsWith('/api/auth/logout') ||
+              href.startsWith('/auth/') ||
+              anchor.hasAttribute('data-hard-nav') ||
+              anchor.target === '_blank'
+            ) {
+              return; // let browser handle
+            }
+            e.preventDefault();
+            navigate(href);
+            return;
+          }
+          const row = e.target.closest('[data-row-link]');
+          if (row) {
+            const link = row.getAttribute('data-row-link');
+            if (link) {
+              e.preventDefault();
+              navigate(link);
+            }
+          }
+        }, { capture: true });
+
+        // Handle back/forward
+        window.addEventListener('popstate', (e) => {
+          const content = e.state?.content || new URLSearchParams(window.location.search).get('content') || '../plant/list.html';
+          loadContent(content, { push: false });
+        });
+
+        // Initial load
+        const initialContent = new URLSearchParams(window.location.search).get('content') || '../plant/list.html';
+        setState(initialContent, false);
+        loadContent(initialContent, { push: false });
+
+        // Sidebar toggle for top-level menu groups
+        document.querySelectorAll('.sidebar .menu-title').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const grp = btn.closest('.menu-group');
+            if (!grp) return;
+            const willOpen = !grp.classList.contains('open');
+            grp.classList.toggle('open', willOpen);
+            btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          });
+        });
+      })();
+    </script>
+  </body>
+  </html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>설비 목록 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">설비 관리</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">memberId</span>
+            <span>시연용</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">자산정보</a>
+          <span class="sep">/</span>
+          <span>설비</span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title">설비 목록</div>
+              <div class="toolbar">
+                <a class="btn" href="#">내보내기</a>
+                <a class="btn primary" href="form.html">새로 만들기</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="section">
+                <div class="section-title">필터</div>
+                <div class="grid cols-12">
+                  <div class="col-span-3">
+                    <input class="input" placeholder="설비번호" />
+                  </div>         
+                  <div class="col-span-3">
+                    <input class="input" placeholder="검색어(번호/이름)" />
+                  </div>   
+                  <div class="col-span-3">
+                    <select>
+                      <option value="">부서 전체</option>
+                      <option value="EQ">설비과</option>
+                      <option value="AS">자산과</option>
+                      <option value="EL">전기과</option>
+                    </select>
+                  </div>
+                  <div class="col-span-3" style="display:flex;gap:8px;justify-content:flex-end">
+                    <button class="btn">초기화</button>
+                    <button class="btn">검색</button>
+                  </div>
+                </div>
+              </div>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width:120px">설비번호</th>
+                    <th>설비명</th>
+                    <th style="width:120px">Site</th>
+                    <th style="width:120px">기능위치</th>
+                    <th style="width:140px">부서</th>
+                    <th style="width:140px">제조사</th>
+                    <th style="width:140px">모델</th>
+                    <th style="width:140px">설치일</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-row-link="detail.html">
+                    <td><a href="detail.html">EQP000123</a></td>
+                    <td>순환 펌프</td>
+                    <td>서울</td>
+                    <td>펌프</td>
+                    <td>설비과</td>
+                    <td>Acme</td>
+                    <td>M100</td>
+                    <td>2025-04-01</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="row" style="margin-top:12px">
+                <div class="spacer"></div>
+                <div class="pagination">
+                  <button class="btn sm" disabled>이전</button>
+                  <button class="btn sm">다음</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">© 설비 관리</div>
+      </footer>
+    </div>
+    <script src="../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+

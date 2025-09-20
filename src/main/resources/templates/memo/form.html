@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>게시/메모 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">문서/게시</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">memberId</span>
+            <span>운영팀</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">문서/게시</a>
+          <span class="sep">/</span>
+          <a href="list.html">게시/메모</a>
+          <span class="sep">/</span>
+          <span>등록/수정</span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title">게시/메모 등록/수정</div>
+              <div class="toolbar">
+                <a class="btn" href="list.html">목록</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <form data-validate>
+                <!-- 기본정보 -->
+                <div class="section">
+                  <div class="section-title">기본정보</div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-9">
+                      <label class="label required" for="title">제목</label>
+                      <input id="title" name="title" class="input" required maxlength="100" />
+                    </div>
+                  </div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-3">
+                      <label class="label" for="ref_entity">참조 모듈</label>
+                      <input id="ref_entity" name="ref_entity" class="input" maxlength="64" placeholder="예: work_order" />
+                    </div>
+                    <div class="form-row col-span-3">
+                      <label class="label" for="ref_id">참조 ID</label>
+                      <input id="ref_id" name="ref_id" class="input" maxlength="10" placeholder="예: O250101001" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 내용 -->
+                <div class="section">
+                  <div class="section-title">메모</div>
+                  <div class="form-row col-span-12">
+                    <label class="label" for="note">비고</label>
+                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                  </div>
+                </div>
+
+                <!-- 첨부 -->
+                <div class="section" data-attachments>
+                  <div class="section-title">첨부</div>
+                  <div class="attachments">
+                    <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
+                    <button type="button" class="btn" data-attachments-add>파일 선택</button>
+                    <div class="hint">선택한 파일이 아래 목록에 표시됩니다</div>
+                    <ul class="attachments-list" aria-live="polite" aria-label="첨부파일 목록">
+                      <li class="empty">첨부파일이 없습니다.</li>
+                    </ul>
+                  </div>
+                  <input type="hidden" id="file_group_id" name="file_group_id" />
+                </div>
+
+                <div class="actions" style="margin-top:16px">
+                  <button class="btn" type="button" onclick="history.back()">취소</button>
+                  <button class="btn" type="reset">초기화</button>
+                  <button class="btn primary" type="submit">저장</button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">© 문서/게시</div>
+      </footer>
+    </div>
+    <script src="../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+
