@@ -26,3 +26,4 @@ public interface FuncRepository extends JpaRepository<Func, FuncId> {
     Optional<Func> findByIdCompanyIdAndIdFuncId(String companyId, String funcId);
 }
 
+

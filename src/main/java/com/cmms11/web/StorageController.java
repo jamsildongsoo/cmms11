@@ -36,16 +36,21 @@ public class StorageController {
     }
 
     @GetMapping
+
     public Page<StorageResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {
+
         return service.list(q, pageable);
     }
 
     @GetMapping("/{storageId}")
+
     public ResponseEntity<StorageResponse> get(@PathVariable String storageId) {
+
         return ResponseEntity.ok(service.get(storageId));
     }
 
     @PostMapping
+
     public ResponseEntity<StorageResponse> create(@Valid @RequestBody StorageRequest request) {
         StorageResponse response = service.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

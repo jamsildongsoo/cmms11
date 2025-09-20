@@ -1,5 +1,6 @@
 package com.cmms11.domain.storage;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -16,6 +17,7 @@ import lombok.Setter;
  * 수정일:
  * 프로그램 개요: 창고(Storage) 엔티티 정의.
  */
+
 @Entity
 @Table(name = "storage")
 @Getter
@@ -47,4 +49,3 @@ public class Storage {
     @Column(name = "updated_by", length = 10)
     private String updatedBy;
 }
-

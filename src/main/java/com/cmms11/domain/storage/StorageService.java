@@ -29,6 +29,7 @@ public class StorageService {
     }
 
     @Transactional(readOnly = true)
+
     public Page<StorageResponse> list(String keyword, Pageable pageable) {
         String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
         Page<Storage> page;

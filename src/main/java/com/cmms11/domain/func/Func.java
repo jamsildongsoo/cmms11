@@ -47,4 +47,3 @@ public class Func {
     @Column(name = "updated_by", length = 10)
     private String updatedBy;
 }
-

@@ -36,16 +36,20 @@ public class FuncController {
     }
 
     @GetMapping
+
     public Page<FuncResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {
         return service.list(q, pageable);
     }
 
     @GetMapping("/{funcId}")
+
     public ResponseEntity<FuncResponse> get(@PathVariable String funcId) {
+
         return ResponseEntity.ok(service.get(funcId));
     }
 
     @PostMapping
+
     public ResponseEntity<FuncResponse> create(@Valid @RequestBody FuncRequest request) {
         FuncResponse response = service.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

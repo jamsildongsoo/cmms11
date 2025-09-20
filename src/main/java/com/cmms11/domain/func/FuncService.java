@@ -29,6 +29,7 @@ public class FuncService {
     }
 
     @Transactional(readOnly = true)
+
     public Page<FuncResponse> list(String keyword, Pageable pageable) {
         String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
         Page<Func> page;
@@ -113,4 +114,3 @@ public class FuncService {
         return name != null ? name : "system";
     }
 }
-
