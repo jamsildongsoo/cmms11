@@ -1,154 +1,80 @@
 const CSRF_COOKIE_NAME = 'XSRF-TOKEN';
-const CSRF_HEADER_NAME = 'X-CSRF-TOKEN';
-const CSRF_FORBIDDEN_ERROR = 'CsrfForbiddenError';
 
-const nativeFetch = window.fetch.bind(window);
-let csrfErrorDisplayed = false;
+const CSRF_SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS', 'TRACE']);
 
-function getCookieValue(name) {
-  if (typeof document === 'undefined') return null;
-  const cookieString = document.cookie || '';
-  const cookies = cookieString.split(';').map((c) => c.trim());
-  for (const cookie of cookies) {
-    if (!cookie) continue;
-    const [cookieName, ...rest] = cookie.split('=');
-    if (cookieName === name) {
-      return decodeURIComponent(rest.join('='));
+function readCsrfTokenFromCookie() {
+  const cookies = document.cookie ? document.cookie.split('; ') : [];
+  for (const entry of cookies) {
+    if (entry.startsWith(`${CSRF_COOKIE_NAME}=`)) {
+      return decodeURIComponent(entry.split('=').slice(1).join('='));
     }
   }
   return null;
 }
 
-function getCsrfToken() {
-  return getCookieValue(CSRF_COOKIE_NAME);
-}
-
-function ensureRequestWithHeader(input, init, token) {
-  if (!token) {
-    return { input, init };
-  }
-
-  if (input instanceof Request) {
-    const headers = new Headers(init?.headers || input.headers || undefined);
-    if (!headers.has(CSRF_HEADER_NAME)) {
-      headers.set(CSRF_HEADER_NAME, token);
-    }
-    const requestInit = { ...init, headers };
-    const request = new Request(input, requestInit);
-    return { input: request, init: undefined };
-  }
-
-  const options = init ? { ...init } : {};
-  const headers = new Headers(options.headers || undefined);
-  if (!headers.has(CSRF_HEADER_NAME)) {
-    headers.set(CSRF_HEADER_NAME, token);
-  }
-  options.headers = headers;
-  return { input, init: options };
-}
-
-function syncCsrfForms() {
-  if (typeof document === 'undefined') return;
-  const token = getCsrfToken();
+function syncCsrfHiddenFields() {
+  const token = readCsrfTokenFromCookie();
+  if (!token) return;
   const forms = document.querySelectorAll('form');
   forms.forEach((form) => {
-    let field = form.querySelector('input[name="_csrf"]');
-    if (!field) {
-      field = document.createElement('input');
-      field.type = 'hidden';
-      field.name = '_csrf';
-      field.setAttribute('data-csrf-field', 'true');
-      form.appendChild(field);
+    const method = (form.getAttribute('method') || 'get').toUpperCase();
+    if (method !== 'POST') return;
+    let csrfInput = form.querySelector('input[name="_csrf"]');
+    if (!csrfInput) {
+      csrfInput = document.createElement('input');
+      csrfInput.type = 'hidden';
+      csrfInput.name = '_csrf';
+      form.appendChild(csrfInput);
     }
-    if (token) {
-      field.value = token;
-    } else {
-      field.value = '';
-    }
+    csrfInput.value = token;
   });
 }
 
-function notifyCsrfError(detail) {
-  if (csrfErrorDisplayed) {
+function shouldAttachCsrfHeader(request) {
+  try {
+    const url = new URL(request.url);
+    const isSameOrigin = url.origin === window.location.origin;
+    const method = (request.method || 'GET').toUpperCase();
+    return isSameOrigin && !CSRF_SAFE_METHODS.has(method);
+  } catch (err) {
+    // In case of relative URLs, new URL may throw; default to attaching
+    const method = (request.method || 'GET').toUpperCase();
+    return !CSRF_SAFE_METHODS.has(method);
+  }
+}
+
+(function wrapFetchWithCsrf() {
+  if (typeof window === 'undefined' || typeof window.fetch !== 'function') {
     return;
   }
-  csrfErrorDisplayed = true;
 
-  console.warn('CSRF protection blocked a request.', detail?.response || detail);
+  const originalFetch = window.fetch.bind(window);
 
-  const loginError = document.getElementById('login_error');
-  if (loginError) {
-    loginError.textContent = '보안 토큰이 만료되었습니다. 페이지를 새로고침한 후 다시 시도하세요.';
-    loginError.setAttribute('role', 'alert');
-    loginError.style.display = 'block';
-  } else {
-    const slot = document.getElementById('layout-slot');
-    if (slot) {
-      slot.innerHTML = '';
-      const wrapper = document.createElement('div');
-      wrapper.className = 'notice danger-text';
-      wrapper.setAttribute('role', 'alert');
-      wrapper.innerHTML = [
-        '<div>보안 검증에 실패했습니다. 세션이 만료되었을 수 있습니다.</div>',
-        '<div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">',
-        '  <button type="button" class="btn" data-csrf-retry>페이지 새로고침</button>',
-        '  <a class="btn" href="/auth/login.html?error=1&msg=' + encodeURIComponent('다시 로그인해 주세요.') + '">다시 로그인</a>',
-        '</div>'
-      ].join('');
-      slot.appendChild(wrapper);
-      const retry = wrapper.querySelector('[data-csrf-retry]');
-      if (retry) {
-        retry.addEventListener('click', () => {
-          csrfErrorDisplayed = false;
-          window.location.reload();
-        });
+  window.fetch = function csrfAwareFetch(input, init) {
+    const request = new Request(input, init);
+    const token = readCsrfTokenFromCookie();
+
+    let finalRequest = request;
+    if (token && shouldAttachCsrfHeader(request)) {
+      const headers = new Headers(request.headers || {});
+      headers.set('X-CSRF-TOKEN', token);
+      finalRequest = new Request(request, { headers });
+    }
+
+    const responsePromise = originalFetch(finalRequest);
+    return responsePromise.finally(() => {
+      try {
+        syncCsrfHiddenFields();
+      } catch (e) {
+        // no-op; syncing CSRF fields should not break application flow
       }
-    } else {
-      window.alert('보안 검증에 실패했습니다. 페이지를 새로고침한 후 다시 시도하세요.');
-    }
-  }
-
-  window.dispatchEvent(new CustomEvent('cmms:csrf-error', { detail }));
-}
-
-function createCsrfForbiddenError(response) {
-  const error = new Error('Forbidden');
-  error.name = CSRF_FORBIDDEN_ERROR;
-  error.response = response;
-  return error;
-}
-
-window.fetch = function csrfAwareFetch(input, init) {
-  const token = getCsrfToken();
-  let nextInput = input;
-  let nextInit = init;
-  if (token) {
-    const prepared = ensureRequestWithHeader(input, init, token);
-    nextInput = prepared.input;
-    nextInit = prepared.init;
-  }
-
-  return nativeFetch(nextInput, nextInit).then((response) => {
-    if (response.status === 403) {
-      response.csrfFailure = true;
-      notifyCsrfError({ response, request: { input: nextInput, init: nextInit } });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', syncCsrfForms, { once: true });
-    } else {
-      syncCsrfForms();
-    }
-    return response;
-  });
-};
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', syncCsrfForms, { once: true });
-} else {
-  syncCsrfForms();
-}
+    });
+  };
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
+  syncCsrfHiddenFields();
+
   const tableRows = document.querySelectorAll('[data-row-link]');
   tableRows.forEach((tr) => {
     tr.addEventListener('click', (e) => {
@@ -264,11 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // 파일 크기 포맷팅 함수
   function formatFileSize(bytes) {
     if (bytes === 0) return '0 Bytes';
-    
+
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
+
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 });
+
+window.cmms = window.cmms || {};
+window.cmms.refreshCsrfForms = syncCsrfHiddenFields;
