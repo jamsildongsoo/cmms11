@@ -208,6 +208,11 @@
               const doc = parser.parseFromString(html, 'text/html');
               const main = doc.querySelector('main');
               slot.innerHTML = main ? main.innerHTML : (doc.body ? doc.body.innerHTML : html);
+              if (window.CMMSApp && typeof window.CMMSApp.init === 'function') {
+                window.CMMSApp.init(slot);
+              } else if (typeof window.syncCsrfHiddenFields === 'function') {
+                window.syncCsrfHiddenFields(slot);
+              }
               setActive(currentContentUrl);
               const title = doc.querySelector('title');
               if (title && title.textContent) document.title = title.textContent + ' · CMMS';
