@@ -25,6 +25,9 @@ public class Dept {
     @Column(name = "delete_mark", length = 1)
     private String deleteMark = "N";
 
+    @Column(name = "parent_id", length = 5)
+    private String parentId;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

@@ -42,6 +42,7 @@ CREATE TABLE dept (
   dept_id  CHAR(5),
   name       VARCHAR(100),
   note       VARCHAR(500),
+  parent_id CHAR(5),  --상위 부서코드 
   delete_mark CHAR(1) DEFAULT 'N',
   created_at TIMESTAMP,
   created_by CHAR(10),
@@ -72,6 +73,7 @@ CREATE TABLE func (
   func_id CHAR(5),
   name         VARCHAR(100),
   note         VARCHAR(500),
+  parent_id CHAR(5),
   delete_mark  CHAR(1) DEFAULT 'N',
   created_at   TIMESTAMP,
   created_by   CHAR(10),
@@ -85,6 +87,7 @@ CREATE TABLE storage (
   storage_id CHAR(5),
   name        VARCHAR(100),
   note        VARCHAR(500),
+  parent_id CHAR(5),
   delete_mark CHAR(1) DEFAULT 'N',
   created_at  TIMESTAMP,
   created_by  CHAR(10),
