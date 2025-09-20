@@ -42,9 +42,9 @@ main{flex:1}
 .input,select,textarea{width:100%;height:var(--h-input);padding:0 10px;border:1px solid var(--border);border-radius:6px;background:#fff}
 .input:focus,select:focus,textarea:focus{outline:2px solid var(--focus);outline-offset:1px}
 .input[readonly],.input:disabled{background:#f3f4f6}
-textarea{height:auto;padding:8px 10px}
+textarea{height:auto;min-height:100px;padding:8px 10px;resize:vertical}
 
-.grid{display:grid;gap:var(--space-12)}
+.grid{display:grid;gap:var(--space-12);margin-bottom:var(--space-12)}
 /* 12-col responsive grid */
 .grid.cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}
 .col-span-12{grid-column:span 12}

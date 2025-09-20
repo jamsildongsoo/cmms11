@@ -53,6 +53,7 @@
           <div class="brand">CMMS</div>
           <div class="spacer"></div>
           <nav class="meta">
+            <span id="user-info" style="margin-right:12px;color:var(--fg-muted)">사용자 정보를 불러오는 중…</span>
             <a class="btn sm" href="/api/auth/logout" data-hard-nav>로그아웃</a>
           </nav>
         </div>
@@ -130,10 +131,10 @@
             <button type="button" class="menu-title" aria-expanded="false">기본정보</button>
             <div class="menu-items">
               <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/company/list.html">회사</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/site/list.html">창고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/site/list.html">사업장(사이트)</a>
               <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/dept/list.html">부서</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/func/list.html">기능위치치</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/storage/list.html">창고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/func/list.html">기능위치</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/storage/list.html">창고(스토리지)</a>
               <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/member/list.html">사용자</a>
               <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/role/list.html">권한</a>
             </div>
@@ -224,6 +225,30 @@
           setState(contentUrl, true);
           loadContent(contentUrl, { push: false });
         }
+
+        // Fetch and render logged-in user info into header
+        (function loadUserInfo() {
+          const el = document.getElementById('user-info');
+          if (!el) return;
+          fetch('/api/auth/me', { credentials: 'same-origin' })
+            .then(r => {
+              if (r.status === 401) {
+                window.location.href = '/auth/login.html';
+                return null;
+              }
+              return r.ok ? r.json() : null;
+            })
+            .then(data => {
+              if (!data) return;
+              const name = data.name || data.memberId || '사용자';
+              const company = data.companyId ? ` (${data.companyId})` : '';
+              el.textContent = `${name}${company}`;
+              el.title = `ID: ${data.memberId || ''}${data.deptId ? `, 부서: ${data.deptId}` : ''}`.trim();
+            })
+            .catch(() => {
+              el.textContent = '사용자 정보 로드 실패';
+            });
+        })();
 
         // Intercept all clicks for SPA-like navigation
         document.addEventListener('click', function(e) {

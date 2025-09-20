@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>결재 상세 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
+    <link rel="stylesheet" href="../../static/assets/css/print.css" />
+    <style>
+      .doc-header{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+      .doc-title{font-size:20px;font-weight:700}
+      .meta-row{display:flex;gap:16px;color:var(--fg-muted)}
+      .approval-line{margin-top:12px}
+      .doc-body{padding:16px;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+      .attachments a{display:inline-block;margin-right:8px}
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">전자결재</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">상세</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">전자결재</a>
+          <span class="sep">/</span>
+          <a href="list.html">결재</a>
+          <span class="sep">/</span>
+          <span>상세</span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="row" style="width:100%;justify-content:space-between">
+                <div class="card-title">결재 상세</div>
+                <div class="toolbar">
+                  <a class="btn" href="list.html">목록</a>
+                  <button class="btn danger" data-confirm="반려하시겠습니까?">반려</button>
+                  <button class="btn primary" data-confirm="결재하시겠습니까?">결재</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="doc-header">
+                <div class="doc-title">설비 구매 요청의 건</div>
+                <div class="meta-row">
+                  <div>문서번호: APR-2025-0001</div>
+                  <div>기안자: admin</div>
+                  <div>작성일: 2025-09-01</div>
+                  <div>상태: <span class="badge">결재중</span></div>
+                </div>
+                <div class="approval-line">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th style="width:60px">순서</th>
+                        <th>결재자</th>
+                        <th style="width:120px">구분</th>
+                        <th style="width:120px">결과</th>
+                        <th style="width:180px">일시</th>
+                        <th>의견</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>kim (김철수)</td>
+                        <td>합의</td>
+                        <td><span class="badge">완료</span></td>
+                        <td>2025-09-01 12:00</td>
+                        <td>검토 완료</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>lee (이영희)</td>
+                        <td>결재</td>
+                        <td><span class="badge">대기</span></td>
+                        <td>-</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>park (박민수)</td>
+                        <td>통보</td>
+                        <td><span class="badge">대기</span></td>
+                        <td>-</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="doc-body">
+                <p>1. 목적: 신규 설비 구매에 대한 승인 요청입니다.</p>
+                <p>2. 배경: 생산성 향상을 위해 XYZ 모델의 설비 도입이 필요합니다.</p>
+                <p>3. 비용: 120,000,000원 (VAT 별도)</p>
+                <p>4. 비고: 설치 일정은 추후 협의</p>
+              </div>
+
+              <div class="section" style="margin-top:12px">
+                <div class="section-title">첨부</div>
+                <div class="attachments">
+                  <a href="#">견적서.pdf</a>
+                  <a href="#">사양서.docx</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">© 전자결재</div>
+      </footer>
+    </div>
+    <script src="../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+

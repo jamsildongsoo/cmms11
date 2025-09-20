@@ -53,18 +53,19 @@
           <div class="brand">CMMS</div>
           <div class="spacer"></div>
           <nav class="meta">
-            <a class="btn sm" href="/api/auth/logout">로그아웃</a>
+            <a class="btn sm" href="/api/auth/logout" data-hard-nav>로그아웃</a>
           </nav>
         </div>
       </header>
       <aside class="sidebar">
         <nav class="sidemenu">
-          <!-- 자산관리 -->
+          <!-- 설비관리 -->
           <div class="menu-group open" data-group>
             <button type="button" class="menu-title" aria-expanded="true">자산관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/list.html">설비</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventory/list.html">자재/재고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/form.html">등록</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/list.html">목록</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/history.html">이력</a>
             </div>
           </div>
 
@@ -72,7 +73,9 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">점검관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/list.html">점검계획/결과</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/plan.html">계획</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/form.html">등록(결과)</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/list.html">목록</a>
             </div>
           </div>
 
@@ -80,8 +83,27 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">작업관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/workorder/list.html">작업지시</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/workpermit/list.html">작업허가</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workorder/form.html">등록(결과)</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workorder/list.html">목록</a>
+            </div>
+          </div>
+
+          <!-- 작업허가 -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">작업허가</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workpermit/form.html">등록(결과)</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/workpermit/list.html">목록</a>
+            </div>
+          </div>
+
+          <!-- 재고처리  -->
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">재고처리</button>
+            <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/transaction.html">입고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/closing.html">마감</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/ledger.html">원장(레포트)</a>
             </div>
           </div>
 
@@ -89,7 +111,8 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">결재관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/approval/list.html">결재문서</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/approval/form.html">작성</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/approval/list.html">결재함</a>
             </div>
           </div>
 
@@ -97,7 +120,8 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">문서/게시</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/memo/list.html">게시/메모</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/memo/form.html">작성</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/memo/list.html">목록</a>
             </div>
           </div>
 
@@ -105,7 +129,13 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">기본정보</button>
             <div class="menu-items">
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/company/list.html">회사</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/site/list.html">창고</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/dept/list.html">부서</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/func/list.html">기능위치치</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/storage/list.html">창고</a>
               <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/member/list.html">사용자</a>
+              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/role/list.html">권한</a>
             </div>
           </div>
         </nav>
@@ -200,7 +230,18 @@
           const anchor = e.target.closest('a[href]');
           if (anchor && anchor.getAttribute('href')) {
             const href = anchor.getAttribute('href');
-            if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#') || anchor.target === '_blank') return;
+            // Bypass SPA for external, auth, or explicit hard-nav links
+            if (
+              href.startsWith('http') ||
+              href.startsWith('mailto:') ||
+              href.startsWith('#') ||
+              href.startsWith('/api/auth/logout') ||
+              href.startsWith('/auth/') ||
+              anchor.hasAttribute('data-hard-nav') ||
+              anchor.target === '_blank'
+            ) {
+              return; // let browser handle
+            }
             e.preventDefault();
             navigate(href);
             return;

@@ -18,6 +18,18 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/templates/domain/");
         registry.addResourceHandler("/layout/**")
                 .addResourceLocations("classpath:/templates/layout/");
+        registry.addResourceHandler("/inspection/**")
+                .addResourceLocations("classpath:/templates/inspection/");
+        registry.addResourceHandler("/workorder/**")
+                .addResourceLocations("classpath:/templates/workorder/");
+        registry.addResourceHandler("/workpermit/**")
+                .addResourceLocations("classpath:/templates/workpermit/");
+        registry.addResourceHandler("/inventoryTx/**")
+                .addResourceLocations("classpath:/templates/inventoryTx/");
+        registry.addResourceHandler("/approval/**")
+                .addResourceLocations("classpath:/templates/approval/");
+        registry.addResourceHandler("/memo/**")
+                .addResourceLocations("classpath:/templates/memo/");
         // Static assets (already under resources/static/assets)
         registry.addResourceHandler("/assets/**")
                 .addResourceLocations("classpath:/static/assets/");
