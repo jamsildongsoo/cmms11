@@ -38,6 +38,8 @@
             </div>
             <div class="card-body">
               <form data-validate>
+
+                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <!-- 계획 대상(행 추가/삭제) -->
                 <div class="section" data-plan-items>
                   <div class="section-title">계획 대상</div>

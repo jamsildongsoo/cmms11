@@ -13,206 +13,184 @@ import com.cmms11.domain.site.SiteId;
 import com.cmms11.domain.site.SiteRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+/**
+ * 이름: DataInitializer
+ * 작성자: codex
+ * 작성일: 2025-08-20
+ * 수정일:
+ * 프로그램 개요: 애플리케이션 기동 시 기본 데이터(Admin, 회사/사이트/부서, 공통코드)를 시드.
+ */
 @Component
 public class DataInitializer implements ApplicationRunner {
-    private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
-    private static final String COMPANY_ID = "C0001";
+    private static final String DEFAULT_COMPANY = "C0001";
     private static final String SYSTEM_USER = "system";
-
+  
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
     private final CompanyRepository companyRepository;
     private final SiteRepository siteRepository;
     private final DeptRepository deptRepository;
-    private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final CodeTypeRepository codeTypeRepository;
+    private final CodeItemRepository codeItemRepository;
 
     public DataInitializer(
+        MemberRepository memberRepository,
+        PasswordEncoder passwordEncoder,
         CompanyRepository companyRepository,
         SiteRepository siteRepository,
         DeptRepository deptRepository,
-        MemberRepository memberRepository,
-        PasswordEncoder passwordEncoder
+        CodeTypeRepository codeTypeRepository,
+        CodeItemRepository codeItemRepository
     ) {
+        this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
         this.companyRepository = companyRepository;
         this.siteRepository = siteRepository;
         this.deptRepository = deptRepository;
-        this.memberRepository = memberRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.codeTypeRepository = codeTypeRepository;
+        this.codeItemRepository = codeItemRepository;
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         LocalDateTime now = LocalDateTime.now();
-
-        seedCompany(now);
-        seedSites(now);
-        seedDepts(now);
-        seedAdminUser(now);
+        seedAdmin(now);
+        seedCompanyHierarchy(now);
+        seedCodes();
     }
 
-    private void seedCompany(LocalDateTime now) {
-        companyRepository
-            .findById(COMPANY_ID)
-            .ifPresentOrElse(
-                company -> {
-                    boolean changed = false;
-                    if (!Objects.equals(company.getName(), "CMMS 주식회사")) {
-                        company.setName("CMMS 주식회사");
-                        changed = true;
-                    }
-                    if (!Objects.equals(company.getNote(), "기본 데모 회사")) {
-                        company.setNote("기본 데모 회사");
-                        changed = true;
-                    }
-                    if (!Objects.equals(company.getDeleteMark(), "N")) {
-                        company.setDeleteMark("N");
-                        changed = true;
-                    }
-                    if (changed) {
-                        company.setUpdatedAt(now);
-                        company.setUpdatedBy(SYSTEM_USER);
-                        companyRepository.save(company);
-                        log.info("Updated sample company {}", COMPANY_ID);
-                    }
-                },
-                () -> {
-                    Company company = new Company();
-                    company.setCompanyId(COMPANY_ID);
-                    company.setName("CMMS 주식회사");
-                    company.setNote("기본 데모 회사");
-                    company.setDeleteMark("N");
-                    company.setCreatedAt(now);
-                    company.setCreatedBy(SYSTEM_USER);
-                    company.setUpdatedAt(now);
-                    company.setUpdatedBy(SYSTEM_USER);
-                    companyRepository.save(company);
-                    log.info("Created sample company {}", COMPANY_ID);
-                }
-            );
-    }
-
-    private void seedSites(LocalDateTime now) {
-        seedSite("S0001", "서울사업장", "서울시 중구 세종대로 1", now);
-        seedSite("S0002", "부산사업장", "부산시 해운대구 센텀북대로 100", now);
-    }
-
-    private void seedSite(String siteId, String name, String note, LocalDateTime now) {
-        SiteId id = new SiteId(COMPANY_ID, siteId);
-        siteRepository
-            .findById(id)
-            .ifPresentOrElse(
-                site -> {
-                    boolean changed = false;
-                    if (!Objects.equals(site.getName(), name)) {
-                        site.setName(name);
-                        changed = true;
-                    }
-                    if (!Objects.equals(site.getNote(), note)) {
-                        site.setNote(note);
-                        changed = true;
-                    }
-                    if (!Objects.equals(site.getDeleteMark(), "N")) {
-                        site.setDeleteMark("N");
-                        changed = true;
-                    }
-                    if (changed) {
-                        site.setUpdatedAt(now);
-                        site.setUpdatedBy(SYSTEM_USER);
-                        siteRepository.save(site);
-                        log.info("Updated sample site {}", siteId);
-                    }
-                },
-                () -> {
-                    Site site = new Site();
-                    site.setId(id);
-                    site.setName(name);
-                    site.setNote(note);
-                    site.setDeleteMark("N");
-                    site.setCreatedAt(now);
-                    site.setCreatedBy(SYSTEM_USER);
-                    site.setUpdatedAt(now);
-                    site.setUpdatedBy(SYSTEM_USER);
-                    siteRepository.save(site);
-                    log.info("Created sample site {}", siteId);
-                }
-            );
-    }
-
-    private void seedDepts(LocalDateTime now) {
-        seedDept("D0001", "설비팀", "설비 정비 및 유지보수", null, now);
-        seedDept("D0002", "안전팀", "안전 관리 및 교육", "D0001", now);
-    }
-
-    private void seedDept(String deptId, String name, String note, String parentId, LocalDateTime now) {
-        DeptId id = new DeptId(COMPANY_ID, deptId);
-        deptRepository
-            .findById(id)
-            .ifPresentOrElse(
-                dept -> {
-                    boolean changed = false;
-                    if (!Objects.equals(dept.getName(), name)) {
-                        dept.setName(name);
-                        changed = true;
-                    }
-                    if (!Objects.equals(dept.getNote(), note)) {
-                        dept.setNote(note);
-                        changed = true;
-                    }
-                    if (!Objects.equals(dept.getParentId(), parentId)) {
-                        dept.setParentId(parentId);
-                        changed = true;
-                    }
-                    if (!Objects.equals(dept.getDeleteMark(), "N")) {
-                        dept.setDeleteMark("N");
-                        changed = true;
-                    }
-                    if (changed) {
-                        dept.setUpdatedAt(now);
-                        dept.setUpdatedBy(SYSTEM_USER);
-                        deptRepository.save(dept);
-                        log.info("Updated sample dept {}", deptId);
-                    }
-                },
-                () -> {
-                    Dept dept = new Dept();
-                    dept.setId(id);
-                    dept.setName(name);
-                    dept.setNote(note);
-                    dept.setParentId(parentId);
-                    dept.setDeleteMark("N");
-                    dept.setCreatedAt(now);
-                    dept.setCreatedBy(SYSTEM_USER);
-                    dept.setUpdatedAt(now);
-                    dept.setUpdatedBy(SYSTEM_USER);
-                    deptRepository.save(dept);
-                    log.info("Created sample dept {}", deptId);
-                }
-            );
-    }
-
-    private void seedAdminUser(LocalDateTime now) {
-        MemberId adminId = new MemberId(COMPANY_ID, "admin");
-        if (!memberRepository.existsById(adminId)) {
-            Member admin = new Member();
-            admin.setId(adminId);
-            admin.setName("Administrator");
-            admin.setDeptId("ADMIN");
-            admin.setPasswordHash(passwordEncoder.encode("1234"));
-            admin.setDeleteMark("N");
-            admin.setCreatedAt(now);
-            admin.setCreatedBy(SYSTEM_USER);
-            admin.setUpdatedAt(now);
-            admin.setUpdatedBy(SYSTEM_USER);
-            memberRepository.save(admin);
-            log.info("Created default admin user for company {}", COMPANY_ID);
+    private void seedAdmin(LocalDateTime now) {
+        MemberId adminId = new MemberId(DEFAULT_COMPANY, "admin");
+        if (memberRepository.existsById(adminId)) {
+            return;
         }
+        Member admin = new Member();
+        admin.setId(adminId);
+        admin.setName("Administrator");
+        admin.setDeptId("ADMIN");
+        admin.setPasswordHash(passwordEncoder.encode("1234"));
+        admin.setDeleteMark("N");
+        admin.setCreatedAt(now);
+        admin.setCreatedBy(SYSTEM_USER);
+        admin.setUpdatedAt(now);
+        admin.setUpdatedBy(SYSTEM_USER);
+        memberRepository.save(admin);
+    }
+
+    private void seedCompanyHierarchy(LocalDateTime now) {
+        Company company = companyRepository.findById(DEFAULT_COMPANY).orElseGet(Company::new);
+        if (company.getCompanyId() == null) {
+            company.setCompanyId(DEFAULT_COMPANY);
+            company.setCreatedAt(now);
+            company.setCreatedBy(SYSTEM_USER);
+        }
+        company.setName("Sample Company");
+        company.setDeleteMark("N");
+        company.setUpdatedAt(now);
+        company.setUpdatedBy(SYSTEM_USER);
+        companyRepository.save(company);
+
+        List<Site> sites = List.of(
+            buildSite(now, "S0001", "Sample site1"),
+            buildSite(now, "S0002", "Sample site2")
+        );
+        sites.forEach(siteRepository::save);
+
+        List<Dept> depts = List.of(
+            buildDept(now, "D0001", "Sample department1"),
+            buildDept(now, "D0002", "Sample department2")
+        );
+        depts.forEach(deptRepository::save);
+    }
+  
+    private Site buildSite(LocalDateTime now, String siteId, String name) {
+        SiteId id = new SiteId(DEFAULT_COMPANY, siteId);
+        Site site = siteRepository.findById(id).orElseGet(Site::new);
+        site.setId(id);
+        if (site.getCreatedAt() == null) {
+            site.setCreatedAt(now);
+            site.setCreatedBy(SYSTEM_USER);
+        }
+        site.setName(name);
+        site.setDeleteMark("N");
+        site.setUpdatedAt(now);
+        site.setUpdatedBy(SYSTEM_USER);
+        return site;
+    }
+
+    private Dept buildDept(LocalDateTime now, String deptId, String name) {
+        DeptId id = new DeptId(DEFAULT_COMPANY, deptId);
+        Dept dept = deptRepository.findById(id).orElseGet(Dept::new);
+        dept.setId(id);
+        if (dept.getCreatedAt() == null) {
+            dept.setCreatedAt(now);
+            dept.setCreatedBy(SYSTEM_USER);
+        }
+        dept.setName(name);
+        dept.setDeleteMark("N");
+        dept.setUpdatedAt(now);
+        dept.setUpdatedBy(SYSTEM_USER);
+        return dept;
+    }
+
+    private void seedCodes() {
+        Map<String, String> codeTypes = new LinkedHashMap<>();
+        codeTypes.put("ASSET", "자산유형");
+        codeTypes.put("JOBTP", "작업유형");
+        codeTypes.put("PERMT", "허가유형");
+
+        LocalDateTime now = LocalDateTime.now();
+        codeTypes.forEach((codeType, name) -> {
+            CodeType type = codeTypeRepository.findById(new CodeTypeId(DEFAULT_COMPANY, codeType))
+                .orElseGet(CodeType::new);
+            if (type.getId() == null) {
+                type.setId(new CodeTypeId(DEFAULT_COMPANY, codeType));
+                type.setCreatedAt(now);
+                type.setCreatedBy(SYSTEM_USER);
+            }
+            type.setName(name);
+            type.setDeleteMark("N");
+            type.setUpdatedAt(now);
+            type.setUpdatedBy(SYSTEM_USER);
+            codeTypeRepository.save(type);
+        });
+
+        seedItems("ASSET", List.of(
+            new SeedCodeItem("PLANT", "설비"),
+            new SeedCodeItem("OFFIC", "사무용품"),
+            new SeedCodeItem("INVET", "재고자산"),
+            new SeedCodeItem("TOOL", "공기구"),
+            new SeedCodeItem("BUILD", "건축물"),
+            new SeedCodeItem("ETC", "기타")
+        ));
+
+        seedItems("JOBTP", List.of(
+            new SeedCodeItem("PLI01", "정기점검"),
+            new SeedCodeItem("UPI01", "돌발점검"),
+            new SeedCodeItem("PLO01", "정기작업"),
+            new SeedCodeItem("UPO01", "돌발작업")
+        ));
+
+        seedItems("PERMT", List.of(
+            new SeedCodeItem("P0001", "허가1")
+        ));
+    }
+
+    private void seedItems(String codeType, List<SeedCodeItem> items) {
+        items.forEach(item -> {
+            CodeItemId id = new CodeItemId(DEFAULT_COMPANY, codeType, item.code());
+            CodeItem entity = codeItemRepository.findById(id).orElseGet(CodeItem::new);
+            entity.setId(id);
+            entity.setName(item.name());
+            entity.setNote(null);
+            codeItemRepository.save(entity);
+        });
+    }
+
+    private record SeedCodeItem(String code, String name) {
     }
 }
 
