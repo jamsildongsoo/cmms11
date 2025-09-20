@@ -12,16 +12,18 @@ public record CompanyResponse(
     LocalDateTime updatedAt,
     String updatedBy
 ) {
-    public static CompanyResponse from(Company company) {
+
+    public static CompanyResponse from(Company entity) {
         return new CompanyResponse(
-            company.getCompanyId(),
-            company.getName(),
-            company.getNote(),
-            company.getDeleteMark(),
-            company.getCreatedAt(),
-            company.getCreatedBy(),
-            company.getUpdatedAt(),
-            company.getUpdatedBy()
+            entity.getCompanyId(),
+            entity.getName(),
+            entity.getNote(),
+            entity.getDeleteMark(),
+            entity.getCreatedAt(),
+            entity.getCreatedBy(),
+            entity.getUpdatedAt(),
+            entity.getUpdatedBy()
         );
     }
 }
+

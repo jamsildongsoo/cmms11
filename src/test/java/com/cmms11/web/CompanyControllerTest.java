@@ -3,10 +3,10 @@ package com.cmms11.web;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,114 +14,111 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.cmms11.domain.company.Company;
+import com.cmms11.config.SecurityConfig;
 import com.cmms11.domain.company.CompanyRequest;
+import com.cmms11.domain.company.CompanyResponse;
 import com.cmms11.domain.company.CompanyService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(CompanyController.class)
-@AutoConfigureMockMvc(addFilters = false)
+/**
+ * 이름: CompanyControllerTest
+ * 작성자: codex
+ * 작성일: 2025-08-20
+ * 수정일:
+ * 프로그램 개요: CompanyController REST 엔드포인트에 대한 MVC 레이어 테스트.
+ */
+@WebMvcTest(controllers = CompanyController.class)
+@Import(SecurityConfig.class)
 class CompanyControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
-    private CompanyService service;
+    private CompanyService companyService;
 
+    @MockBean
+    private UserDetailsService userDetailsService;
+
+    @WithMockUser
     @Test
-    void listCompaniesDelegatesToService() throws Exception {
-        Company company = new Company();
-        company.setCompanyId("C0001");
-        company.setName("Acme");
-        company.setDeleteMark("N");
-        Page<Company> page = new PageImpl<>(List.of(company), PageRequest.of(0, 20), 1);
+    void listCompaniesReturnsPagedResponse() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        CompanyResponse response = new CompanyResponse("C0001", "Sample Company", "memo", "N", now, "tester", now, "tester");
+        when(companyService.list(anyString(), any(Pageable.class)))
+            .thenReturn(new PageImpl<>(List.of(response), PageRequest.of(0, 20), 1));
 
-        when(service.list(eq("Ac"), any(Pageable.class))).thenReturn(page);
-
-        mockMvc.perform(get("/api/domain/companies").param("q", "Ac"))
+        mockMvc.perform(get("/api/domain/companies").param("q", "Sample"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content[0].companyId").value("C0001"))
-            .andExpect(jsonPath("$.content[0].name").value("Acme"));
+            .andExpect(jsonPath("$.content[0].name").value("Sample Company"));
 
-        verify(service).list(eq("Ac"), any(Pageable.class));
+        verify(companyService).list(eq("Sample"), any(Pageable.class));
     }
 
+    @WithMockUser
     @Test
-    void getCompanyReturnsEntity() throws Exception {
-        Company company = new Company();
-        company.setCompanyId("C0001");
-        company.setName("Acme");
-        company.setDeleteMark("N");
-        company.setCreatedAt(LocalDateTime.now());
-
-        when(service.get("C0001")).thenReturn(company);
-
-        mockMvc.perform(get("/api/domain/companies/C0001"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.companyId").value("C0001"))
-            .andExpect(jsonPath("$.name").value("Acme"));
-
-        verify(service).get("C0001");
-    }
-
-    @Test
-    void createCompanyReturnsCreated() throws Exception {
-        Company company = new Company();
-        company.setCompanyId("C0001");
-        company.setName("Acme");
-        company.setDeleteMark("N");
-
-        when(service.create(any(CompanyRequest.class), isNull())).thenReturn(company);
+    void createCompanyReturnsCreatedResponse() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        CompanyRequest request = new CompanyRequest("C1000", "New Company", "memo");
+        CompanyResponse response = new CompanyResponse("C1000", "New Company", "memo", "N", now, "tester", now, "tester");
+        when(companyService.create(any(CompanyRequest.class))).thenReturn(response);
 
         mockMvc.perform(post("/api/domain/companies")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Acme\",\"note\":\"Note\"}"))
+                .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.companyId").value("C0001"))
-            .andExpect(jsonPath("$.name").value("Acme"));
+            .andExpect(jsonPath("$.companyId").value("C1000"))
+            .andExpect(jsonPath("$.name").value("New Company"));
 
-        verify(service).create(any(CompanyRequest.class), isNull());
+        verify(companyService).create(any(CompanyRequest.class));
     }
 
+    @WithMockUser
     @Test
-    void updateCompanyReturnsUpdated() throws Exception {
-        Company company = new Company();
-        company.setCompanyId("C0001");
-        company.setName("Updated");
-        company.setDeleteMark("N");
+    void updateCompanyReturnsOkResponse() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        CompanyRequest request = new CompanyRequest("C1000", "Updated Company", "memo");
+        CompanyResponse response = new CompanyResponse("C1000", "Updated Company", "memo", "N", now, "tester", now, "tester");
+        when(companyService.update(eq("C1000"), any(CompanyRequest.class))).thenReturn(response);
 
-        when(service.update(eq("C0001"), any(CompanyRequest.class), isNull())).thenReturn(company);
-
-        mockMvc.perform(put("/api/domain/companies/C0001")
+        mockMvc.perform(put("/api/domain/companies/{companyId}", "C1000")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Updated\",\"note\":\"Note\"}"))
+                .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.companyId").value("C0001"))
-            .andExpect(jsonPath("$.name").value("Updated"));
+            .andExpect(jsonPath("$.name").value("Updated Company"));
 
-        verify(service).update(eq("C0001"), any(CompanyRequest.class), isNull());
+        verify(companyService).update(eq("C1000"), any(CompanyRequest.class));
     }
 
+    @WithMockUser
     @Test
     void deleteCompanyReturnsNoContent() throws Exception {
-        doNothing().when(service).delete(anyString(), any());
+        doNothing().when(companyService).delete("C1000");
 
-        mockMvc.perform(delete("/api/domain/companies/C0001"))
+        mockMvc.perform(delete("/api/domain/companies/{companyId}", "C1000").with(csrf()))
             .andExpect(status().isNoContent());
 
-        verify(service).delete(eq("C0001"), isNull());
+        verify(companyService).delete("C1000");
     }
 }

@@ -3,18 +3,25 @@ package com.cmms11.domain.site;
 import com.cmms11.common.error.NotFoundException;
 import com.cmms11.security.MemberUserDetailsService;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * 이름: SiteService
+ * 작성자: codex
+ * 작성일: 2025-08-20
+ * 수정일:
+ * 프로그램 개요: 사업장 기준정보의 CRUD 로직을 담당하는 서비스.
+ */
 
 @Service
 @Transactional
 public class SiteService {
-
-    private static final String DELETE_MARK_ACTIVE = "N";
-    private static final String DELETE_MARK_DELETED = "Y";
-    private static final String DEFAULT_ACTOR = "system";
 
     private final SiteRepository repository;
 
@@ -23,85 +30,89 @@ public class SiteService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Site> list(String q, Pageable pageable) {
+
+    public Page<SiteResponse> list(String keyword, Pageable pageable) {
         String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
-        if (q == null || q.isBlank()) {
-            return repository.findByIdCompanyIdAndDeleteMark(companyId, DELETE_MARK_ACTIVE, pageable);
+        Page<Site> page;
+        if (keyword == null || keyword.isBlank()) {
+            page = repository.findByIdCompanyIdAndDeleteMark(companyId, "N", pageable);
+        } else {
+            page = repository.findByIdCompanyIdAndDeleteMarkAndNameContainingIgnoreCase(
+                companyId,
+                "N",
+                keyword.trim(),
+                pageable
+            );
         }
-        String like = "%" + q + "%";
-        return repository.search(companyId, DELETE_MARK_ACTIVE, like, pageable);
+        return page.map(SiteResponse::from);
     }
 
     @Transactional(readOnly = true)
-    public Site get(String siteId) {
-        Site site = repository.findById(buildId(siteId))
-            .filter(existing -> !isDeleted(existing.getDeleteMark()))
-            .orElseThrow(() -> new NotFoundException("Site not found: " + siteId));
-        if (site.getDeleteMark() == null) {
-            site.setDeleteMark(DELETE_MARK_ACTIVE);
-        }
-        return site;
+    public SiteResponse get(String siteId) {
+        return SiteResponse.from(getActiveSite(siteId));
     }
 
-    public Site create(SiteCreateRequest request, String actor) {
-        SiteId id = buildId(request.siteId());
-        Site site = repository.findById(id).orElseGet(() -> {
-            Site fresh = new Site();
-            fresh.setId(id);
-            return fresh;
-        });
-
-        if (!isDeleted(site.getDeleteMark()) && site.getCreatedAt() != null) {
-            throw new IllegalStateException("Site already exists: " + request.siteId());
-        }
-
-        site.setName(request.name());
-        site.setNote(request.note());
-        site.setDeleteMark(DELETE_MARK_ACTIVE);
+    public SiteResponse create(SiteRequest request) {
+        String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
+        Optional<Site> existing = repository.findByIdCompanyIdAndIdSiteId(companyId, request.siteId());
         LocalDateTime now = LocalDateTime.now();
-        String resolvedActor = resolveActor(actor);
-        site.setCreatedAt(now);
-        site.setCreatedBy(resolvedActor);
-        site.setUpdatedAt(now);
-        site.setUpdatedBy(resolvedActor);
-        return repository.save(site);
-    }
+        String memberId = currentMemberId();
 
-    public Site update(String siteId, SiteUpdateRequest request, String actor) {
-        Site site = repository.findById(buildId(siteId))
-            .filter(existing -> !isDeleted(existing.getDeleteMark()))
-            .orElseThrow(() -> new NotFoundException("Site not found: " + siteId));
+        if (existing.isPresent()) {
+            Site entity = existing.get();
+            if (!"Y".equalsIgnoreCase(entity.getDeleteMark())) {
+                throw new IllegalArgumentException("Site already exists: " + request.siteId());
+            }
+            entity.setName(request.name());
+            entity.setNote(request.note());
+            entity.setDeleteMark("N");
+            entity.setUpdatedAt(now);
+            entity.setUpdatedBy(memberId);
+            return SiteResponse.from(repository.save(entity));
+        }
 
+        Site site = new Site();
+        site.setId(new SiteId(companyId, request.siteId()));
         site.setName(request.name());
         site.setNote(request.note());
-        if (site.getDeleteMark() == null) {
-            site.setDeleteMark(DELETE_MARK_ACTIVE);
-        }
-        site.setUpdatedAt(LocalDateTime.now());
-        site.setUpdatedBy(resolveActor(actor));
-        return repository.save(site);
+        site.setDeleteMark("N");
+        site.setCreatedAt(now);
+        site.setCreatedBy(memberId);
+        site.setUpdatedAt(now);
+        site.setUpdatedBy(memberId);
+        return SiteResponse.from(repository.save(site));
     }
 
-    public void delete(String siteId, String actor) {
-        Site site = repository.findById(buildId(siteId))
-            .filter(existing -> !isDeleted(existing.getDeleteMark()))
+    public SiteResponse update(String siteId, SiteRequest request) {
+        Site existing = getActiveSite(siteId);
+        existing.setName(request.name());
+        existing.setNote(request.note());
+        existing.setUpdatedAt(LocalDateTime.now());
+        existing.setUpdatedBy(currentMemberId());
+        return SiteResponse.from(repository.save(existing));
+    }
+
+    public void delete(String siteId) {
+        Site existing = getActiveSite(siteId);
+        existing.setDeleteMark("Y");
+        existing.setUpdatedAt(LocalDateTime.now());
+        existing.setUpdatedBy(currentMemberId());
+        repository.save(existing);
+    }
+
+    private Site getActiveSite(String siteId) {
+        return repository.findByIdCompanyIdAndIdSiteId(MemberUserDetailsService.DEFAULT_COMPANY, siteId)
+            .filter(site -> !"Y".equalsIgnoreCase(site.getDeleteMark()))
             .orElseThrow(() -> new NotFoundException("Site not found: " + siteId));
-
-        site.setDeleteMark(DELETE_MARK_DELETED);
-        site.setUpdatedAt(LocalDateTime.now());
-        site.setUpdatedBy(resolveActor(actor));
-        repository.save(site);
     }
 
-    private SiteId buildId(String siteId) {
-        return new SiteId(MemberUserDetailsService.DEFAULT_COMPANY, siteId);
-    }
-
-    private boolean isDeleted(String deleteMark) {
-        return DELETE_MARK_DELETED.equalsIgnoreCase(deleteMark);
-    }
-
-    private String resolveActor(String actor) {
-        return (actor == null || actor.isBlank()) ? DEFAULT_ACTOR : actor;
+    private String currentMemberId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "system";
+        }
+        String name = authentication.getName();
+        return name != null ? name : "system";
     }
 }
+
