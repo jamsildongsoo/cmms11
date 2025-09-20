@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>기능 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">기본정보</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">memberId</span>
+            <span>운영중</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a href="#">기본정보</a>
+          <span class="sep">/</span>
+          <a href="list.html">설비 기능</a>
+          <span class="sep">/</span>
+          <span>등록/수정</span>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title">기능 등록/수정</div>
+              <div class="toolbar">
+                <a class="btn" href="list.html">목록</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <form data-validate>
+                <div class="section">
+                  <div class="section-title">기본정보</div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-4">
+                      <label class="label required" for="func_id">기능코드</label>
+                      <input id="func_id" name="func_id" class="input" required maxlength="5" placeholder="예: F0001" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label required" for="func_name">기능명</label>
+                      <input id="func_name" name="func_name" class="input" required maxlength="100" />
+                    </div>
+                    <div class="form-row col-span-4">
+                      <label class="label" for="parent_id">상위기능</label>
+                      <select id="parent_id" name="parent_id">
+                        <option value="">(없음)</option>
+                        <option value="F0001">F0001 - 공정관리</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row col-span-12">
+                    <label class="label" for="note">비고</label>
+                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기능에 대한 추가 설명"></textarea>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
+                  <button class="btn" type="reset">초기화</button>
+                  <button class="btn primary" type="submit">저장</button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container">© 기본정보</div>
+      </footer>
+    </div>
+    <script src="../../../static/assets/js/app.js"></script>
+  </body>
+</html>
