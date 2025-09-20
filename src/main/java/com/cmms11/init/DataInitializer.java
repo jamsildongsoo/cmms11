@@ -1,11 +1,5 @@
 package com.cmms11.init;
 
-import com.cmms11.code.CodeItem;
-import com.cmms11.code.CodeItemId;
-import com.cmms11.code.CodeItemRepository;
-import com.cmms11.code.CodeType;
-import com.cmms11.code.CodeTypeId;
-import com.cmms11.code.CodeTypeRepository;
 import com.cmms11.domain.company.Company;
 import com.cmms11.domain.company.CompanyRepository;
 import com.cmms11.domain.dept.Dept;
@@ -17,10 +11,6 @@ import com.cmms11.domain.member.MemberRepository;
 import com.cmms11.domain.site.Site;
 import com.cmms11.domain.site.SiteId;
 import com.cmms11.domain.site.SiteRepository;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class DataInitializer implements ApplicationRunner {
     private static final String DEFAULT_COMPANY = "C0001";
     private static final String SYSTEM_USER = "system";
-
+  
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CompanyRepository companyRepository;
@@ -115,7 +105,7 @@ public class DataInitializer implements ApplicationRunner {
         );
         depts.forEach(deptRepository::save);
     }
-
+  
     private Site buildSite(LocalDateTime now, String siteId, String name) {
         SiteId id = new SiteId(DEFAULT_COMPANY, siteId);
         Site site = siteRepository.findById(id).orElseGet(Site::new);

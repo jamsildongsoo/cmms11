@@ -26,3 +26,4 @@ public interface DeptRepository extends JpaRepository<Dept, DeptId> {
     Optional<Dept> findByIdCompanyIdAndIdDeptId(String companyId, String deptId);
 }
 
+
