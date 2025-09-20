@@ -36,6 +36,8 @@
       <main>
         <div class="container">
           <form class="stack" data-validate onsubmit="event.preventDefault(); alert('임시 저장된 것으로 가정합니다.');">
+
+            <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <section class="card">
               <div class="card-header">
                 <div class="card-title">결재 작성</div>

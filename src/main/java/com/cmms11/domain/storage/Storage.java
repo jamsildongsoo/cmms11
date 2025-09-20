@@ -1,11 +1,22 @@
 package com.cmms11.domain.storage;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+/**
+ * 이름: Storage
+ * 작성자: codex
+ * 작성일: 2025-08-20
+ * 수정일:
+ * 프로그램 개요: 창고(Storage) 엔티티 정의.
+ */
 
 @Entity
 @Table(name = "storage")
@@ -13,18 +24,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Storage {
+
     @EmbeddedId
     private StorageId id;
 
-    @NotBlank
     @Column(length = 100)
     private String name;
 
     @Column(length = 500)
     private String note;
-
-    @Column(name = "parent_id", length = 5)
-    private String parentId;
 
     @Column(name = "delete_mark", length = 1)
     private String deleteMark = "N";

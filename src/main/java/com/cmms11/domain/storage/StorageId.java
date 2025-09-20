@@ -16,9 +16,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class StorageId implements Serializable {
-    @Column(name = "company_id", length = 5, nullable = false)
+
+  @Column(name = "company_id", length = 5, nullable = false)
     private String companyId;
 
     @Column(name = "storage_id", length = 5, nullable = false)
     private String storageId;
 }
+

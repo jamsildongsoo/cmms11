@@ -42,24 +42,17 @@
                   <div class="section-title">기본정보</div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
-                      <label class="label required" for="storage_id">창고코드</label>
+                      <label class="label required" for="storage_id">창고 코드</label>
                       <input id="storage_id" name="storage_id" class="input" required maxlength="5" placeholder="예: ST001" />
                     </div>
-                    <div class="form-row col-span-4">
-                      <label class="label required" for="storage_name">창고명</label>
-                      <input id="storage_name" name="storage_name" class="input" required maxlength="100" />
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="parent_id">상위창고</label>
-                      <select id="parent_id" name="parent_id">
-                        <option value="">(없음)</option>
-                        <option value="ST001">ST001 - 메인창고</option>
-                      </select>
+                    <div class="form-row col-span-8">
+                      <label class="label required" for="name">창고 명</label>
+                      <input id="name" name="name" class="input" required maxlength="100" />
                     </div>
                   </div>
                   <div class="form-row col-span-12">
                     <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="창고에 대한 설명"></textarea>
+                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
                   </div>
                 </div>
 
@@ -79,3 +72,4 @@
     <script src="../../../static/assets/js/app.js"></script>
   </body>
 </html>
+

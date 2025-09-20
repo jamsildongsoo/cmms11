@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>기능 등록/수정 · CMMS</title>
+
+    <title>기능위치 등록/수정 · CMMS</title>
     <link rel="stylesheet" href="../../../static/assets/css/base.css" />
   </head>
   <body>
@@ -22,7 +23,9 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <a href="list.html">설비 기능</a>
+
+          <a href="list.html">기능위치</a>
+
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -31,7 +34,8 @@
         <div class="container">
           <section class="card">
             <div class="card-header">
-              <div class="card-title">기능 등록/수정</div>
+
+              <div class="card-title">기능위치 등록/수정</div>
               <div class="toolbar">
                 <a class="btn" href="list.html">목록</a>
               </div>
@@ -42,24 +46,18 @@
                   <div class="section-title">기본정보</div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
-                      <label class="label required" for="func_id">기능코드</label>
+
+                      <label class="label required" for="func_id">기능위치 코드</label>
                       <input id="func_id" name="func_id" class="input" required maxlength="5" placeholder="예: F0001" />
                     </div>
-                    <div class="form-row col-span-4">
-                      <label class="label required" for="func_name">기능명</label>
-                      <input id="func_name" name="func_name" class="input" required maxlength="100" />
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="parent_id">상위기능</label>
-                      <select id="parent_id" name="parent_id">
-                        <option value="">(없음)</option>
-                        <option value="F0001">F0001 - 공정관리</option>
-                      </select>
+                    <div class="form-row col-span-8">
+                      <label class="label required" for="name">기능위치 명</label>
+                      <input id="name" name="name" class="input" required maxlength="100" />
                     </div>
                   </div>
                   <div class="form-row col-span-12">
                     <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기능에 대한 추가 설명"></textarea>
+                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
                   </div>
                 </div>
 
@@ -79,3 +77,4 @@
     <script src="../../../static/assets/js/app.js"></script>
   </body>
 </html>
+

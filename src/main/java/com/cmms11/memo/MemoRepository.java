@@ -1,0 +1,32 @@
+package com.cmms11.memo;
+
+import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+/**
+ * 이름: MemoRepository
+ * 작성자: codex
+ * 작성일: 2025-08-20
+ * 수정일:
+ * 프로그램 개요: 메모 엔티티의 CRUD 및 검색을 위한 JPA 레포지토리.
+ */
+public interface MemoRepository extends JpaRepository<Memo, MemoId> {
+
+    Page<Memo> findByIdCompanyId(String companyId, Pageable pageable);
+
+    @Query(
+        "select m from Memo m " +
+        "where m.id.companyId = :companyId and (m.id.memoId like :keyword or m.title like :keyword or m.content like :keyword)"
+    )
+    Page<Memo> search(
+        @Param("companyId") String companyId,
+        @Param("keyword") String keyword,
+        Pageable pageable
+    );
+
+    Optional<Memo> findByIdCompanyIdAndIdMemoId(String companyId, String memoId);
+}
