@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 수정일:
  * 프로그램 개요: 사업장(Site) 엔티티 조회를 지원하는 JPA 레포지토리.
  */
+
 public interface SiteRepository extends JpaRepository<Site, SiteId> {
 
     Page<Site> findByIdCompanyIdAndDeleteMark(String companyId, String deleteMark, Pageable pageable);

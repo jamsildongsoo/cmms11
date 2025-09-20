@@ -37,6 +37,7 @@ public class DeptController {
 
     @GetMapping
     public Page<DeptResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {
+
         return service.list(q, pageable);
     }
 
@@ -65,5 +66,16 @@ public class DeptController {
         service.delete(deptId);
         return ResponseEntity.noContent().build();
     }
-}
 
+    private String currentActor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof String principalName && "anonymousUser".equals(principalName)) {
+            return null;
+        }
+        return authentication.getName();
+    }
+}

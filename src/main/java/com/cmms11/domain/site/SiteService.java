@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 수정일:
  * 프로그램 개요: 사업장 기준정보의 CRUD 로직을 담당하는 서비스.
  */
+
 @Service
 @Transactional
 public class SiteService {
@@ -29,6 +30,7 @@ public class SiteService {
     }
 
     @Transactional(readOnly = true)
+
     public Page<SiteResponse> list(String keyword, Pageable pageable) {
         String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
         Page<Site> page;

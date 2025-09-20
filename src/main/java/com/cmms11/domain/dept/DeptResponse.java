@@ -20,6 +20,7 @@ public record DeptResponse(
     String updatedBy
 ) {
 
+
     public static DeptResponse from(Dept dept) {
         return new DeptResponse(
             dept.getId().getDeptId(),
@@ -33,4 +34,3 @@ public record DeptResponse(
         );
     }
 }
-

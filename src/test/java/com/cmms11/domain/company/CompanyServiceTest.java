@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * 수정일:
  * 프로그램 개요: CompanyService의 주요 CRUD 동작을 검증하는 단위 테스트.
  */
+
 @DataJpaTest
 @Import(CompanyService.class)
 class CompanyServiceTest {

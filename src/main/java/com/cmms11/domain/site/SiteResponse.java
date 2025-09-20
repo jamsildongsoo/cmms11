@@ -2,6 +2,7 @@ package com.cmms11.domain.site;
 
 import java.time.LocalDateTime;
 
+
 /**
  * 이름: SiteResponse
  * 작성자: codex
@@ -20,6 +21,7 @@ public record SiteResponse(
     String updatedBy
 ) {
 
+
     public static SiteResponse from(Site site) {
         return new SiteResponse(
             site.getId().getSiteId(),
@@ -33,4 +35,3 @@ public record SiteResponse(
         );
     }
 }
-

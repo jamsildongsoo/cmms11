@@ -3,6 +3,7 @@ package com.cmms11.domain.dept;
 import com.cmms11.common.error.NotFoundException;
 import com.cmms11.security.MemberUserDetailsService;
 import java.time.LocalDateTime;
+
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
  * 수정일:
  * 프로그램 개요: 부서 기준정보의 CRUD 비즈니스 로직 처리.
  */
+
 @Service
 @Transactional
 public class DeptService {
+
 
     private final DeptRepository repository;
 
@@ -113,4 +116,3 @@ public class DeptService {
         return name != null ? name : "system";
     }
 }
-

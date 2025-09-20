@@ -1,8 +1,10 @@
 package com.cmms11.web;
 
+
 import com.cmms11.domain.site.SiteRequest;
 import com.cmms11.domain.site.SiteResponse;
 import com.cmms11.domain.site.SiteService;
+
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,5 +67,16 @@ public class SiteController {
         service.delete(siteId);
         return ResponseEntity.noContent().build();
     }
-}
 
+    private String currentActor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof String principalName && "anonymousUser".equals(principalName)) {
+            return null;
+        }
+        return authentication.getName();
+    }
+}

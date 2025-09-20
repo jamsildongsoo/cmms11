@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class CompanyService {
-
     private final CompanyRepository repository;
 
     public CompanyService(CompanyRepository repository) {
@@ -101,4 +100,3 @@ public class CompanyService {
         return name != null ? name : "system";
     }
 }
-
