@@ -1,4 +1,5 @@
 const CSRF_COOKIE_NAME = 'XSRF-TOKEN';
+
 const CSRF_SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS', 'TRACE']);
 
 function readCsrfTokenFromCookie() {
