@@ -1,5 +1,6 @@
 package com.cmms11.web;
 
+import com.cmms11.common.upload.BulkUploadResult;
 import com.cmms11.inventory.InventoryRequest;
 import com.cmms11.inventory.InventoryResponse;
 import com.cmms11.inventory.InventoryService;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 이름: InventoryController
@@ -64,5 +67,11 @@ public class InventoryController {
     public ResponseEntity<Void> delete(@PathVariable String inventoryId) {
         service.delete(inventoryId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<BulkUploadResult> upload(@RequestParam("file") MultipartFile file) {
+        BulkUploadResult result = service.upload(file);
+        return ResponseEntity.ok(result);
     }
 }

@@ -1,5 +1,6 @@
 package com.cmms11.web;
 
+import com.cmms11.common.upload.BulkUploadResult;
 import com.cmms11.plant.Plant;
 import com.cmms11.plant.PlantService;
 import jakarta.validation.Valid;
@@ -7,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/plants")
@@ -44,5 +47,11 @@ public class PlantController {
     public ResponseEntity<Void> delete(@PathVariable String plantId) {
         service.delete(plantId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<BulkUploadResult> upload(@RequestParam("file") MultipartFile file) {
+        BulkUploadResult result = service.upload(file);
+        return ResponseEntity.ok(result);
     }
 }

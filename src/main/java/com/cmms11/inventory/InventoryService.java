@@ -2,15 +2,27 @@ package com.cmms11.inventory;
 
 import com.cmms11.common.error.NotFoundException;
 import com.cmms11.common.seq.AutoNumberService;
+import com.cmms11.common.upload.BulkUploadError;
+import com.cmms11.common.upload.BulkUploadResult;
+import com.cmms11.common.upload.CsvUtils;
 import com.cmms11.security.MemberUserDetailsService;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 이름: InventoryService
@@ -52,9 +64,68 @@ public class InventoryService {
     }
 
     public InventoryResponse create(InventoryRequest request) {
-        String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
+        LocalDateTime now = LocalDateTime.now();
+        Inventory entity = prepareForSave(request, now, currentMemberId());
+        return InventoryResponse.from(repository.save(entity));
+    }
+
+    public InventoryResponse update(String inventoryId, InventoryRequest request) {
+        Inventory entity = getActiveInventory(inventoryId);
+        applyRequest(entity, request);
+        entity.setUpdatedAt(LocalDateTime.now());
+        entity.setUpdatedBy(currentMemberId());
+        return InventoryResponse.from(repository.save(entity));
+    }
+
+    public void delete(String inventoryId) {
+        Inventory entity = getActiveInventory(inventoryId);
+        entity.setDeleteMark("Y");
+        entity.setUpdatedAt(LocalDateTime.now());
+        entity.setUpdatedBy(currentMemberId());
+        repository.save(entity);
+    }
+
+    public BulkUploadResult upload(MultipartFile file) {
+        List<BulkUploadError> errors = new ArrayList<>();
+        List<Inventory> pending = new ArrayList<>();
+        Set<String> seenIds = new HashSet<>();
         LocalDateTime now = LocalDateTime.now();
         String memberId = currentMemberId();
+
+        try (CSVParser parser = CsvUtils.parse(file)) {
+            Map<String, Integer> headerIndex = CsvUtils.normalizeHeaderMap(parser);
+            CsvUtils.requireHeaders(headerIndex, List.of("name", "asset_id", "dept_id"));
+
+            for (CSVRecord record : parser) {
+                if (CsvUtils.isEmptyRecord(record)) {
+                    continue;
+                }
+                int rowNumber = CsvUtils.displayRowNumber(record);
+                try {
+                    InventoryRequest request = toInventoryRequest(record, headerIndex);
+                    String csvId = request.inventoryId();
+                    if (csvId != null && seenIds.contains(csvId)) {
+                        throw new IllegalArgumentException("CSV 내에서 중복된 자재 ID입니다: " + csvId);
+                    }
+                    Inventory entity = prepareForSave(request, now, memberId);
+                    pending.add(entity);
+                    seenIds.add(entity.getId().getInventoryId());
+                } catch (IllegalArgumentException ex) {
+                    errors.add(new BulkUploadError(rowNumber, ex.getMessage()));
+                }
+            }
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("CSV 파일을 읽을 수 없습니다.", ex);
+        }
+
+        if (!pending.isEmpty()) {
+            repository.saveAll(pending);
+        }
+        return new BulkUploadResult(pending.size(), errors.size(), errors);
+    }
+
+    private Inventory prepareForSave(InventoryRequest request, LocalDateTime now, String memberId) {
+        String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
         String requestedId = request.inventoryId();
 
         Inventory entity;
@@ -89,24 +160,34 @@ public class InventoryService {
         entity.setDeleteMark("N");
         entity.setUpdatedAt(now);
         entity.setUpdatedBy(memberId);
-
-        return InventoryResponse.from(repository.save(entity));
+        return entity;
     }
 
-    public InventoryResponse update(String inventoryId, InventoryRequest request) {
-        Inventory entity = getActiveInventory(inventoryId);
-        applyRequest(entity, request);
-        entity.setUpdatedAt(LocalDateTime.now());
-        entity.setUpdatedBy(currentMemberId());
-        return InventoryResponse.from(repository.save(entity));
-    }
-
-    public void delete(String inventoryId) {
-        Inventory entity = getActiveInventory(inventoryId);
-        entity.setDeleteMark("Y");
-        entity.setUpdatedAt(LocalDateTime.now());
-        entity.setUpdatedBy(currentMemberId());
-        repository.save(entity);
+    private InventoryRequest toInventoryRequest(CSVRecord record, Map<String, Integer> headerIndex) {
+        String inventoryId = CsvUtils.getString(record, headerIndex, "inventory_id");
+        String name = CsvUtils.requireNonBlank(CsvUtils.getString(record, headerIndex, "name"), "name");
+        String assetId = CsvUtils.requireNonBlank(CsvUtils.getString(record, headerIndex, "asset_id"), "asset_id");
+        String deptId = CsvUtils.requireNonBlank(CsvUtils.getString(record, headerIndex, "dept_id"), "dept_id");
+        String makerName = CsvUtils.getString(record, headerIndex, "maker_name");
+        String spec = CsvUtils.getString(record, headerIndex, "spec");
+        String model = CsvUtils.getString(record, headerIndex, "model");
+        String serial = CsvUtils.getString(record, headerIndex, "serial");
+        String fileGroupId = CsvUtils.getString(record, headerIndex, "file_group_id");
+        String note = CsvUtils.getString(record, headerIndex, "note");
+        String status = CsvUtils.getString(record, headerIndex, "status");
+        return new InventoryRequest(
+            inventoryId,
+            name,
+            assetId,
+            deptId,
+            makerName,
+            spec,
+            model,
+            serial,
+            fileGroupId,
+            note,
+            status
+        );
     }
 
     private Inventory getActiveInventory(String inventoryId) {
