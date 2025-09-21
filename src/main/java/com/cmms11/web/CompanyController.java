@@ -8,17 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -26,10 +25,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * 작성자: codex
  * 작성일: 2025-08-20
  * 수정일:
- * 프로그램 개요: 회사 기준정보 API 컨트롤러.
+ * 프로그램 개요: 회사 기준정보 화면 및 API 엔드포인트를 제공하는 컨트롤러.
  */
-@RestController
-@RequestMapping("/api/domain/companies")
+@Controller
 public class CompanyController {
 
     private final CompanyService service;
@@ -38,26 +36,50 @@ public class CompanyController {
         this.service = service;
     }
 
-    @GetMapping
-    public Page<CompanyResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {
+    @GetMapping("/domain/company")
+    public String listView(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
+        Page<CompanyResponse> page = service.list(q, pageable);
+        model.addAttribute("page", page);
+        model.addAttribute("keyword", q);
+        return "domain/company/list";
+    }
 
+    @GetMapping("/domain/company/new")
+    public String newCompanyForm(Model model) {
+        model.addAttribute("company", new CompanyResponse(null, null, null, null, null, null, null, null));
+        model.addAttribute("isNew", true);
+        return "domain/company/form";
+    }
+
+    @GetMapping("/domain/company/{companyId}")
+    public String editCompanyForm(@PathVariable String companyId, Model model) {
+        CompanyResponse company = service.get(companyId);
+        model.addAttribute("company", company);
+        model.addAttribute("isNew", false);
+        return "domain/company/form";
+    }
+
+    @ResponseBody
+    @GetMapping("/api/domain/companies")
+    public Page<CompanyResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {
         return service.list(q, pageable);
     }
 
-    @GetMapping("/{companyId}")
+    @ResponseBody
+    @GetMapping("/api/domain/companies/{companyId}")
     public ResponseEntity<CompanyResponse> get(@PathVariable String companyId) {
         return ResponseEntity.ok(service.get(companyId));
-
     }
 
-    @PostMapping
+    @ResponseBody
+    @PostMapping("/api/domain/companies")
     public ResponseEntity<CompanyResponse> create(@Valid @RequestBody CompanyRequest request) {
-
         CompanyResponse response = service.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{companyId}")
+    @ResponseBody
+    @PutMapping("/api/domain/companies/{companyId}")
     public ResponseEntity<CompanyResponse> update(
         @PathVariable String companyId,
         @Valid @RequestBody CompanyRequest request
@@ -66,7 +88,8 @@ public class CompanyController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{companyId}")
+    @ResponseBody
+    @DeleteMapping("/api/domain/companies/{companyId}")
     public ResponseEntity<Void> delete(@PathVariable String companyId) {
         service.delete(companyId);
         return ResponseEntity.noContent().build();
