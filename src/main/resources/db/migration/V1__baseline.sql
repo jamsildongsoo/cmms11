@@ -61,3 +61,26 @@ CREATE TABLE IF NOT EXISTS plant_master (
   CONSTRAINT pk_plant_master PRIMARY KEY (company_id, plant_id)
 );
 
+CREATE TABLE IF NOT EXISTS inventory_closing (
+  company_id   CHAR(5) NOT NULL,
+  yyyymm       CHAR(6) NOT NULL,
+  storage_id   CHAR(5) NOT NULL,
+  inventory_id CHAR(10) NOT NULL,
+  begin_qty    DECIMAL(18,3),
+  begin_amount DECIMAL(18,2),
+  in_qty       DECIMAL(18,3),
+  in_amount    DECIMAL(18,2),
+  out_qty      DECIMAL(18,3),
+  out_amount   DECIMAL(18,2),
+  move_qty     DECIMAL(18,3),
+  move_amount  DECIMAL(18,2),
+  adj_qty      DECIMAL(18,3),
+  adj_amount   DECIMAL(18,2),
+  end_qty      DECIMAL(18,3),
+  end_amount   DECIMAL(18,2),
+  status       CHAR(5),
+  closed_at    TIMESTAMP NULL,
+  closed_by    CHAR(10),
+  CONSTRAINT pk_inventory_closing PRIMARY KEY (company_id, yyyymm, storage_id, inventory_id)
+);
+

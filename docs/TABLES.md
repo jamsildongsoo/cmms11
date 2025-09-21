@@ -380,7 +380,7 @@ CREATE TABLE inventory_closing (
   status       CHAR(5),
   closed_at    TIMESTAMP,
   closed_by    CHAR(10),
-  CONSTRAINT pk_inventory_closing PRIMARY KEY (company_id, ym, storage_id, inventory_id)
+  CONSTRAINT pk_inventory_closing PRIMARY KEY (company_id, yyyymm, storage_id, inventory_id)
 );
 
 CREATE TABLE memo (
