@@ -2,6 +2,7 @@ package com.cmms11.inventoryTx;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,7 @@ public class InventoryClosing {
     @Column(name = "out_amount", precision = 18, scale = 2)
     private BigDecimal outAmount;
 
-    @Column(name = "move_qty", precision = 18, scale = 3)
+    @Column(name = "move_qty", precision = 18, scale = 2)
     private BigDecimal moveQty;
 
     @Column(name = "move_amount", precision = 18, scale = 2)
@@ -61,4 +62,8 @@ public class InventoryClosing {
 
     @Column(name = "closed_by", length = 10)
     private String closedBy;
+
+    public void setMoveQty(BigDecimal moveQty) {
+        this.moveQty = moveQty != null ? moveQty.setScale(2, RoundingMode.HALF_UP) : null;
+    }
 }

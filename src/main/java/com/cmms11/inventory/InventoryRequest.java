@@ -19,7 +19,7 @@ public record InventoryRequest(
     @Size(max = 100) String spec,
     @Size(max = 100) String model,
     @Size(max = 100) String serial,
-    @Size(max = 100) String fileGroupId,
+    @Size(max = 10) String fileGroupId,
     @Size(max = 500) String note,
     @Size(max = 10) String status
 ) {

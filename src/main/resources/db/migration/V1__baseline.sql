@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS plant_master (
   inspection_interval SMALLINT,
   last_inspection DATE,
   next_inspection DATE,
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   note       VARCHAR(500),
   delete_mark CHAR(1) DEFAULT 'N',
   created_at TIMESTAMP NULL,
@@ -61,39 +61,26 @@ CREATE TABLE IF NOT EXISTS plant_master (
   CONSTRAINT pk_plant_master PRIMARY KEY (company_id, plant_id)
 );
 
-CREATE TABLE IF NOT EXISTS inspection (
-  company_id CHAR(5) NOT NULL,
-  inspection_id CHAR(10) NOT NULL,
-  name VARCHAR(100),
-  plant_id CHAR(10),
-  job_id CHAR(5),
-  site_id CHAR(5),
-  dept_id CHAR(5),
-  member_id CHAR(5),
-  planned_date DATE,
-  actual_date DATE,
-  status CHAR(10),
-  file_group_id VARCHAR(100),
-  note VARCHAR(500),
-  created_at TIMESTAMP NULL,
-  created_by CHAR(10),
-  updated_at TIMESTAMP NULL,
-  updated_by CHAR(10),
-  CONSTRAINT pk_inspection PRIMARY KEY (company_id, inspection_id)
-);
-
-CREATE TABLE IF NOT EXISTS inspection_item (
-  company_id CHAR(5) NOT NULL,
-  inspection_id CHAR(10) NOT NULL,
-  line_no INTEGER NOT NULL,
-  name VARCHAR(100),
-  method VARCHAR(100),
-  min_val VARCHAR(50),
-  max_val VARCHAR(50),
-  std_val VARCHAR(50),
-  unit VARCHAR(50),
-  result_val VARCHAR(50),
-  note VARCHAR(500),
-  CONSTRAINT pk_inspection_item PRIMARY KEY (company_id, inspection_id, line_no)
+CREATE TABLE IF NOT EXISTS inventory_closing (
+  company_id   CHAR(5) NOT NULL,
+  yyyymm       CHAR(6) NOT NULL,
+  storage_id   CHAR(5) NOT NULL,
+  inventory_id CHAR(10) NOT NULL,
+  begin_qty    DECIMAL(18,3),
+  begin_amount DECIMAL(18,2),
+  in_qty       DECIMAL(18,3),
+  in_amount    DECIMAL(18,2),
+  out_qty      DECIMAL(18,3),
+  out_amount   DECIMAL(18,2),
+  move_qty     DECIMAL(18,3),
+  move_amount  DECIMAL(18,2),
+  adj_qty      DECIMAL(18,3),
+  adj_amount   DECIMAL(18,2),
+  end_qty      DECIMAL(18,3),
+  end_amount   DECIMAL(18,2),
+  status       CHAR(5),
+  closed_at    TIMESTAMP NULL,
+  closed_by    CHAR(10),
+  CONSTRAINT pk_inventory_closing PRIMARY KEY (company_id, yyyymm, storage_id, inventory_id)
 );
 

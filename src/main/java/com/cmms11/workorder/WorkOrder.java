@@ -57,7 +57,7 @@ public class WorkOrder {
     @Column(name = "status", length = 10)
     private String status;
 
-    @Column(name = "file_group_id", length = 100)
+    @Column(name = "file_group_id", length = 10)
     private String fileGroupId;
 
     @Column(length = 500)

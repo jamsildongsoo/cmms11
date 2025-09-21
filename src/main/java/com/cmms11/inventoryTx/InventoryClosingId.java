@@ -19,6 +19,9 @@ public class InventoryClosingId implements Serializable {
     @Column(name = "company_id", length = 5, nullable = false)
     private String companyId;
 
+    /**
+     * 마감월(yyyyMM) 키 컬럼. pk_inventory_closing 정의와 일치하도록 6자리 고정.
+     */
     @Column(name = "yyyymm", length = 6, nullable = false)
     private String yyyymm;
 

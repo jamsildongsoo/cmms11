@@ -174,7 +174,7 @@ CREATE TABLE plant (
   last_inspection DATE,
   next_inspection DATE,
 
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   note       VARCHAR(500),
   delete_mark CHAR(1) DEFAULT 'N',
   status  CHAR(10),
@@ -198,7 +198,7 @@ CREATE TABLE inventory (
   model VARCHAR(100),
   serial  VARCHAR(100),
 
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   note       VARCHAR(500),
   delete_mark CHAR(1) DEFAULT 'N',
   status  CHAR(10),
@@ -228,7 +228,7 @@ CREATE TABLE inspection (
   actual_date DATE,
 
   status  CHAR(10),
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   note          VARCHAR(500),
   created_at    TIMESTAMP,
   created_by    CHAR(10),
@@ -271,7 +271,7 @@ CREATE TABLE work_order (
   actual_labor DECIMAL(18,2),
 
   status  CHAR(10),
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   note        VARCHAR(500),
   created_at  TIMESTAMP,
   created_by  CHAR(10),
@@ -312,7 +312,7 @@ CREATE TABLE work_permit (
   checksheet_json  LONGTEXT,  -- 체크시트 이미지에 직접 수기로 적고 그 이미지 저장
 
   status  CHAR(10),
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   note        VARCHAR(500),
   created_at  TIMESTAMP,
   created_by  CHAR(10),
@@ -382,7 +382,7 @@ CREATE TABLE inventory_closing (
   status       CHAR(5),
   closed_at    TIMESTAMP,
   closed_by    CHAR(10),
-  CONSTRAINT pk_inventory_closing PRIMARY KEY (company_id, ym, storage_id, inventory_id)
+  CONSTRAINT pk_inventory_closing PRIMARY KEY (company_id, yyyymm, storage_id, inventory_id)
 );
 
 CREATE TABLE memo (
@@ -392,7 +392,7 @@ CREATE TABLE memo (
   content    LONGTEXT,
   ref_entity VARCHAR(64),
   ref_id     CHAR(10),
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   created_at TIMESTAMP,
   created_by CHAR(10),
   updated_at TIMESTAMP,
@@ -407,6 +407,7 @@ CREATE TABLE approval (
   status  CHAR(10),
   ref_entity  VARCHAR(64),
   ref_id      CHAR(10),
+  file_group_id CHAR(10),
   created_at  TIMESTAMP,
   created_by  CHAR(10),
   updated_at  TIMESTAMP,

@@ -1,27 +1,23 @@
-package com.cmms11.memo;
+package com.cmms11.file;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "memo")
+@Table(name = "file_group")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Memo {
+public class FileGroup {
 
     @EmbeddedId
-    private MemoId id;
-
-    @Column(length = 100)
-    private String title;
-
-    @Lob
-    @Column
-    private String content;
+    private FileGroupId id;
 
     @Column(name = "ref_entity", length = 64)
     private String refEntity;
@@ -29,8 +25,11 @@ public class Memo {
     @Column(name = "ref_id", length = 10)
     private String refId;
 
-    @Column(name = "file_group_id", length = 10)
-    private String fileGroupId;
+    @Column(length = 500)
+    private String note;
+
+    @Column(name = "delete_mark", length = 1)
+    private String deleteMark = "N";
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -44,4 +43,3 @@ public class Memo {
     @Column(name = "updated_by", length = 10)
     private String updatedBy;
 }
-

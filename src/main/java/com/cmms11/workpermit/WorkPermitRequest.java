@@ -26,7 +26,7 @@ public record WorkPermitRequest(
     @Size(max = 500) String safetyFactor,
     String checksheetJson,
     @Size(max = 10) String status,
-    @Size(max = 100) String fileGroupId,
+    @Size(max = 10) String fileGroupId,
     @Size(max = 500) String note
 ) {
 }
