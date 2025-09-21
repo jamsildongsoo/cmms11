@@ -112,9 +112,9 @@ src/main/resources/
 - Master 번호: `{moduleCode(1)}{연동키 '000000'} + 9자리 시퀀스`
   - API: `generateMasterId(companyId, moduleCode)`
   - 권장 모듈코드 매핑(master): `plant=1`, `inventory=2`
-- Transaction 번호: `{moduleCode(1)}{YYMMDD}{3자리 시퀀스}`
+- Transaction 번호: `{moduleCode(1)}{YYMMDD}{3자리 시퀀스}` : YYYYMM기준 최대 999까지 허용 
   - API: `generateTxId(companyId, moduleCode, date)`
-  - 권장 모듈코드 매핑(transaction): `inspection=I`, `workorder=O`, `workpermit=P`, `approvals=A`, `file_group_id=F`
+  - 권장 모듈코드 매핑(transaction): `inspection=I`, `workorder=O`, `workpermit=P`, `approvals=A`, `file_group_id=F`, `memo=M`
 - 초기값/증분: `next_seq`에서 현재값 반환 후 +1 저장
 - 신규 생성: `sequence` 테이블에 (companyId, moduleCode, dateKey) 행이 없으면 신규로 생성 후 시퀀스 시작(코드에 반영됨)
 
