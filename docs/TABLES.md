@@ -240,12 +240,14 @@ CREATE TABLE inspection (
 CREATE TABLE inspection_item (
   company_id CHAR(5),
   inspection_id CHAR(10),
-  line_no INTEGER, 
+  line_no INTEGER,
   name  VARCHAR(100),
   method     VARCHAR(100),
   min_val   VARCHAR(50),
   max_val   VARCHAR(50),
   std_val   VARCHAR(50),
+  unit       VARCHAR(50),
+  result_val VARCHAR(50),
   note       VARCHAR(500),
   CONSTRAINT pk_inspection_item PRIMARY KEY (company_id, inspection_id,line_no)
 );
