@@ -16,6 +16,6 @@ public record MemoRequest(
     String content,
     @Size(max = 64) String refEntity,
     @Size(max = 10) String refId,
-    @Size(max = 100) String fileGroupId
+    @Size(max = 10) String fileGroupId
 ) {
 }

@@ -29,7 +29,7 @@ public class Memo {
     @Column(name = "ref_id", length = 10)
     private String refId;
 
-    @Column(name = "file_group_id", length = 100)
+    @Column(name = "file_group_id", length = 10)
     private String fileGroupId;
 
     @Column(name = "created_at")

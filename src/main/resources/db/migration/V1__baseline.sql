@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS plant_master (
   inspection_interval SMALLINT,
   last_inspection DATE,
   next_inspection DATE,
-  file_group_id VARCHAR(100),
+  file_group_id CHAR(10),
   note       VARCHAR(500),
   delete_mark CHAR(1) DEFAULT 'N',
   created_at TIMESTAMP NULL,

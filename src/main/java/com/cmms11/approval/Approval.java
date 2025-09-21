@@ -43,7 +43,7 @@ public class Approval {
     @Column
     private String content;
 
-    @Column(name = "file_group_id", length = 100)
+    @Column(name = "file_group_id", length = 10)
     private String fileGroupId;
 
     @Column(name = "created_at")
