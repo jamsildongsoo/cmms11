@@ -20,4 +20,4 @@ app:
   file-storage:
     location: storage/uploads
     max-size: 10485760
-    allowed-extensions: jpg,jpeg,png,pdf,txt
+    allowed-extensions: jpg,jpeg,png,pdf,doc,docx,xls,xlsx,hwp,hwpx,zip,txt

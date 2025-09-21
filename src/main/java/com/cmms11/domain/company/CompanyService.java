@@ -53,6 +53,9 @@ public class CompanyService {
                 throw new IllegalArgumentException("Company already exists: " + request.companyId());
             }
             entity.setName(request.name());
+            entity.setBizNo(request.bizNo());
+            entity.setEmail(request.email());
+            entity.setPhone(request.phone());
             entity.setNote(request.note());
             entity.setDeleteMark("N");
             entity.setUpdatedAt(now);
@@ -72,6 +75,9 @@ public class CompanyService {
     public CompanyResponse update(String companyId, CompanyRequest request) {
         Company existing = getActiveCompany(companyId);
         existing.setName(request.name());
+        existing.setBizNo(request.bizNo());
+        existing.setEmail(request.email());
+        existing.setPhone(request.phone());
         existing.setNote(request.note());
         existing.setUpdatedAt(LocalDateTime.now());
         existing.setUpdatedBy(currentMemberId());

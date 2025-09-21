@@ -16,8 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/templates/plant/");
         registry.addResourceHandler("/inventory/**")
                 .addResourceLocations("classpath:/templates/inventory/");
-        registry.addResourceHandler("/domain/**")
-                .addResourceLocations("classpath:/templates/domain/");
         registry.addResourceHandler("/layout/**")
                 .addResourceLocations("classpath:/templates/layout/");
         registry.addResourceHandler("/inspection/**")

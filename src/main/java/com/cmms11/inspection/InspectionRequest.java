@@ -25,7 +25,8 @@ public record InspectionRequest(
     LocalDate actualDate,
     @Size(max = 10) String status,
     @Size(max = 10) String fileGroupId,
-    @Size(max = 500) String note
+    @Size(max = 500) String note,
+    @Valid List<InspectionItemRequest> items
 ) {
     public InspectionRequest {
         items = items == null ? List.of() : List.copyOf(items);

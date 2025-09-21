@@ -91,7 +91,7 @@ class InventoryServiceUploadTest {
         String csv = String.join(
             "\n",
             "inventory_id,name,asset_id,dept_id,maker_name,spec,model,serial,file_group_id,note,status",
-            "I200000020,중복 자재,ASSET,D0001,,,,,,ACTIVE",
+            "I200000020,중복 자재,ASSET,D0001,,,,,,,ACTIVE",
             ",,ASSET,D0001,SKF,규격,MODEL-1,,,비고,ACTIVE",
             ",체결 볼트,ASSET,D0001,LS,규격 없음,BOLT-M10,,FG2001,비축 자재,INACTIVE"
         );
@@ -111,10 +111,10 @@ class InventoryServiceUploadTest {
             .containsExactlyInAnyOrder(2, 3);
         assertThat(result.errors())
             .extracting("message")
-            .anyMatch(msg -> msg.contains("Inventory already exists"));
+            .anyMatch(msg -> msg.toString().contains("Inventory already exists"));
         assertThat(result.errors())
             .extracting("message")
-            .anyMatch(msg -> msg.contains("필수 값이 비어 있습니다"));
+            .anyMatch(msg -> msg.toString().contains("필수 값이 비어 있습니다"));
 
         Inventory saved = inventoryRepository
             .findAll()

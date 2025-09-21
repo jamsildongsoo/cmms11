@@ -91,10 +91,10 @@ class PlantServiceUploadTest {
             .containsExactlyInAnyOrder(2, 3);
         assertThat(result.errors())
             .extracting("message")
-            .anyMatch(msg -> msg.contains("이미 존재하는 설비 ID"));
+            .anyMatch(msg -> msg.toString().contains("이미 존재하는 설비 ID"));
         assertThat(result.errors())
             .extracting("message")
-            .anyMatch(msg -> msg.contains("필수 값이 비어 있습니다"));
+            .anyMatch(msg -> msg.toString().contains("필수 값이 비어 있습니다"));
 
         Plant saved = plantRepository
             .findAll()

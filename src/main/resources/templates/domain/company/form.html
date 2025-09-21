@@ -22,7 +22,7 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <a href="list.html">회사</a>
+          <a th:href="@{~/domain/company/list}" href="/domain/company/list">회사</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -33,59 +33,57 @@
             <div class="card-header">
               <div class="card-title">회사 등록/수정</div>
               <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+                <a class="btn" th:href="@{~/domain/company/list}" href="/domain/company/list">목록</a>
               </div>
             </div>
             <div class="card-body">
-              <form data-validate>
+              <form data-validate method="post" action="/domain/company/save" data-redirect="/domain/company/list">
 
                 <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" name="isNew" th:value="${isNew}" />
                 <div class="section">
                   <div class="section-title">기본정보</div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
                       <label class="label required" for="company_id">회사코드</label>
-                      <input id="company_id" name="company_id" class="input" required maxlength="10" placeholder="예: C0001" />
+                      <input id="company_id" name="companyId" class="input" required maxlength="5" placeholder="예: C0001" 
+                             th:value="${company.companyId}" th:readonly="${!isNew}" />
                     </div>
-                    <div class="form-row col-span-4">
+                    <div class="form-row col-span-8">
                       <label class="label required" for="company_name">회사명</label>
-                      <input id="company_name" name="company_name" class="input" required maxlength="100" />
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="biz_no">사업자등록번호</label>
-                      <input id="biz_no" name="biz_no" class="input" maxlength="20" placeholder="123-45-67890" />
+                      <input id="company_name" name="name" class="input" required maxlength="100" 
+                             th:value="${company.name}" />
                     </div>
                   </div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
+                      <label class="label" for="biz_no">사업자등록번호</label>
+                      <input id="biz_no" name="bizNo" class="input" maxlength="50" placeholder="123-45-67890" 
+                             th:value="${company.bizNo}" />
+                    </div>
+                    <div class="form-row col-span-4">
                       <label class="label" for="email">이메일</label>
-                      <input id="email" name="email" class="input" type="email" maxlength="100" />
+                      <input id="email" name="email" class="input" type="email" maxlength="100" 
+                             th:value="${company.email}" />
                     </div>
                     <div class="form-row col-span-4">
                       <label class="label" for="phone">전화번호</label>
-                      <input id="phone" name="phone" class="input" type="tel" maxlength="30" />
+                      <input id="phone" name="phone" class="input" type="tel" maxlength="100" 
+                             th:value="${company.phone}" />
                     </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="status">상태</label>
-                      <select id="status" name="status">
-                        <option value="ACTIVE">정상</option>
-                        <option value="INACTIVE">중지</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-row col-span-12">
-                    <label class="label" for="address">주소</label>
-                    <input id="address" name="address" class="input" maxlength="200" />
                   </div>
                   <div class="form-row col-span-12">
                     <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
+                             th:text="${company.note}"></textarea>
                   </div>
                 </div>
 
                 <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
                   <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">저장</button>
+                  <button class="btn primary" type="submit">
+                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                  </button>
                 </div>
               </form>
             </div>

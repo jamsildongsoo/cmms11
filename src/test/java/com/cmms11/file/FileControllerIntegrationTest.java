@@ -71,7 +71,7 @@ class FileControllerIntegrationTest {
             "hello world".getBytes(StandardCharsets.UTF_8)
         );
 
-        MockMultipartHttpServletRequestBuilder uploadRequest = multipart("/api/files")
+        MockMultipartHttpServletRequestBuilder uploadRequest = (MockMultipartHttpServletRequestBuilder) multipart("/api/files")
             .file(manual)
             .file(note)
             .param("refEntity", "PLANT")
@@ -121,7 +121,7 @@ class FileControllerIntegrationTest {
             "spec".getBytes(StandardCharsets.UTF_8)
         );
 
-        MockMultipartHttpServletRequestBuilder uploadRequest = multipart("/api/files")
+        MockMultipartHttpServletRequestBuilder uploadRequest = (MockMultipartHttpServletRequestBuilder) multipart("/api/files")
             .file(attachment)
             .with(csrf());
 

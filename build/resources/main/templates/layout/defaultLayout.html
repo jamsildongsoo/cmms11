@@ -130,13 +130,13 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">기본정보</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/company/list.html">회사</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/site/list.html">사업장(사이트)</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/dept/list.html">부서</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/func/list.html">기능위치</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/storage/list.html">창고(스토리지)</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/member/list.html">사용자</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/domain/role/list.html">권한</a>
+              <a class="menu-item" href="/domain/company/list">회사</a>
+              <a class="menu-item" href="/domain/site/list">사업장(사이트)</a>
+              <a class="menu-item" href="/domain/dept/list">부서</a>
+              <a class="menu-item" href="/domain/func/list">기능위치</a>
+              <a class="menu-item" href="/domain/storage/list">창고(스토리지)</a>
+              <a class="menu-item" href="/domain/member/list">사용자</a>
+              <a class="menu-item" href="/domain/role/list">권한</a>
             </div>
           </div>
         </nav>
@@ -172,7 +172,29 @@
 
         function resolveUrl(href, basePath) {
           try {
-            const u = new URL(href, window.location.origin + basePath);
+            // Handle unprocessed Thymeleaf-style links like '@{/domain/company/list}'
+            if (href && href.startsWith('@{') && href.endsWith('}')) {
+              href = href.slice(2, -1); // strip '@{' and '}'
+            }
+            // Absolute or external URLs: return as-is
+            if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('/')) {
+              return href;
+            }
+
+            // Treat non-HTML app routes (e.g., domain/company/list, api/...) as root-relative
+            const isHtmlFile = /\.html($|[?#])/.test(href);
+            if (!isHtmlFile) {
+              return '/' + href.replace(/^\/+/, '');
+            }
+
+            // For HTML partials, resolve relative to the current content directory
+            const baseDir = (() => {
+              if (!basePath) return '/';
+              const idx = basePath.lastIndexOf('/');
+              if (idx <= 0) return '/';
+              return basePath.slice(0, idx + 1);
+            })();
+            const u = new URL(href, window.location.origin + baseDir);
             return u.pathname + u.search;
           } catch (_) {
             return href;
@@ -225,9 +247,45 @@
               const doc = parser.parseFromString(html, 'text/html');
               const main = doc.querySelector('main');
               slot.innerHTML = main ? main.innerHTML : (doc.body ? doc.body.innerHTML : html);
-              if (typeof syncCsrfForms === 'function') {
-                syncCsrfForms();
+              // Try to sync CSRF hidden fields if available
+              if (typeof window.cmms?.refreshCsrfForms === 'function') {
+                try { window.cmms.refreshCsrfForms(); } catch (_) {}
               }
+
+              // Intercept SPA-friendly form submissions inside slot
+              // Use [data-redirect] to decide where to navigate after success
+              const forms = slot.querySelectorAll('form[data-redirect]');
+              forms.forEach((form) => {
+                // avoid duplicate binding
+                if (form.__cmmsHandled) return;
+                form.__cmmsHandled = true;
+                form.addEventListener('submit', (e) => {
+                  try {
+                    e.preventDefault();
+                    const action = form.getAttribute('action') || '';
+                    const method = (form.getAttribute('method') || 'post').toUpperCase();
+                    const redirectTo = form.getAttribute('data-redirect') || currentContentUrl;
+                    const formData = new FormData(form);
+                    fetch(action, {
+                      method,
+                      body: formData,
+                      credentials: 'same-origin'
+                    }).then((res) => {
+                      if (res.status === 403) throw toCsrfError(res);
+                      if (!res.ok) throw new Error('Submit failed: ' + res.status);
+                      navigate(redirectTo);
+                    }).catch((err) => {
+                      console.error(err);
+                      const notice = document.createElement('div');
+                      notice.className = 'notice danger';
+                      notice.textContent = '저장에 실패했습니다. 잠시 후 다시 시도하세요.';
+                      form.prepend(notice);
+                    });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                });
+              });
               setActive(currentContentUrl);
               const title = doc.querySelector('title');
               if (title && title.textContent) document.title = title.textContent + ' · CMMS';
@@ -245,9 +303,35 @@
           const contentUrl = targetHref.startsWith('/layout/')
             ? (new URLSearchParams(new URL(targetHref, window.location.origin).search).get('content') || '../plant/list.html')
             : resolveUrl(targetHref, currentContentUrl);
+          try { console.debug('[cmms-nav]', { targetHref, base: currentContentUrl, contentUrl }); } catch (_) {}
           setState(contentUrl, true);
           loadContent(contentUrl, { push: false });
         }
+
+        // Delegate delete actions inside slot using [data-delete-url]
+        (function bindDeleteHandlerOnce() {
+          if (slot.__cmmsDeleteBound) return;
+          slot.__cmmsDeleteBound = true;
+          slot.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-delete-url]');
+            if (!btn) return;
+            e.preventDefault();
+            const url = btn.getAttribute('data-delete-url');
+            const redirectTo = btn.getAttribute('data-redirect') || currentContentUrl;
+            const confirmMsg = btn.getAttribute('data-confirm');
+            if (confirmMsg && !confirm(confirmMsg)) return;
+            fetch(url, { method: 'POST', credentials: 'same-origin' })
+              .then((res) => {
+                if (res.status === 403) throw toCsrfError(res);
+                if (!res.ok) throw new Error('Delete failed: ' + res.status);
+                navigate(redirectTo);
+              })
+              .catch((err) => {
+                console.error(err);
+                alert('삭제에 실패했습니다. 잠시 후 다시 시도하세요.');
+              });
+          }, { capture: true });
+        })();
 
         // Fetch and render logged-in user info into header
         (function loadUserInfo() {

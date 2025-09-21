@@ -13,6 +13,9 @@ import jakarta.validation.constraints.Size;
 public record CompanyRequest(
     @NotBlank @Size(max = 5) String companyId,
     @NotBlank @Size(max = 100) String name,
+    @Size(max = 50) String bizNo,
+    @Size(max = 100) String email,
+    @Size(max = 100) String phone,
     @Size(max = 500) String note
 ) {
 
@@ -20,6 +23,9 @@ public record CompanyRequest(
         Company company = new Company();
         company.setCompanyId(companyId);
         company.setName(name);
+        company.setBizNo(bizNo);
+        company.setEmail(email);
+        company.setPhone(phone);
         company.setNote(note);
         return company;
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 작성자: codex
  * 작성일: 2025-08-20
  * 수정일:
- * 프로그램 개요: 회사 기준정보 화면 및 API 엔드포인트를 제공하는 컨트롤러.
+ * 프로그램 개요: 회사 기준정보 웹 화면 및 API 엔드포인트를 제공하는 컨트롤러.
  */
 @Controller
 public class CompanyController {
@@ -36,27 +37,55 @@ public class CompanyController {
         this.service = service;
     }
 
-    @GetMapping("/domain/company")
-    public String listView(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
+    @GetMapping("/domain/company/list")
+    public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         Page<CompanyResponse> page = service.list(q, pageable);
         model.addAttribute("page", page);
         model.addAttribute("keyword", q);
         return "domain/company/list";
     }
 
-    @GetMapping("/domain/company/new")
-    public String newCompanyForm(Model model) {
-        model.addAttribute("company", new CompanyResponse(null, null, null, null, null, null, null, null));
+    @GetMapping("/domain/company/form")
+    public String newForm(Model model) {
+        model.addAttribute("company", new CompanyResponse(
+            null, // companyId
+            null, // name
+            null, // bizNo
+            null, // email
+            null, // phone
+            null, // note
+            null, // deleteMark
+            null, // createdAt
+            null, // createdBy
+            null, // updatedAt
+            null  // updatedBy
+        ));
         model.addAttribute("isNew", true);
         return "domain/company/form";
     }
 
-    @GetMapping("/domain/company/{companyId}")
-    public String editCompanyForm(@PathVariable String companyId, Model model) {
+    @GetMapping("/domain/company/edit/{companyId}")
+    public String editForm(@PathVariable String companyId, Model model) {
         CompanyResponse company = service.get(companyId);
         model.addAttribute("company", company);
         model.addAttribute("isNew", false);
         return "domain/company/form";
+    }
+
+    @PostMapping("/domain/company/save")
+    public String saveForm(@ModelAttribute CompanyRequest request, @RequestParam(required = false) String isNew) {
+        if ("true".equals(isNew)) {
+            service.create(request);
+        } else {
+            service.update(request.companyId(), request);
+        }
+        return "redirect:/domain/company/list";
+    }
+
+    @PostMapping("/domain/company/delete/{companyId}")
+    public String deleteForm(@PathVariable String companyId) {
+        service.delete(companyId);
+        return "redirect:/domain/company/list";
     }
 
     @ResponseBody

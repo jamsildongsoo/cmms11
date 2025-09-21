@@ -15,6 +15,9 @@
 CREATE TABLE company (
   company_id  CHAR(5),
   name        VARCHAR(100),
+  bizno       VARCHAR(50),
+  email       VARCHAR(100),
+  phone       VARCHAR(100),
   note        VARCHAR(500),
   delete_mark CHAR(1) DEFAULT 'N',
   created_at  TIMESTAMP,

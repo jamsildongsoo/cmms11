@@ -20,6 +20,15 @@ public class Company {
     @Column(length = 100)
     private String name;
 
+    @Column(name = "bizno", length = 50)
+    private String bizNo;
+
+    @Column(length = 100)
+    private String email;
+
+    @Column(length = 100)
+    private String phone;
+
     @Column(length = 500)
     private String note;
 

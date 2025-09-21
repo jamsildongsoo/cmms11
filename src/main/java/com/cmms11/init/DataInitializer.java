@@ -99,6 +99,9 @@ public class DataInitializer implements ApplicationRunner {
             company.setCreatedBy(SYSTEM_USER);
         }
         company.setName("Sample Company");
+        company.setBizNo("123-45-67890");
+        company.setEmail("sample@company.com");
+        company.setPhone("02-1234-5678");
         company.setDeleteMark("N");
         company.setUpdatedAt(now);
         company.setUpdatedBy(SYSTEM_USER);

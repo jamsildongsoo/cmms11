@@ -79,10 +79,12 @@ src/main/resources/
   - `@Transactional`은 Service에 적용(클래스 또는 메서드 레벨)
 
 - Controller/Repository 계층 메서드 컨벤션(권장)
-  - Controller: `list*`, `get*`, `create*`, `update*`, `delete*` 등 HTTP 동사/행위를 반영하고 Service로 위임
-    - DTO/바인딩 객체는 `*Request`, `*Response` 명명 권장
+  - Controller(api와 WEB 구분 없음): 
+    - API:`list*`, `get*`, `create*`, `update*`, `delete*` 등 HTTP 동사/행위를 반영하고 Service로 위임
+    - WEB: Controller: `listForm*`, `getForm*`, `newForm*`, `editForm*`, `deleteForm*` 등 Form을 포함하고 Service로 위임
+  - DTO/바인딩 객체는 `*Request`, `*Response` 명명 권장
   - Repository: Spring Data 규칙에 맞춘 파생 쿼리(`findBy*`, `existsBy*`, `deleteBy*`) 또는 `@Query` 사용
-    - 페이징은 `Page<T> method(..., Pageable pageable)` 시그니처 유지
+  - 페이징은 `Page<T> method(..., Pageable pageable)` 시그니처 유지
 
 ## 4) 기타
 
@@ -216,7 +218,7 @@ CMMS 메인 메뉴
 
 
 ### 메뉴별 화면 구성
-- **list.html**: 목록 조회 (검색, 페이징, 신규등록 버튼)
+- **list.html**: 목록 조회 (검색, 페이징, 신규등록 버튼). 맨 마지막에 "액션"열 추가 {"edit","delete"}
 - **form.html**: 등록/수정 폼 (신규 등록 시 ID 자동 생성)  
 - **detail.html**: 상세 조회 (읽기 전용, 수정/삭제 버튼)
 
@@ -226,11 +228,12 @@ CMMS 메인 메뉴
 - **master 모듈**: 자산정보로 모든 화면 제공
 
 ### 자동번호 채번 규칙 (메뉴별)
-- **Master ID**: `{moduleCode(1)}{000000}{9자리시퀀스}`
-  - Plant(설비): moduleCode=1 → P100000001
-  - Inventory(재고): moduleCode=2 → I200000001
+- **Master ID**: `{moduleCode(1)}{000000}{3자리시퀀스}` or `{moduleCode(1)}{9자리시퀀스}`
+  - Plant(설비): moduleCode=1 → 1000000001
+  - Inventory(재고): moduleCode=2 → 2000000001
 - **Transaction ID**: `{moduleCode(1)}{YYMMDD}{3자리시퀀스}`
   - Inspection(점검): moduleCode=I → I250119001  
   - WorkOrder(작업지시): moduleCode=O → O250119001
   - WorkPermit(작업허가): moduleCode=P → P250119001
   - Approval(승인): moduleCode=A → A250119001 
+  - File(파일업로드): moduleCode=F → F250119001 

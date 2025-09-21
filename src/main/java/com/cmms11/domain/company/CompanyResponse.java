@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 public record CompanyResponse(
     String companyId,
     String name,
+    String bizNo,
+    String email,
+    String phone,
     String note,
     String deleteMark,
     LocalDateTime createdAt,
@@ -17,6 +20,9 @@ public record CompanyResponse(
         return new CompanyResponse(
             entity.getCompanyId(),
             entity.getName(),
+            entity.getBizNo(),
+            entity.getEmail(),
+            entity.getPhone(),
             entity.getNote(),
             entity.getDeleteMark(),
             entity.getCreatedAt(),
