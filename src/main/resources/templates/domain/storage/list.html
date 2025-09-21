@@ -13,8 +13,8 @@
           <div class="brand">기본정보</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">memberId</span>
-            <span>운영중</span>
+            <span class="badge">storage</span>
+            <span>관리</span>
           </div>
         </div>
       </header>
@@ -31,49 +31,67 @@
             <div class="card-header">
               <div class="card-title">창고 목록</div>
               <div class="toolbar">
-                <a class="btn" href="#">정보보기</a>
-                <a class="btn primary" href="form.html">새로 만들기</a>
+                <a class="btn primary" th:href="@{/domain/storage/form}">새로 만들기</a>
               </div>
             </div>
             <div class="card-body">
-              <div class="section">
+              <form class="section" method="get" th:action="@{/domain/storage/list}">
                 <div class="section-title">필터</div>
                 <div class="grid cols-12">
-                  <div class="col-span-3">
-                    <input class="input" placeholder="창고 코드" />
-                  </div>
-                  <div class="col-span-3">
-                    <input class="input" placeholder="창고 명" />
+                  <div class="col-span-6">
+                    <input class="input" name="q" placeholder="창고 코드 또는 명" th:value="${keyword}" />
                   </div>
                   <div class="col-span-6" style="display:flex;gap:8px;justify-content:flex-end">
-                    <button class="btn">초기화</button>
-                    <button class="btn">검색</button>
+                    <a class="btn" th:href="@{/domain/storage/list}">초기화</a>
+                    <button class="btn" type="submit">검색</button>
                   </div>
                 </div>
-              </div>
+              </form>
 
               <table class="table">
                 <thead>
                   <tr>
-                    <th style="width:140px">창고 코드</th>
-                    <th>창고 명</th>
-                    <th style="width:200px">비고</th>
+                    <th style="width:140px">창고코드</th>
+                    <th>창고명</th>
+                    <th>비고</th>
+                    <th style="width:120px">상태</th>
+                    <th style="width:160px">액션</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr data-row-link="form.html">
-                    <td><a href="form.html">ST001</a></td>
-                    <td>중앙 창고</td>
-                    <td>예시 데이터</td>
+                  <tr th:if="${page.empty}">
+                    <td colspan="5" class="cell-center muted">등록된 창고가 없습니다.</td>
+                  </tr>
+                  <tr th:each="storage : ${page.content}" th:data-row-link="@{|/domain/storage/edit/${storage.storageId}|}">
+                    <td><a th:href="@{|/domain/storage/edit/${storage.storageId}|}" th:text="${storage.storageId}">ST001</a></td>
+                    <td th:text="${storage.name}">-</td>
+                    <td th:text="${storage.note}">-</td>
+                    <td>
+                      <span class="badge" th:text="${storage.deleteMark == 'Y' ? '중지' : '정상'}"
+                            th:classappend="${storage.deleteMark == 'Y'} ? ' danger' : ''">정상</span>
+                    </td>
+                    <td class="actions">
+                      <a class="btn sm" th:href="@{|/domain/storage/edit/${storage.storageId}|}">수정</a>
+                      <button class="btn sm danger"
+                              type="button"
+                              th:attr="data-delete-url=@{|/domain/storage/delete/${storage.storageId}|},data-redirect=@{/domain/storage/list},data-confirm=${'창고 ' + storage.storageId + '를 삭제할까요?'}">
+                        삭제
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
 
               <div class="row" style="margin-top:12px">
                 <div class="spacer"></div>
-                <div class="pagination">
-                  <button class="btn sm" disabled>이전</button>
-                  <button class="btn sm">다음</button>
+                <div class="pagination" th:if="${page.totalPages > 0}">
+                  <a class="btn sm"
+                     th:classappend="${page.first}? ' disabled' : ''"
+                     th:href="@{/domain/storage/list(page=${page.number > 0 ? page.number - 1 : 0}, size=${page.size}, q=${keyword})}">이전</a>
+                  <span class="page-info" th:text="|${page.number + 1} / ${page.totalPages == 0 ? 1 : page.totalPages}|">1 / 1</span>
+                  <a class="btn sm"
+                     th:classappend="${page.last}? ' disabled' : ''"
+                     th:href="@{/domain/storage/list(page=${page.last ? page.number : page.number + 1}, size=${page.size}, q=${keyword})}">다음</a>
                 </div>
               </div>
             </div>

@@ -10,11 +10,11 @@
     <div class="page">
       <header class="appbar">
         <div class="appbar-inner">
-          <div class="brand">사용자 관리</div>
+          <div class="brand">기본정보</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">memberId</span>
-            <span>님 환영합니다</span>
+            <span class="badge">member</span>
+            <span>관리</span>
           </div>
         </div>
       </header>
@@ -22,7 +22,7 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <a href="list.html">사용자</a>
+          <a th:href="@{/domain/member/list}" href="/domain/member/list">사용자</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -33,68 +33,86 @@
             <div class="card-header">
               <div class="card-title">사용자 등록/수정</div>
               <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+                <a class="btn" th:href="@{/domain/member/list}" href="/domain/member/list">목록</a>
               </div>
             </div>
             <div class="card-body">
-              <form data-validate>
-
+              <form data-validate method="post" action="/domain/member/save" data-redirect="/domain/member/list">
                 <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <!-- 기본정보 -->
+                <input type="hidden" name="isNew" th:value="${isNew}" />
+
                 <div class="section">
                   <div class="section-title">기본정보</div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
                       <label class="label required" for="member_id">사용자ID</label>
-                      <input id="member_id" name="member_id" class="input" required maxlength="5" placeholder="예: admin" />
+                      <input id="member_id"
+                             name="memberId"
+                             class="input"
+                             required
+                             maxlength="5"
+                             placeholder="예: admin"
+                             th:value="${member.memberId}"
+                             th:readonly="${!isNew}" />
                     </div>
                     <div class="form-row col-span-4">
                       <label class="label required" for="name">이름</label>
-                      <input id="name" name="name" class="input" required maxlength="100" />
+                      <input id="name" name="name" class="input" required maxlength="100" th:value="${member.name}" />
                     </div>
                     <div class="form-row col-span-4">
                       <label class="label" for="dept_id">부서</label>
-                      <select id="dept_id" name="dept_id">
-                        <option value="">(선택)</option>
-                        <option value="ADMIN">ADMIN</option>
-                        <option value="EQ">설비</option>
-                        <option value="AS">자산</option>
-                        <option value="EL">전기</option>
-                      </select>
+                      <input id="dept_id" name="deptId" class="input" maxlength="5" th:value="${member.deptId}" placeholder="예: EQ" />
                     </div>
                   </div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
                       <label class="label" for="email">이메일</label>
-                      <input id="email" name="email" class="input" type="email" maxlength="100" />
+                      <input id="email" name="email" class="input" type="email" maxlength="100" th:value="${member.email}" />
                     </div>
                     <div class="form-row col-span-4">
                       <label class="label" for="phone">전화번호</label>
-                      <input id="phone" name="phone" class="input" type="tel" maxlength="100" />
+                      <input id="phone" name="phone" class="input" type="tel" maxlength="100" th:value="${member.phone}" />
                     </div>
                     <div class="form-row col-span-4">
                       <label class="label" for="password">비밀번호</label>
-                      <input id="password" name="password" class="input" type="password" maxlength="100" autocomplete="new-password" />
+                      <input id="password"
+                             name="password"
+                             class="input"
+                             type="password"
+                             maxlength="100"
+                             autocomplete="new-password"
+                             placeholder="새 비밀번호 입력"
+                             th:attrappend="aria-describedby=${!isNew}? 'password-help' : null" />
                     </div>
                   </div>
                   <div class="form-row col-span-12">
                     <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                    <textarea id="note"
+                              name="note"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="기타 메모(최대 500자)"
+                              th:text="${member.note}"></textarea>
                   </div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-3">
                       <label class="label" for="delete_mark">상태</label>
-                      <select id="delete_mark" name="delete_mark">
-                        <option value="N">정상</option>
-                        <option value="Y">사용중지</option>
+                      <select id="delete_mark" name="deleteMark">
+                        <option value="N" th:selected="${member.deleteMark == null || member.deleteMark == 'N'}">정상</option>
+                        <option value="Y" th:selected="${member.deleteMark == 'Y'}">사용중지</option>
                       </select>
+                    </div>
+                    <div class="form-row col-span-9" th:if="${!isNew}" id="password-help">
+                      <p class="muted">비밀번호를 변경하지 않으려면 비워 두세요.</p>
                     </div>
                   </div>
                 </div>
 
-                <div class="actions" style="margin-top:16px">
-                  <button class="btn" type="button" onclick="history.back()">취소</button>
-                  <button class="btn primary" type="submit">저장</button>
+                <div class="row" style="margin-top:16px; gap:8px; justify-content:flex-end">
+                  <button class="btn" type="reset">초기화</button>
+                  <button class="btn primary" type="submit">
+                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                  </button>
                 </div>
               </form>
             </div>
@@ -102,10 +120,9 @@
         </div>
       </main>
       <footer>
-        <div class="container">© 사용자 관리</div>
+        <div class="container">© 기본정보</div>
       </footer>
     </div>
     <script src="../../../static/assets/js/app.js"></script>
   </body>
-  </html>
-
+</html>

@@ -3,26 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>기능위치 등록/수정 · CMMS</title>
-    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+    <title>코드 항목 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
   </head>
   <body>
     <div class="page">
       <header class="appbar">
         <div class="appbar-inner">
-          <div class="brand">기본정보</div>
+          <div class="brand">공통코드</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">func</span>
-            <span>관리</span>
+            <span class="badge">codeitem</span>
+            <span th:text="${type.codeType}">TYPE</span>
           </div>
         </div>
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">기본정보</a>
+          <a href="#">공통코드</a>
           <span class="sep">/</span>
-          <a th:href="@{/domain/func/list}" href="/domain/func/list">기능위치</a>
+          <a th:href="@{/code/items(codeType=${type.codeType})}" th:text="${type.codeType + ' 항목'}">코드 항목</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -31,38 +31,41 @@
         <div class="container">
           <section class="card">
             <div class="card-header">
-              <div class="card-title">기능위치 등록/수정</div>
+              <div class="card-title">코드 항목 등록/수정</div>
               <div class="toolbar">
-                <a class="btn" th:href="@{/domain/func/list}" href="/domain/func/list">목록</a>
+                <a class="btn" th:href="@{/code/items(codeType=${type.codeType})}">목록</a>
               </div>
             </div>
             <div class="card-body">
-              <form data-validate method="post" action="/domain/func/save" data-redirect="/domain/func/list">
+              <form data-validate method="post" action="/code/items/save" th:attr="data-redirect=@{|/code/items?codeType=${type.codeType}|}">
                 <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <input type="hidden" name="isNew" th:value="${isNew}" />
+                <input type="hidden" name="codeType" th:value="${type.codeType}" />
 
                 <div class="section">
-                  <div class="section-title">기본정보</div>
+                  <div class="section-title">코드 타입</div>
+                  <div class="form-row">
+                    <input class="input" readonly th:value="${type.codeType + ' - ' + (type.name != null ? type.name : '')}" />
+                  </div>
+                </div>
+
+                <div class="section">
+                  <div class="section-title">항목 정보</div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
-                      <label class="label required" for="func_id">기능위치코드</label>
-                      <input id="func_id"
-                             name="funcId"
+                      <label class="label required" for="code">코드</label>
+                      <input id="code"
+                             name="code"
                              class="input"
                              required
                              maxlength="5"
-                             placeholder="예: F0001"
-                             th:value="${func.funcId}"
+                             placeholder="예: REPR"
+                             th:value="${item.code}"
                              th:readonly="${!isNew}" />
                     </div>
                     <div class="form-row col-span-8">
-                      <label class="label required" for="func_name">기능위치명</label>
-                      <input id="func_name"
-                             name="name"
-                             class="input"
-                             required
-                             maxlength="100"
-                             th:value="${func.name}" />
+                      <label class="label required" for="name">명칭</label>
+                      <input id="name" name="name" class="input" required maxlength="100" th:value="${item.name}" />
                     </div>
                   </div>
                   <div class="form-row col-span-12">
@@ -71,12 +74,12 @@
                               name="note"
                               rows="4"
                               maxlength="500"
-                              placeholder="기타 메모(최대 500자)"
-                              th:text="${func.note}"></textarea>
+                              placeholder="항목 설명"
+                              th:text="${item.note}"></textarea>
                   </div>
                 </div>
 
-                <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
+                <div class="row" style="margin-top:16px; gap:8px; justify-content:flex-end">
                   <button class="btn" type="reset">초기화</button>
                   <button class="btn primary" type="submit">
                     <span th:text="${isNew ? '등록' : '수정'}">등록</span>
@@ -88,9 +91,9 @@
         </div>
       </main>
       <footer>
-        <div class="container">© 기본정보</div>
+        <div class="container">© 공통코드</div>
       </footer>
     </div>
-    <script src="../../../static/assets/js/app.js"></script>
+    <script src="../../static/assets/js/app.js"></script>
   </body>
 </html>
