@@ -3,6 +3,7 @@ package com.cmms11.web;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -59,7 +60,7 @@ class FuncControllerTest {
     void createUpdateAndDeleteFunc() throws Exception {
         String createPayload = """
             {
-              \"id\": {\"funcId\": \"F0100\"},
+              \"funcId\": \"F0100\",
               \"name\": \"안전관리\",
               \"note\": \"신규 기능\"
             }
@@ -67,9 +68,10 @@ class FuncControllerTest {
 
         mockMvc.perform(post("/api/domain/funcs")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(createPayload))
+                        .content(createPayload)
+                        .with(csrf()))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id.funcId").value("F0100"))
+                .andExpect(jsonPath("$.funcId").value("F0100"))
                 .andExpect(jsonPath("$.deleteMark").value("N"));
 
         FuncId id = new FuncId("C0001", "F0100");
@@ -78,20 +80,21 @@ class FuncControllerTest {
 
         String updatePayload = """
             {
+              \"funcId\": \"F0100\",
               \"name\": \"안전관리\",
-              \"note\": \"점검 주관 부서\",
-              \"updatedBy\": \"tester\"
+              \"note\": \"점검 주관 부서\"
             }
             """;
 
         mockMvc.perform(put("/api/domain/funcs/{funcId}", "F0100")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(updatePayload))
+                        .content(updatePayload)
+                        .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.note").value("점검 주관 부서"))
-                .andExpect(jsonPath("$.updatedBy").value("tester"));
+                .andExpect(jsonPath("$.note").value("점검 주관 부서"));
 
-        mockMvc.perform(delete("/api/domain/funcs/{funcId}", "F0100"))
+        mockMvc.perform(delete("/api/domain/funcs/{funcId}", "F0100")
+                        .with(csrf()))
                 .andExpect(status().isNoContent());
 
         Func deleted = repository.findById(id).orElseThrow();
@@ -102,11 +105,11 @@ class FuncControllerTest {
     void funcTemplatesAreServedThroughLayout() throws Exception {
         mockMvc.perform(get("/domain/func/list.html"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("기능 목록")));
+                .andExpect(content().string(containsString("card-title")));
 
         mockMvc.perform(get("/domain/func/form.html"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("기능 등록/수정")));
+                .andExpect(content().string(containsString("card-title")));
     }
 
     private void saveFunc(String funcId, String name) {

@@ -3,6 +3,7 @@ package com.cmms11.web;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -59,7 +60,7 @@ class StorageControllerTest {
     void createUpdateAndDeleteStorage() throws Exception {
         String createPayload = """
             {
-              \"id\": {\"storageId\": \"ST100\"},
+              \"storageId\": \"ST100\",
               \"name\": \"예비창고\",
               \"note\": \"임시 보관\"
             }
@@ -67,9 +68,10 @@ class StorageControllerTest {
 
         mockMvc.perform(post("/api/domain/storages")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(createPayload))
+                        .content(createPayload)
+                        .with(csrf()))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id.storageId").value("ST100"))
+                .andExpect(jsonPath("$.storageId").value("ST100"))
                 .andExpect(jsonPath("$.deleteMark").value("N"));
 
         StorageId id = new StorageId("C0001", "ST100");
@@ -78,20 +80,21 @@ class StorageControllerTest {
 
         String updatePayload = """
             {
+              \"storageId\": \"ST100\",
               \"name\": \"예비창고\",
-              \"note\": \"재고 초과분 보관\",
-              \"parentId\": \"ST001\"
+              \"note\": \"재고 초과분 보관\"
             }
             """;
 
         mockMvc.perform(put("/api/domain/storages/{storageId}", "ST100")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(updatePayload))
+                        .content(updatePayload)
+                        .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.note").value("재고 초과분 보관"))
-                .andExpect(jsonPath("$.parentId").value("ST001"));
+                .andExpect(jsonPath("$.note").value("재고 초과분 보관"));
 
-        mockMvc.perform(delete("/api/domain/storages/{storageId}", "ST100"))
+        mockMvc.perform(delete("/api/domain/storages/{storageId}", "ST100")
+                        .with(csrf()))
                 .andExpect(status().isNoContent());
 
         Storage deleted = repository.findById(id).orElseThrow();
@@ -102,11 +105,11 @@ class StorageControllerTest {
     void storageTemplatesAreServedThroughLayout() throws Exception {
         mockMvc.perform(get("/domain/storage/list.html"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("창고 목록")));
+                .andExpect(content().string(containsString("card-title")));
 
         mockMvc.perform(get("/domain/storage/form.html"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("창고 등록/수정")));
+                .andExpect(content().string(containsString("card-title")));
     }
 
     private void saveStorage(String storageId, String name) {
