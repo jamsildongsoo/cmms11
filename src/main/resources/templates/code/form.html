@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>공통코드 등록/수정 · CMMS</title>
+    <title>코드 타입 등록/수정 · CMMS</title>
     <link rel="stylesheet" href="../../static/assets/css/base.css" />
   </head>
   <body>
@@ -13,8 +13,8 @@
           <div class="brand">공통코드</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">memberId</span>
-            <span>운영자</span>
+            <span class="badge">codetype</span>
+            <span>관리</span>
           </div>
         </div>
       </header>
@@ -22,7 +22,7 @@
         <div class="container">
           <a href="#">공통코드</a>
           <span class="sep">/</span>
-          <a href="list.html">목록</a>
+          <a th:href="@{/code/types}" href="/code/types">코드 타입</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -31,67 +31,52 @@
         <div class="container">
           <section class="card">
             <div class="card-header">
-              <div class="card-title">공통코드 등록/수정</div>
+              <div class="card-title">코드 타입 등록/수정</div>
               <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+                <a class="btn" th:href="@{/code/types}" href="/code/types">목록</a>
+                <a class="btn" th:if="${!isNew}" th:href="@{|/code/items?codeType=${type.codeType}|}">항목 관리</a>
               </div>
             </div>
             <div class="card-body">
-              <form data-validate>
-
+              <form data-validate method="post" action="/code/types/save" data-redirect="/code/types">
                 <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <!-- 코드 타입 헤더 -->
+                <input type="hidden" name="isNew" th:value="${isNew}" />
+
                 <div class="section">
-                  <div class="section-title">코드 타입</div>
+                  <div class="section-title">기본정보</div>
                   <div class="grid cols-12">
-                    <div class="form-row col-span-3">
+                    <div class="form-row col-span-4">
                       <label class="label required" for="code_type">코드타입</label>
-                      <input id="code_type" name="code_type" class="input" required maxlength="5" placeholder="예: JOBTP" />
+                      <input id="code_type"
+                             name="codeType"
+                             class="input"
+                             required
+                             maxlength="5"
+                             placeholder="예: JOBTP"
+                             th:value="${type.codeType}"
+                             th:readonly="${!isNew}" />
                     </div>
-                    <div class="form-row col-span-9">
+                    <div class="form-row col-span-8">
                       <label class="label required" for="name">명칭</label>
-                      <input id="name" name="name" class="input" required maxlength="100" placeholder="예: 작업유형" />
+                      <input id="name" name="name" class="input" required maxlength="100" th:value="${type.name}" />
                     </div>
-                    <div class="form-row col-span-12">
-                      <label class="label" for="note">비고</label>
-                      <input id="note" name="note" class="input" maxlength="500" placeholder="예: REPR/PM/IMPR 등" />
-                    </div>
+                  </div>
+                  <div class="form-row col-span-12">
+                    <label class="label" for="note">비고</label>
+                    <textarea id="note"
+                              name="note"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="코드 타입 설명"
+                              th:text="${type.note}"></textarea>
                   </div>
                 </div>
 
-                <!-- 코드 항목 (code_item) -->
-                <div class="section" data-code-items>
-                  <div class="section-title">코드 항목</div>
-                  <div class="section-desc">code_item 기준: 코드, 명칭, 비고</div>
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th style="width:44px">#</th>
-                        <th style="width:140px">코드</th>
-                        <th>명칭</th>
-                        <th>비고</th>
-                        <th style="width:80px"></th>
-                      </tr>
-                    </thead>
-                    <tbody id="code-items-body">
-                      <tr class="code-item-row">
-                        <td class="cell-center line-no">1</td>
-                        <td><input class="input" name="items[0].code" required maxlength="5" placeholder="예: REPR" /></td>
-                        <td><input class="input" name="items[0].name" required maxlength="100" placeholder="예: 수리" /></td>
-                        <td><input class="input" name="items[0].note" maxlength="500" placeholder="" /></td>
-                        <td class="cell-center"><button type="button" class="btn sm danger" data-remove-item style="display:none">삭제</button></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="actions" style="justify-content:flex-start;margin-top:8px">
-                    <button type="button" class="btn sm" data-add-item>항목 추가</button>
-                  </div>
-                </div>
-
-                <div class="actions" style="margin-top:16px">
-                  <button class="btn" type="button" onclick="history.back()">취소</button>
+                <div class="row" style="margin-top:16px; gap:8px; justify-content:flex-end">
                   <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">저장</button>
+                  <button class="btn primary" type="submit">
+                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                  </button>
                 </div>
               </form>
             </div>
@@ -103,54 +88,5 @@
       </footer>
     </div>
     <script src="../../static/assets/js/app.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const section = document.querySelector('[data-code-items]');
-        if (!section) return;
-        const tbody = section.querySelector('#code-items-body');
-        const addBtn = section.querySelector('[data-add-item]');
-
-        function renumber() {
-          tbody.querySelectorAll('.code-item-row').forEach((tr, i) => {
-            tr.querySelector('.line-no').textContent = i + 1;
-            tr.querySelectorAll('input').forEach((inp) => {
-              const field = inp.name.split('.').pop();
-              inp.name = `items[${i}].${field}`;
-            });
-            const delBtn = tr.querySelector('[data-remove-item]');
-            if (delBtn) delBtn.style.display = i === 0 ? 'none' : 'inline-flex';
-          });
-        }
-
-        function addRow() {
-          const i = tbody.querySelectorAll('.code-item-row').length;
-          const tr = document.createElement('tr');
-          tr.className = 'code-item-row';
-          tr.innerHTML = `
-            <td class="cell-center line-no">${i + 1}</td>
-            <td><input class="input" name="items[${i}].code" required maxlength="5" placeholder="예: REPR" /></td>
-            <td><input class="input" name="items[${i}].name" required maxlength="100" placeholder="예: 수리" /></td>
-            <td><input class="input" name="items[${i}].note" maxlength="500" placeholder="" /></td>
-            <td class="cell-center"><button type="button" class="btn sm danger" data-remove-item>삭제</button></td>`;
-          tbody.appendChild(tr);
-          attachRowHandlers(tr);
-          renumber();
-        }
-
-        function attachRowHandlers(tr) {
-          const delBtn = tr.querySelector('[data-remove-item]');
-          delBtn?.addEventListener('click', () => {
-            tr.remove();
-            renumber();
-          });
-        }
-
-        // init
-        tbody.querySelectorAll('.code-item-row').forEach(attachRowHandlers);
-        renumber();
-        addBtn?.addEventListener('click', addRow);
-      });
-    </script>
   </body>
-  </html>
-
+</html>

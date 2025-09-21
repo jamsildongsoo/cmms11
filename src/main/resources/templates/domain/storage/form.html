@@ -13,8 +13,8 @@
           <div class="brand">기본정보</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">memberId</span>
-            <span>운영중</span>
+            <span class="badge">storage</span>
+            <span>관리</span>
           </div>
         </div>
       </header>
@@ -22,7 +22,7 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <a href="list.html">창고</a>
+          <a th:href="@{/domain/storage/list}" href="/domain/storage/list">창고</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -33,32 +33,54 @@
             <div class="card-header">
               <div class="card-title">창고 등록/수정</div>
               <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+                <a class="btn" th:href="@{/domain/storage/list}" href="/domain/storage/list">목록</a>
               </div>
             </div>
             <div class="card-body">
-              <form data-validate>
+              <form data-validate method="post" action="/domain/storage/save" data-redirect="/domain/storage/list">
+                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" name="isNew" th:value="${isNew}" />
+
                 <div class="section">
                   <div class="section-title">기본정보</div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
-                      <label class="label required" for="storage_id">창고 코드</label>
-                      <input id="storage_id" name="storage_id" class="input" required maxlength="5" placeholder="예: ST001" />
+                      <label class="label required" for="storage_id">창고코드</label>
+                      <input id="storage_id"
+                             name="storageId"
+                             class="input"
+                             required
+                             maxlength="5"
+                             placeholder="예: ST001"
+                             th:value="${storage.storageId}"
+                             th:readonly="${!isNew}" />
                     </div>
                     <div class="form-row col-span-8">
-                      <label class="label required" for="name">창고 명</label>
-                      <input id="name" name="name" class="input" required maxlength="100" />
+                      <label class="label required" for="storage_name">창고명</label>
+                      <input id="storage_name"
+                             name="name"
+                             class="input"
+                             required
+                             maxlength="100"
+                             th:value="${storage.name}" />
                     </div>
                   </div>
                   <div class="form-row col-span-12">
                     <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                    <textarea id="note"
+                              name="note"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="기타 메모(최대 500자)"
+                              th:text="${storage.note}"></textarea>
                   </div>
                 </div>
 
                 <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
                   <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">저장</button>
+                  <button class="btn primary" type="submit">
+                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                  </button>
                 </div>
               </form>
             </div>
@@ -72,4 +94,3 @@
     <script src="../../../static/assets/js/app.js"></script>
   </body>
 </html>
-
