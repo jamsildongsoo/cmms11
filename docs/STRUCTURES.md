@@ -132,6 +132,15 @@ src/main/resources/
   - 연계: 생성/수정 시 `Plant.fileGroupId`에 그룹ID 저장 → 상세/목록에서 파일 수/미리보기 제공
   - 제약: 크기 제한, 확장자 화이트리스트, 바이러스 스캔(옵션), 다운로드 권한 체크
 
+### CSV 대량 업로드(초기 데이터 세팅용)
+- 엔드포인트: `POST /api/plants/upload`, `POST /api/inventories/upload` (multipart/form-data, 필드명 `file`)
+- 응답: `BulkUploadResult`(성공/실패 건수 + `BulkUploadError[rowNumber,message]` 목록)
+- CSV 헤더 가이드
+  - 설비: `plant_id(선택)`, `name`, `asset_id`, `site_id`, `dept_id`, `func_id`, `install_date(yyyy-MM-dd)` 등
+  - 자재: `inventory_id(선택)`, `name`, `asset_id`, `dept_id`, `maker_name`, `spec`, `model`, `serial`, `status` 등
+- UI: `templates/plant/uploadForm.html`, `templates/inventory/uploadForm.html`
+- 샘플: `static/assets/samples/plant-upload-sample.csv`, `static/assets/samples/inventory-upload-sample.csv`
+
 ## 5) 디자인 가이드(plant 모듈 기준 공통 규칙)
 
 - 페이지 골격(standalone)
