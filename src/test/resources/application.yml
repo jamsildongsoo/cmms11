@@ -12,3 +12,9 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
   flyway:
     enabled: false
+
+app:
+  file-storage:
+    location: build/test-uploads
+    max-size: 2097152
+    allowed-extensions: txt,pdf
