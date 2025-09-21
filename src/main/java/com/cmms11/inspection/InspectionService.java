@@ -5,6 +5,9 @@ import com.cmms11.common.seq.AutoNumberService;
 import com.cmms11.security.MemberUserDetailsService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -26,10 +29,16 @@ public class InspectionService {
     private static final String MODULE_CODE = "I";
 
     private final InspectionRepository repository;
+    private final InspectionItemRepository itemRepository;
     private final AutoNumberService autoNumberService;
 
-    public InspectionService(InspectionRepository repository, AutoNumberService autoNumberService) {
+    public InspectionService(
+        InspectionRepository repository,
+        InspectionItemRepository itemRepository,
+        AutoNumberService autoNumberService
+    ) {
         this.repository = repository;
+        this.itemRepository = itemRepository;
         this.autoNumberService = autoNumberService;
     }
 
@@ -48,7 +57,13 @@ public class InspectionService {
 
     @Transactional(readOnly = true)
     public InspectionResponse get(String inspectionId) {
-        return InspectionResponse.from(getExisting(inspectionId));
+        Inspection inspection = getExisting(inspectionId);
+        List<InspectionItem> items = itemRepository
+            .findByIdCompanyIdAndIdInspectionIdOrderByIdLineNo(
+                MemberUserDetailsService.DEFAULT_COMPANY,
+                inspectionId
+            );
+        return InspectionResponse.from(inspection, items);
     }
 
     public InspectionResponse create(InspectionRequest request) {
@@ -66,7 +81,8 @@ public class InspectionService {
         entity.setUpdatedBy(memberId);
 
         Inspection saved = repository.save(entity);
-        return InspectionResponse.from(saved);
+        List<InspectionItem> items = synchronizeItems(companyId, newId, request.items());
+        return InspectionResponse.from(saved, items);
     }
 
     public InspectionResponse update(String inspectionId, InspectionRequest request) {
@@ -74,11 +90,21 @@ public class InspectionService {
         applyRequest(entity, request);
         entity.setUpdatedAt(LocalDateTime.now());
         entity.setUpdatedBy(currentMemberId());
-        return InspectionResponse.from(repository.save(entity));
+        Inspection saved = repository.save(entity);
+        List<InspectionItem> items = synchronizeItems(
+            entity.getId().getCompanyId(),
+            inspectionId,
+            request.items()
+        );
+        return InspectionResponse.from(saved, items);
     }
 
     public void delete(String inspectionId) {
         Inspection entity = getExisting(inspectionId);
+        itemRepository.deleteByIdCompanyIdAndIdInspectionId(
+            entity.getId().getCompanyId(),
+            inspectionId
+        );
         repository.delete(entity);
     }
 
@@ -100,6 +126,42 @@ public class InspectionService {
         entity.setStatus(request.status());
         entity.setFileGroupId(request.fileGroupId());
         entity.setNote(request.note());
+    }
+
+    private List<InspectionItem> synchronizeItems(
+        String companyId,
+        String inspectionId,
+        List<InspectionItemRequest> items
+    ) {
+        itemRepository.deleteByIdCompanyIdAndIdInspectionId(companyId, inspectionId);
+        if (items == null || items.isEmpty()) {
+            return List.of();
+        }
+
+        List<InspectionItem> entities = IntStream
+            .range(0, items.size())
+            .mapToObj(index -> toItemEntity(companyId, inspectionId, index + 1, items.get(index)))
+            .collect(Collectors.toList());
+        return itemRepository.saveAll(entities);
+    }
+
+    private InspectionItem toItemEntity(
+        String companyId,
+        String inspectionId,
+        int lineNo,
+        InspectionItemRequest item
+    ) {
+        InspectionItem entity = new InspectionItem();
+        entity.setId(new InspectionItemId(companyId, inspectionId, lineNo));
+        entity.setName(item.name());
+        entity.setMethod(item.method());
+        entity.setMinVal(item.minVal());
+        entity.setMaxVal(item.maxVal());
+        entity.setStdVal(item.stdVal());
+        entity.setUnit(item.unit());
+        entity.setResultVal(item.resultVal());
+        entity.setNote(item.note());
+        return entity;
     }
 
     private String resolveId(String companyId, String requestedId, LocalDate referenceDate) {

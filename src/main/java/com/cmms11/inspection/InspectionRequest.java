@@ -1,8 +1,10 @@
 package com.cmms11.inspection;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 이름: InspectionRequest
@@ -25,4 +27,7 @@ public record InspectionRequest(
     @Size(max = 10) String fileGroupId,
     @Size(max = 500) String note
 ) {
+    public InspectionRequest {
+        items = items == null ? List.of() : List.copyOf(items);
+    }
 }

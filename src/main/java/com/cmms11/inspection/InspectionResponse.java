@@ -2,6 +2,8 @@ package com.cmms11.inspection;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 이름: InspectionResponse
@@ -26,10 +28,23 @@ public record InspectionResponse(
     LocalDateTime createdAt,
     String createdBy,
     LocalDateTime updatedAt,
-    String updatedBy
+    String updatedBy,
+    List<InspectionItemResponse> items
 ) {
+    public InspectionResponse {
+        items = items == null ? List.of() : List.copyOf(items);
+    }
+
     public static InspectionResponse from(Inspection inspection) {
+        return from(inspection, List.of());
+    }
+
+    public static InspectionResponse from(Inspection inspection, List<InspectionItem> itemEntities) {
         String inspectionId = inspection.getId() != null ? inspection.getId().getInspectionId() : null;
+        List<InspectionItemResponse> itemResponses = itemEntities
+            .stream()
+            .map(InspectionItemResponse::from)
+            .collect(Collectors.toList());
         return new InspectionResponse(
             inspectionId,
             inspection.getName(),
@@ -46,7 +61,8 @@ public record InspectionResponse(
             inspection.getCreatedAt(),
             inspection.getCreatedBy(),
             inspection.getUpdatedAt(),
-            inspection.getUpdatedBy()
+            inspection.getUpdatedBy(),
+            itemResponses
         );
     }
 }
