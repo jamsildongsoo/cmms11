@@ -5,6 +5,8 @@ import com.cmms11.domain.member.MemberId;
 import com.cmms11.domain.member.MemberService;
 import com.cmms11.security.MemberUserDetailsService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.Objects;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +57,10 @@ public class MemberController {
     }
 
     @PostMapping("/domain/member/save")
-    public String saveForm(@ModelAttribute MemberForm form, @RequestParam(required = false) String isNew) {
+    public String saveForm(
+        @ModelAttribute @Valid MemberForm form,
+        @RequestParam(required = false) String isNew
+    ) {
         Member member = new Member();
         member.setId(new MemberId(MemberUserDetailsService.DEFAULT_COMPANY, form.getMemberId()));
         member.setName(form.getName());
@@ -121,13 +126,30 @@ public class MemberController {
     }
 
     public static class MemberForm {
+        @NotBlank
+        @Size(max = 5)
         private String memberId;
+
+        @NotBlank
+        @Size(max = 100)
         private String name;
+
+        @Size(max = 5)
         private String deptId;
+
+        @Size(max = 100)
         private String email;
+
+        @Size(max = 100)
         private String phone;
+
+        @Size(max = 500)
         private String note;
+
+        @Size(max = 100)
         private String password;
+
+        @Size(max = 1)
         private String deleteMark = "N";
 
         public String getMemberId() {
