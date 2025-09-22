@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>권한 목록 · CMMS</title>
+    <title>권한 등록/수정 · CMMS</title>
     <link rel="stylesheet" href="../../../static/assets/css/base.css" />
   </head>
   <body>
@@ -22,20 +22,22 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <span>권한</span>
+          <a th:href="@{~/domain/role/list}" href="/domain/role/list">권한</a>
+          <span class="sep">/</span>
+          <span>등록/수정</span>
         </div>
       </nav>
       <main>
         <div class="container">
           <section class="card">
             <div class="card-header">
-              <div class="card-title">권한 목록</div>
+              <div class="card-title">권한 등록/수정</div>
               <div class="toolbar">
-                <a class="btn primary" th:href="@{~/domain/role/form}" href="/domain/role/form">새로 만들기</a>
+                <a class="btn" th:href="@{~/domain/role/list}" href="/domain/role/list">목록</a>
               </div>
             </div>
             <div class="card-body">
-              <div class="notice">권한 관리는 아직 구현되지 않았습니다.</div>
+              <div class="notice">권한 관리 기능은 추후 제공될 예정입니다.</div>
             </div>
           </section>
         </div>
