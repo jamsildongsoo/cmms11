@@ -1,13 +1,5 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>회사 목록 · CMMS</title>
-    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
-  </head>
-  <body>
-    <div class="page">
+<main class="page">
+  <title>회사 목록 · CMMS</title>
       <header class="appbar">
         <div class="appbar-inner">
           <div class="brand">기본정보</div>
@@ -25,7 +17,7 @@
           <span>회사</span>
         </div>
       </nav>
-      <main>
+      <section class="page-body">
         <div class="container">
           <section class="card">
             <div class="card-header">
@@ -93,34 +85,32 @@
             </div>
           </section>
         </div>
-      </main>
+      </section>
       <footer>
         <div class="container">© 기본정보</div>
       </footer>
-    </div>
-    <script src="../../../static/assets/js/app.js"></script>
-    <script>
-      function deleteCompany(companyId) {
-        if (confirm('회사코드 ' + companyId + '를 삭제하시겠습니까?')) {
-          // 폼을 동적으로 생성하여 POST 요청
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = '/domain/company/delete/' + companyId;
-          
-          // CSRF 토큰 추가
-          const csrfToken = document.querySelector('meta[name="_csrf"]');
-          if (csrfToken) {
-            const csrfInput = document.createElement('input');
-            csrfInput.type = 'hidden';
-            csrfInput.name = '_csrf';
-            csrfInput.value = csrfToken.getAttribute('content');
-            form.appendChild(csrfInput);
+
+  <script>
+        function deleteCompany(companyId) {
+          if (confirm('회사코드 ' + companyId + '를 삭제하시겠습니까?')) {
+            // 폼을 동적으로 생성하여 POST 요청
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/domain/company/delete/' + companyId;
+
+            // CSRF 토큰 추가
+            const csrfToken = document.querySelector('meta[name="_csrf"]');
+            if (csrfToken) {
+              const csrfInput = document.createElement('input');
+              csrfInput.type = 'hidden';
+              csrfInput.name = '_csrf';
+              csrfInput.value = csrfToken.getAttribute('content');
+              form.appendChild(csrfInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
           }
-          
-          document.body.appendChild(form);
-          form.submit();
         }
-      }
-    </script>
-  </body>
-  </html>
+      </script>
+</main>
