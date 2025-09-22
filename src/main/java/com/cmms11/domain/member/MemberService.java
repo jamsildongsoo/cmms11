@@ -101,7 +101,6 @@ public class MemberService {
         return currentMemberId();
     }
 
-
     private String currentMemberId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
