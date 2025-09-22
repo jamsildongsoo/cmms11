@@ -13,7 +13,7 @@
           <div class="brand">기본정보</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">memberId</span>
+            <span class="badge">role</span>
             <span>권한 관리</span>
           </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <a th:href="@{~/domain/role/list}" href="/domain/role/list">권한</a>
+          <a th:href="@{/domain/role/list}" href="/domain/role/list">권한</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -33,11 +33,56 @@
             <div class="card-header">
               <div class="card-title">권한 등록/수정</div>
               <div class="toolbar">
-                <a class="btn" th:href="@{~/domain/role/list}" href="/domain/role/list">목록</a>
+                <a class="btn" th:href="@{/domain/role/list}" href="/domain/role/list">목록</a>
               </div>
             </div>
             <div class="card-body">
-              <div class="notice">권한 관리 기능은 추후 제공될 예정입니다.</div>
+              <form data-validate method="post" action="/domain/role/save" data-redirect="/domain/role/list">
+                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" name="isNew" th:value="${isNew}" />
+
+                <div class="section">
+                  <div class="section-title">기본정보</div>
+                  <div class="grid cols-12">
+                    <div class="form-row col-span-4">
+                      <label class="label required" for="role_id">권한코드</label>
+                      <input id="role_id"
+                             name="roleId"
+                             class="input"
+                             required
+                             maxlength="5"
+                             placeholder="예: R0001"
+                             th:value="${role.roleId}"
+                             th:readonly="${!isNew}" />
+                    </div>
+                    <div class="form-row col-span-8">
+                      <label class="label required" for="role_name">권한명</label>
+                      <input id="role_name"
+                             name="name"
+                             class="input"
+                             required
+                             maxlength="100"
+                             th:value="${role.name}" />
+                    </div>
+                  </div>
+                  <div class="form-row col-span-12">
+                    <label class="label" for="role_note">비고</label>
+                    <textarea id="role_note"
+                              name="note"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="기타 메모(최대 500자)"
+                              th:text="${role.note}"></textarea>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
+                  <button class="btn" type="reset">초기화</button>
+                  <button class="btn primary" type="submit">
+                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                  </button>
+                </div>
+              </form>
             </div>
           </section>
         </div>
