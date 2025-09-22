@@ -73,7 +73,7 @@ public class MemberViewController {
 
     @PostMapping("/delete/{memberId}")
     public String delete(@PathVariable String memberId) {
-        service.delete(memberId);
+        service.delete(memberId, null);
         return "redirect:/domain/member/list";
     }
 

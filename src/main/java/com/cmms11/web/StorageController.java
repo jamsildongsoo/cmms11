@@ -44,8 +44,12 @@ public class StorageController {
         return "domain/storage/list";
     }
 
-    @GetMapping("/domain/storage/form")
-    public String newForm(Model model) {
+    @GetMapping({"/domain/storage/form", "/domain/storage/form/{storageId}"})
+    public String form(@PathVariable(value = "storageId", required = false) String storageId, Model model) {
+        return storageId == null ? newForm(model) : editForm(storageId, model);
+    }
+
+    private String newForm(Model model) {
         model.addAttribute("storage", new StorageResponse(
             null,
             null,
@@ -60,8 +64,7 @@ public class StorageController {
         return "domain/storage/form";
     }
 
-    @GetMapping("/domain/storage/edit/{storageId}")
-    public String editForm(@PathVariable String storageId, Model model) {
+    private String editForm(String storageId, Model model) {
         StorageResponse storage = service.get(storageId);
         model.addAttribute("storage", storage);
         model.addAttribute("isNew", false);

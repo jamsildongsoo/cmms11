@@ -62,8 +62,8 @@
                   <tr th:if="${page.empty}">
                     <td colspan="5" class="cell-center muted">등록된 기능위치가 없습니다.</td>
                   </tr>
-                  <tr th:each="func : ${page.content}" th:data-row-link="@{|/domain/func/edit/${func.funcId}|}">
-                    <td><a th:href="@{|/domain/func/edit/${func.funcId}|}" th:text="${func.funcId}">FUNC</a></td>
+                  <tr th:each="func : ${page.content}" th:data-row-link="@{|/domain/func/form/${func.funcId}|}">
+                    <td><a th:href="@{|/domain/func/form/${func.funcId}|}" th:text="${func.funcId}">FUNC</a></td>
                     <td th:text="${func.name}">-</td>
                     <td th:text="${func.note}">-</td>
                     <td>
@@ -71,7 +71,7 @@
                             th:classappend="${func.deleteMark == 'Y'} ? ' danger' : ''">정상</span>
                     </td>
                     <td class="actions">
-                      <a class="btn sm" th:href="@{|/domain/func/edit/${func.funcId}|}">수정</a>
+                      <a class="btn sm" th:href="@{|/domain/func/form/${func.funcId}|}">수정</a>
                       <button class="btn sm danger"
                               type="button"
                               th:attr="data-delete-url=@{|/domain/func/delete/${func.funcId}|},data-redirect=@{/domain/func/list},data-confirm=${'기능위치 ' + func.funcId + '를 삭제할까요?'}">

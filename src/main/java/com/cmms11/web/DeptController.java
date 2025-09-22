@@ -44,8 +44,12 @@ public class DeptController {
         return "domain/dept/list";
     }
 
-    @GetMapping("/domain/dept/form")
-    public String newForm(Model model) {
+    @GetMapping({"/domain/dept/form", "/domain/dept/form/{deptId}"})
+    public String form(@PathVariable(value = "deptId", required = false) String deptId, Model model) {
+        return deptId == null ? newForm(model) : editForm(deptId, model);
+    }
+
+    private String newForm(Model model) {
         model.addAttribute("dept", new DeptResponse(
             null,
             null,
@@ -60,8 +64,7 @@ public class DeptController {
         return "domain/dept/form";
     }
 
-    @GetMapping("/domain/dept/edit/{deptId}")
-    public String editForm(@PathVariable String deptId, Model model) {
+    private String editForm(String deptId, Model model) {
         DeptResponse dept = service.get(deptId);
         model.addAttribute("dept", dept);
         model.addAttribute("isNew", false);

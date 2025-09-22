@@ -44,8 +44,12 @@ public class SiteController {
         return "domain/site/list";
     }
 
-    @GetMapping("/domain/site/form")
-    public String newForm(Model model) {
+    @GetMapping({"/domain/site/form", "/domain/site/form/{siteId}"})
+    public String form(@PathVariable(value = "siteId", required = false) String siteId, Model model) {
+        return siteId == null ? newForm(model) : editForm(siteId, model);
+    }
+
+    private String newForm(Model model) {
         model.addAttribute("site", new SiteResponse(
             null,
             null,
@@ -60,8 +64,7 @@ public class SiteController {
         return "domain/site/form";
     }
 
-    @GetMapping("/domain/site/edit/{siteId}")
-    public String editForm(@PathVariable String siteId, Model model) {
+    private String editForm(String siteId, Model model) {
         SiteResponse site = service.get(siteId);
         model.addAttribute("site", site);
         model.addAttribute("isNew", false);

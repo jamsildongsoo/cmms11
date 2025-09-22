@@ -36,8 +36,12 @@ public class MemberController {
         return "domain/member/list";
     }
 
-    @GetMapping("/domain/member/form")
-    public String newForm(Model model) {
+    @GetMapping({"/domain/member/form", "/domain/member/form/{memberId}"})
+    public String form(@PathVariable(value = "memberId", required = false) String memberId, Model model) {
+        return memberId == null ? newForm(model) : editForm(memberId, model);
+    }
+
+    private String newForm(Model model) {
         MemberForm form = new MemberForm();
         form.setDeleteMark("N");
         model.addAttribute("member", form);
@@ -45,8 +49,7 @@ public class MemberController {
         return "domain/member/form";
     }
 
-    @GetMapping("/domain/member/edit/{memberId}")
-    public String editForm(@PathVariable String memberId, Model model) {
+    private String editForm(String memberId, Model model) {
         Member member = service.get(memberId);
         MemberForm form = toForm(member);
         model.addAttribute("member", form);

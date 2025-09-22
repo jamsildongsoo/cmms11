@@ -45,8 +45,12 @@ public class CompanyController {
         return "domain/company/list";
     }
 
-    @GetMapping("/domain/company/form")
-    public String newForm(Model model) {
+    @GetMapping({"/domain/company/form", "/domain/company/form/{companyId}"})
+    public String form(@PathVariable(value = "companyId", required = false) String companyId, Model model) {
+        return companyId == null ? newForm(model) : editForm(companyId, model);
+    }
+
+    private String newForm(Model model) {
         model.addAttribute("company", new CompanyResponse(
             null, // companyId
             null, // name
@@ -64,8 +68,7 @@ public class CompanyController {
         return "domain/company/form";
     }
 
-    @GetMapping("/domain/company/edit/{companyId}")
-    public String editForm(@PathVariable String companyId, Model model) {
+    private String editForm(String companyId, Model model) {
         CompanyResponse company = service.get(companyId);
         model.addAttribute("company", company);
         model.addAttribute("isNew", false);

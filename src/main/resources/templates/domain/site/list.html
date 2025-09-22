@@ -62,8 +62,8 @@
                   <tr th:if="${page.empty}">
                     <td colspan="5" class="cell-center muted">등록된 사업장이 없습니다.</td>
                   </tr>
-                  <tr th:each="site : ${page.content}" th:data-row-link="@{|/domain/site/edit/${site.siteId}|}">
-                    <td><a th:href="@{|/domain/site/edit/${site.siteId}|}" th:text="${site.siteId}">SITE</a></td>
+                  <tr th:each="site : ${page.content}" th:data-row-link="@{|/domain/site/form/${site.siteId}|}">
+                    <td><a th:href="@{|/domain/site/form/${site.siteId}|}" th:text="${site.siteId}">SITE</a></td>
                     <td th:text="${site.name}">-</td>
                     <td th:text="${site.note}">-</td>
                     <td>
@@ -71,7 +71,7 @@
                             th:classappend="${site.deleteMark == 'Y'} ? ' danger' : ''">정상</span>
                     </td>
                     <td class="actions">
-                      <a class="btn sm" th:href="@{|/domain/site/edit/${site.siteId}|}">수정</a>
+                      <a class="btn sm" th:href="@{|/domain/site/form/${site.siteId}|}">수정</a>
                       <button class="btn sm danger"
                               type="button"
                               th:attr="data-delete-url=@{|/domain/site/delete/${site.siteId}|},data-redirect=@{/domain/site/list},data-confirm=${'사업장 ' + site.siteId + '을 삭제할까요?'}">

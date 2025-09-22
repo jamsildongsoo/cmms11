@@ -44,8 +44,12 @@ public class FuncController {
         return "domain/func/list";
     }
 
-    @GetMapping("/domain/func/form")
-    public String newForm(Model model) {
+    @GetMapping({"/domain/func/form", "/domain/func/form/{funcId}"})
+    public String form(@PathVariable(value = "funcId", required = false) String funcId, Model model) {
+        return funcId == null ? newForm(model) : editForm(funcId, model);
+    }
+
+    private String newForm(Model model) {
         model.addAttribute("func", new FuncResponse(
             null,
             null,
@@ -60,8 +64,7 @@ public class FuncController {
         return "domain/func/form";
     }
 
-    @GetMapping("/domain/func/edit/{funcId}")
-    public String editForm(@PathVariable String funcId, Model model) {
+    private String editForm(String funcId, Model model) {
         FuncResponse func = service.get(funcId);
         model.addAttribute("func", func);
         model.addAttribute("isNew", false);

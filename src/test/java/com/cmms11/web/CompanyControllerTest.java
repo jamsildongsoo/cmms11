@@ -87,7 +87,7 @@ class CompanyControllerTest {
         CompanyResponse response = new CompanyResponse("C0001", "샘플회사", "123-45-67890", "test@company.com", "02-1234-5678", "메모", "N", now, "tester", now, "tester");
         when(companyService.get("C0001")).thenReturn(response);
 
-        mockMvc.perform(get("/domain/company/edit/{companyId}", "C0001"))
+        mockMvc.perform(get("/domain/company/form/{companyId}", "C0001"))
             .andExpect(status().isOk())
             .andExpect(view().name("domain/company/form"))
             .andExpect(model().attribute("company", response))
