@@ -46,16 +46,7 @@ public class FuncController {
 
     @GetMapping("/domain/func/form")
     public String newForm(Model model) {
-        model.addAttribute("func", new FuncResponse(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        ));
+        model.addAttribute("func", emptyFunc());
         model.addAttribute("isNew", true);
         return "domain/func/form";
     }
@@ -69,7 +60,7 @@ public class FuncController {
     }
 
     @PostMapping("/domain/func/save")
-    public String saveForm(@ModelAttribute FuncRequest request, @RequestParam(required = false) String isNew) {
+    public String save(@ModelAttribute FuncRequest request, @RequestParam(required = false) String isNew) {
         if ("true".equals(isNew)) {
             service.create(request);
         } else {
@@ -118,5 +109,18 @@ public class FuncController {
     public ResponseEntity<Void> delete(@PathVariable String funcId) {
         service.delete(funcId);
         return ResponseEntity.noContent().build();
+    }
+
+    private FuncResponse emptyFunc() {
+        return new FuncResponse(
+            null,
+            null,
+            null,
+            "N",
+            null,
+            null,
+            null,
+            null
+        );
     }
 }

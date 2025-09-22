@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,7 @@ public class RoleController {
     public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         model.addAttribute("page", Page.empty());
         model.addAttribute("keyword", q);
+        model.addAttribute("ready", Boolean.TRUE);
         return "domain/role/list";
     }
 
@@ -40,7 +42,7 @@ public class RoleController {
     }
 
     @PostMapping("/domain/role/save")
-    public String saveForm() {
+    public String save() {
         throw new UnsupportedOperationException("Role management is not implemented yet");
     }
 
