@@ -13,8 +13,8 @@
           <div class="brand">기본정보</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">memberId</span>
-            <span>운영중</span>
+            <span class="badge">dept</span>
+            <span>관리</span>
           </div>
         </div>
       </header>
@@ -22,7 +22,7 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <a href="list.html">부서</a>
+          <a th:href="@{/domain/dept/list}" href="/domain/dept/list">부서</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -33,56 +33,54 @@
             <div class="card-header">
               <div class="card-title">부서 등록/수정</div>
               <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+                <a class="btn" th:href="@{/domain/dept/list}" href="/domain/dept/list">목록</a>
               </div>
             </div>
             <div class="card-body">
-              <form data-validate>
-
+              <form data-validate method="post" action="/domain/dept/save" data-redirect="/domain/dept/list">
                 <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" name="isNew" th:value="${isNew}" />
+
                 <div class="section">
                   <div class="section-title">기본정보</div>
                   <div class="grid cols-12">
                     <div class="form-row col-span-4">
                       <label class="label required" for="dept_id">부서코드</label>
-                      <input id="dept_id" name="dept_id" class="input" required maxlength="10" placeholder="예: D0001" />
+                      <input id="dept_id"
+                             name="deptId"
+                             class="input"
+                             required
+                             maxlength="5"
+                             placeholder="예: D0001"
+                             th:value="${dept.deptId}"
+                             th:readonly="${!isNew}" />
                     </div>
-                    <div class="form-row col-span-4">
+                    <div class="form-row col-span-8">
                       <label class="label required" for="dept_name">부서명</label>
-                      <input id="dept_name" name="dept_name" class="input" required maxlength="100" />
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label required" for="site_id">사업장코드</label>
-                      <select id="site_id" name="site_id" required>
-                        <option value="">(선택)</option>
-                        <option value="S0001">S0001</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-4">
-                      <label class="label" for="parent_dept_id">상위부서</label>
-                      <select id="parent_dept_id" name="parent_dept_id">
-                        <option value="">(없음)</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="status">상태</label>
-                      <select id="status" name="status">
-                        <option value="ACTIVE">정상</option>
-                        <option value="INACTIVE">중지</option>
-                      </select>
+                      <input id="dept_name"
+                             name="name"
+                             class="input"
+                             required
+                             maxlength="100"
+                             th:value="${dept.name}" />
                     </div>
                   </div>
                   <div class="form-row col-span-12">
                     <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                    <textarea id="note"
+                              name="note"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="기타 메모(최대 500자)"
+                              th:text="${dept.note}"></textarea>
                   </div>
                 </div>
 
                 <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
                   <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">저장</button>
+                  <button class="btn primary" type="submit">
+                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                  </button>
                 </div>
               </form>
             </div>
@@ -95,5 +93,4 @@
     </div>
     <script src="../../../static/assets/js/app.js"></script>
   </body>
-  </html>
-
+</html>

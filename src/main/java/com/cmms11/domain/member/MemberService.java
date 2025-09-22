@@ -44,12 +44,16 @@ public class MemberService {
             throw new IllegalArgumentException("member.id (memberId) is required");
         }
         member.getId().setCompanyId(companyId);
-        if (member.getDeleteMark() == null) member.setDeleteMark("N");
+        if (member.getDeleteMark() == null) {
+            member.setDeleteMark("N");
+        }
         if (rawPassword != null && !rawPassword.isBlank()) {
             member.setPasswordHash(passwordEncoder.encode(rawPassword));
         }
         LocalDateTime now = LocalDateTime.now();
+
         String actorId = resolveActor(actor);
+
         member.setCreatedAt(now);
         member.setCreatedBy(actorId);
         member.setUpdatedAt(now);
@@ -64,13 +68,14 @@ public class MemberService {
         Member existing = repository
             .findByIdCompanyIdAndIdMemberId(MemberUserDetailsService.DEFAULT_COMPANY, member.getId().getMemberId())
             .orElseThrow(() -> new NotFoundException("Member not found: " + member.getId().getMemberId()));
-
         existing.setName(member.getName());
         existing.setDeptId(member.getDeptId());
         existing.setEmail(member.getEmail());
         existing.setPhone(member.getPhone());
         existing.setNote(member.getNote());
+
         Optional.ofNullable(member.getDeleteMark()).ifPresent(existing::setDeleteMark);
+
         if (rawPassword != null && !rawPassword.isBlank()) {
             existing.setPasswordHash(passwordEncoder.encode(rawPassword));
         }
@@ -95,6 +100,7 @@ public class MemberService {
         }
         return currentMemberId();
     }
+
 
     private String currentMemberId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

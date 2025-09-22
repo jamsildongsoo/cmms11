@@ -130,13 +130,21 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">기본정보</button>
             <div class="menu-items">
-              <a class="menu-item" href="/domain/company/list">회사</a>
-              <a class="menu-item" href="/domain/site/list">사업장(사이트)</a>
-              <a class="menu-item" href="/domain/dept/list">부서</a>
-              <a class="menu-item" href="/domain/func/list">기능위치</a>
-              <a class="menu-item" href="/domain/storage/list">창고(스토리지)</a>
-              <a class="menu-item" href="/domain/member/list">사용자</a>
-              <a class="menu-item" href="/domain/role/list">권한</a>
+              <a class="menu-item" href="@{/domain/company/list}">회사</a>
+              <a class="menu-item" href="@{/domain/site/list}">사업장(사이트)</a>
+              <a class="menu-item" href="@{/domain/dept/list}">부서</a>
+              <a class="menu-item" href="@{/domain/func/list}">기능위치</a>
+              <a class="menu-item" href="@{/domain/storage/list}">창고(스토리지)</a>
+              <a class="menu-item" href="@{/domain/member/list}">사용자</a>
+              <a class="menu-item" href="@{/domain/role/list}">권한</a>
+            </div>
+          </div>
+
+          <div class="menu-group" data-group>
+            <button type="button" class="menu-title" aria-expanded="false">공통코드</button>
+            <div class="menu-items">
+              <a class="menu-item" href="@{/code/types}">코드 타입</a>
+              <a class="menu-item" href="@{/code/items}">코드 항목</a>
             </div>
           </div>
         </nav>
