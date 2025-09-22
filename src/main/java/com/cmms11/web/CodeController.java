@@ -54,18 +54,9 @@ public class CodeController {
 
     @GetMapping("/code/form")
     public String newForm(Model model) {
-        model.addAttribute("codeType", new CodeTypeResponse(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        ));
-        model.addAttribute("items", List.of());
-        model.addAttribute("form", new CodeForm());
+        CodeForm form = new CodeForm();
+        model.addAttribute("type", form);
+        model.addAttribute("items", form.getItems());
         model.addAttribute("isNew", true);
         return "code/form";
     }
@@ -79,9 +70,8 @@ public class CodeController {
         form.setName(type.name());
         form.setNote(type.note());
         form.setItems(items.stream().map(CodeItemForm::from).collect(Collectors.toCollection(ArrayList::new)));
-        model.addAttribute("codeType", type);
-        model.addAttribute("items", items);
-        model.addAttribute("form", form);
+        model.addAttribute("type", form);
+        model.addAttribute("items", form.getItems());
         model.addAttribute("isNew", false);
         return "code/form";
     }
