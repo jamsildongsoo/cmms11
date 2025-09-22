@@ -46,16 +46,7 @@ public class DeptController {
 
     @GetMapping("/domain/dept/form")
     public String newForm(Model model) {
-        model.addAttribute("dept", new DeptResponse(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        ));
+        model.addAttribute("dept", emptyDept());
         model.addAttribute("isNew", true);
         return "domain/dept/form";
     }
@@ -69,7 +60,7 @@ public class DeptController {
     }
 
     @PostMapping("/domain/dept/save")
-    public String saveForm(@ModelAttribute DeptRequest request, @RequestParam(required = false) String isNew) {
+    public String save(@ModelAttribute DeptRequest request, @RequestParam(required = false) String isNew) {
         if ("true".equals(isNew)) {
             service.create(request);
         } else {
@@ -118,5 +109,18 @@ public class DeptController {
     public ResponseEntity<Void> delete(@PathVariable String deptId) {
         service.delete(deptId);
         return ResponseEntity.noContent().build();
+    }
+
+    private DeptResponse emptyDept() {
+        return new DeptResponse(
+            null,
+            null,
+            null,
+            "N",
+            null,
+            null,
+            null,
+            null
+        );
     }
 }

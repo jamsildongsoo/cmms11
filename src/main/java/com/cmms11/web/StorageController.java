@@ -46,16 +46,7 @@ public class StorageController {
 
     @GetMapping("/domain/storage/form")
     public String newForm(Model model) {
-        model.addAttribute("storage", new StorageResponse(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        ));
+        model.addAttribute("storage", emptyStorage());
         model.addAttribute("isNew", true);
         return "domain/storage/form";
     }
@@ -69,7 +60,7 @@ public class StorageController {
     }
 
     @PostMapping("/domain/storage/save")
-    public String saveForm(@ModelAttribute StorageRequest request, @RequestParam(required = false) String isNew) {
+    public String save(@ModelAttribute StorageRequest request, @RequestParam(required = false) String isNew) {
         if ("true".equals(isNew)) {
             service.create(request);
         } else {
@@ -118,5 +109,18 @@ public class StorageController {
     public ResponseEntity<Void> delete(@PathVariable String storageId) {
         service.delete(storageId);
         return ResponseEntity.noContent().build();
+    }
+
+    private StorageResponse emptyStorage() {
+        return new StorageResponse(
+            null,
+            null,
+            null,
+            "N",
+            null,
+            null,
+            null,
+            null
+        );
     }
 }

@@ -3,9 +3,9 @@ package com.cmms11.web;
 import com.cmms11.domain.member.Member;
 import com.cmms11.domain.member.MemberId;
 import com.cmms11.domain.member.MemberService;
-import com.cmms11.security.MemberUserDetailsService;
 import jakarta.validation.Valid;
-import java.util.Objects;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.annotation.Validated;
 
 @Controller
+@Validated
 public class MemberController {
     private final MemberService service;
 
@@ -38,9 +40,7 @@ public class MemberController {
 
     @GetMapping("/domain/member/form")
     public String newForm(Model model) {
-        MemberForm form = new MemberForm();
-        form.setDeleteMark("N");
-        model.addAttribute("member", form);
+        model.addAttribute("member", MemberForm.empty());
         model.addAttribute("isNew", true);
         return "domain/member/form";
     }
@@ -48,23 +48,14 @@ public class MemberController {
     @GetMapping("/domain/member/edit/{memberId}")
     public String editForm(@PathVariable String memberId, Model model) {
         Member member = service.get(memberId);
-        MemberForm form = toForm(member);
-        model.addAttribute("member", form);
+        model.addAttribute("member", MemberForm.from(member));
         model.addAttribute("isNew", false);
         return "domain/member/form";
     }
 
     @PostMapping("/domain/member/save")
-    public String saveForm(@ModelAttribute MemberForm form, @RequestParam(required = false) String isNew) {
-        Member member = new Member();
-        member.setId(new MemberId(MemberUserDetailsService.DEFAULT_COMPANY, form.getMemberId()));
-        member.setName(form.getName());
-        member.setDeptId(form.getDeptId());
-        member.setEmail(form.getEmail());
-        member.setPhone(form.getPhone());
-        member.setNote(form.getNote());
-        member.setDeleteMark(Objects.requireNonNullElse(form.getDeleteMark(), "N"));
-
+    public String save(@ModelAttribute @Validated MemberForm form, @RequestParam(required = false) String isNew) {
+        Member member = form.toEntity();
         if ("true".equals(isNew)) {
             service.create(member, form.getPassword(), null);
         } else {
@@ -108,27 +99,62 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    private MemberForm toForm(Member member) {
-        MemberForm form = new MemberForm();
-        form.setMemberId(member.getId() != null ? member.getId().getMemberId() : null);
-        form.setName(member.getName());
-        form.setDeptId(member.getDeptId());
-        form.setEmail(member.getEmail());
-        form.setPhone(member.getPhone());
-        form.setNote(member.getNote());
-        form.setDeleteMark(member.getDeleteMark());
-        return form;
-    }
-
     public static class MemberForm {
+        @NotBlank
+        @Size(max = 5)
         private String memberId;
+
+        @NotBlank
+        @Size(max = 100)
         private String name;
+
+        @Size(max = 5)
         private String deptId;
+
+        @Size(max = 100)
         private String email;
+
+        @Size(max = 100)
         private String phone;
+
+        @Size(max = 500)
         private String note;
+
+        @Size(max = 100)
         private String password;
+
+        @Size(max = 1)
         private String deleteMark = "N";
+
+        public static MemberForm empty() {
+            return new MemberForm();
+        }
+
+        public static MemberForm from(Member member) {
+            MemberForm form = new MemberForm();
+            if (member.getId() != null) {
+                form.setMemberId(member.getId().getMemberId());
+            }
+            form.setName(member.getName());
+            form.setDeptId(member.getDeptId());
+            form.setEmail(member.getEmail());
+            form.setPhone(member.getPhone());
+            form.setNote(member.getNote());
+            form.setDeleteMark(member.getDeleteMark());
+            return form;
+        }
+
+        public Member toEntity() {
+            Member member = new Member();
+            member.setId(new MemberId(null, memberId));
+            member.setName(name);
+            member.setDeptId(deptId);
+            member.setEmail(email);
+            member.setPhone(phone);
+            member.setNote(note);
+            member.setDeleteMark(deleteMark != null ? deleteMark : "N");
+            return member;
+        }
 
         public String getMemberId() {
             return memberId;

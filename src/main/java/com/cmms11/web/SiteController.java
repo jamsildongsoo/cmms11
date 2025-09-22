@@ -46,16 +46,7 @@ public class SiteController {
 
     @GetMapping("/domain/site/form")
     public String newForm(Model model) {
-        model.addAttribute("site", new SiteResponse(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        ));
+        model.addAttribute("site", emptySite());
         model.addAttribute("isNew", true);
         return "domain/site/form";
     }
@@ -69,7 +60,7 @@ public class SiteController {
     }
 
     @PostMapping("/domain/site/save")
-    public String saveForm(@ModelAttribute SiteRequest request, @RequestParam(required = false) String isNew) {
+    public String save(@ModelAttribute SiteRequest request, @RequestParam(required = false) String isNew) {
         if ("true".equals(isNew)) {
             service.create(request);
         } else {
@@ -118,5 +109,18 @@ public class SiteController {
     public ResponseEntity<Void> delete(@PathVariable String siteId) {
         service.delete(siteId);
         return ResponseEntity.noContent().build();
+    }
+
+    private SiteResponse emptySite() {
+        return new SiteResponse(
+            null,
+            null,
+            null,
+            "N",
+            null,
+            null,
+            null,
+            null
+        );
     }
 }
