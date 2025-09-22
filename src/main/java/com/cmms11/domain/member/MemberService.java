@@ -1,7 +1,7 @@
 package com.cmms11.domain.member;
 
-import com.cmms11.common.error.NotFoundException;
-import com.cmms11.security.MemberUserDetailsService;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -9,8 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
+import com.cmms11.common.error.NotFoundException;
+import com.cmms11.security.MemberUserDetailsService;
 
 @Service
 @Transactional
@@ -51,7 +51,9 @@ public class MemberService {
             member.setPasswordHash(passwordEncoder.encode(rawPassword));
         }
         LocalDateTime now = LocalDateTime.now();
-        String actorId = actor != null ? actor : currentMemberId();
+
+        String actorId = resolveActor(actor);
+
         member.setCreatedAt(now);
         member.setCreatedBy(actorId);
         member.setUpdatedAt(now);
@@ -61,31 +63,42 @@ public class MemberService {
 
     public Member update(Member member, String rawPassword, String actor) {
         if (member.getId() == null || member.getId().getMemberId() == null) {
-            throw new IllegalArgumentException("member.id.memberId is required");
+            throw new IllegalArgumentException("member.id (memberId) is required");
         }
-        Member existing = get(member.getId().getMemberId());
+        Member existing = repository
+            .findByIdCompanyIdAndIdMemberId(MemberUserDetailsService.DEFAULT_COMPANY, member.getId().getMemberId())
+            .orElseThrow(() -> new NotFoundException("Member not found: " + member.getId().getMemberId()));
         existing.setName(member.getName());
         existing.setDeptId(member.getDeptId());
         existing.setEmail(member.getEmail());
         existing.setPhone(member.getPhone());
         existing.setNote(member.getNote());
-        if (member.getDeleteMark() != null) {
-            existing.setDeleteMark(member.getDeleteMark());
-        }
+
+        Optional.ofNullable(member.getDeleteMark()).ifPresent(existing::setDeleteMark);
+
         if (rawPassword != null && !rawPassword.isBlank()) {
             existing.setPasswordHash(passwordEncoder.encode(rawPassword));
         }
         existing.setUpdatedAt(LocalDateTime.now());
-        existing.setUpdatedBy(actor != null ? actor : currentMemberId());
+        existing.setUpdatedBy(resolveActor(actor));
         return repository.save(existing);
     }
 
-    public void delete(String memberId) {
-        Member existing = get(memberId);
+    public void delete(String memberId, String actor) {
+        Member existing = repository
+            .findByIdCompanyIdAndIdMemberId(MemberUserDetailsService.DEFAULT_COMPANY, memberId)
+            .orElseThrow(() -> new NotFoundException("Member not found: " + memberId));
         existing.setDeleteMark("Y");
         existing.setUpdatedAt(LocalDateTime.now());
-        existing.setUpdatedBy(currentMemberId());
+        existing.setUpdatedBy(resolveActor(actor));
         repository.save(existing);
+    }
+
+    private String resolveActor(String actor) {
+        if (actor != null && !actor.isBlank()) {
+            return actor;
+        }
+        return currentMemberId();
     }
 
     private String currentMemberId() {
