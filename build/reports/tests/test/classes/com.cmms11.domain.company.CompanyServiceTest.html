@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - CompanyServiceTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>CompanyServiceTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.cmms11.domain.company.html">com.cmms11.domain.company</a> &gt; CompanyServiceTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">7</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.211s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">createNewCompany_insertsRecordWithAuditFields()</td>
+<td class="success">0.089s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createReactivatesSoftDeletedCompany()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createThrowsWhenCompanyAlreadyExists()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteMarksCompanyAsDeleted()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getThrowsNotFoundForMissingCompany()</td>
+<td class="success">0.058s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">listReturnsOnlyActiveCompaniesMatchingKeyword()</td>
+<td class="success">0.021s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateModifiesExistingCompany()</td>
+<td class="success">0.028s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2025-09-24T22:29:12.246+09:00  INFO 26452 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.cmms11.domain.company.CompanyServiceTest]: CompanyServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-24T22:29:12.281+09:00  INFO 26452 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.cmms11.Cmms11Application for test class com.cmms11.domain.company.CompanyServiceTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2025-09-24T22:29:12.316+09:00  INFO 26452 --- [    Test worker] c.c.domain.company.CompanyServiceTest    : Starting CompanyServiceTest using Java 21.0.8 with PID 26452 (started by polkn in C:\Users\polkn\codex\cmms11)
+2025-09-24T22:29:12.317+09:00  INFO 26452 --- [    Test worker] c.c.domain.company.CompanyServiceTest    : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-09-24T22:29:12.492+09:00  INFO 26452 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-24T22:29:12.614+09:00  INFO 26452 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 110 ms. Found 24 JPA repository interfaces.
+2025-09-24T22:29:12.660+09:00  INFO 26452 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2025-09-24T22:29:12.720+09:00  INFO 26452 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:2460eff7-790e-45a6-bbee-1e705b4f5439;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2025-09-24T22:29:12.984+09:00  INFO 26452 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-24T22:29:13.045+09:00  INFO 26452 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-09-24T22:29:13.081+09:00  INFO 26452 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-24T22:29:13.193+09:00  INFO 26452 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-24T22:29:13.239+09:00  WARN 26452 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-24T22:29:14.185+09:00  INFO 26452 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists approval cascade 
+Hibernate: drop table if exists approval_step cascade 
+Hibernate: drop table if exists code_item cascade 
+Hibernate: drop table if exists code_type cascade 
+Hibernate: drop table if exists company cascade 
+Hibernate: drop table if exists dept cascade 
+Hibernate: drop table if exists file_group cascade 
+Hibernate: drop table if exists file_item cascade 
+Hibernate: drop table if exists func cascade 
+Hibernate: drop table if exists inspection cascade 
+Hibernate: drop table if exists inspection_item cascade 
+Hibernate: drop table if exists inventory cascade 
+Hibernate: drop table if exists inventory_closing cascade 
+Hibernate: drop table if exists inventory_history cascade 
+Hibernate: drop table if exists inventory_stock cascade 
+Hibernate: drop table if exists member cascade 
+Hibernate: drop table if exists memo cascade 
+Hibernate: drop table if exists plant cascade 
+Hibernate: drop table if exists role cascade 
+Hibernate: drop table if exists sequence cascade 
+Hibernate: drop table if exists site cascade 
+Hibernate: drop table if exists storage cascade 
+Hibernate: drop table if exists work_order cascade 
+Hibernate: drop table if exists work_permit cascade 
+Hibernate: create table approval (company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), approval_id varchar(10) not null, created_by varchar(10), file_group_id varchar(10), ref_id varchar(10), status varchar(10), updated_by varchar(10), ref_entity varchar(64), title varchar(100), content clob, primary key (company_id, approval_id))
+Hibernate: create table approval_step (step_no integer not null, company_id varchar(5) not null, decision varchar(5), member_id varchar(5), decided_at timestamp(6), approval_id varchar(10) not null, comment varchar(500), primary key (step_no, company_id, approval_id))
+Hibernate: create table code_item (code varchar(5) not null, code_type varchar(5) not null, company_id varchar(5) not null, name varchar(100), note varchar(500), primary key (code, code_type, company_id))
+Hibernate: create table code_type (delete_mark varchar(1), code_type varchar(5) not null, company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (code_type, company_id))
+Hibernate: create table company (delete_mark varchar(1), company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), bizno varchar(50), email varchar(100), name varchar(100), phone varchar(100), note varchar(500), primary key (company_id))
+Hibernate: create table dept (delete_mark varchar(1), company_id varchar(5) not null, dept_id varchar(5) not null, parent_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), status varchar(20), phone varchar(30), name varchar(100), address varchar(200), note varchar(500), primary key (company_id, dept_id))
+Hibernate: create table file_group (delete_mark varchar(1), company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10) not null, ref_id varchar(10), updated_by varchar(10), ref_entity varchar(64), note varchar(500), primary key (company_id, file_group_id))
+Hibernate: create table file_item (delete_mark varchar(1), line_no integer, company_id varchar(5) not null, created_at timestamp(6), size bigint, updated_at timestamp(6), created_by varchar(10), ext varchar(10), file_group_id varchar(10) not null, file_id varchar(10) not null, updated_by varchar(10), checksum_sha256 varchar(64), mime varchar(100), note varchar(500), original_name varchar(255), storage_path varchar(255), stored_name varchar(255), primary key (company_id, file_group_id, file_id))
+Hibernate: create table func (delete_mark varchar(1), company_id varchar(5) not null, func_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, func_id))
+Hibernate: create table inspection (actual_date date, planned_date date, company_id varchar(5) not null, dept_id varchar(5), job_id varchar(5), member_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), inspection_id varchar(10) not null, plant_id varchar(10), status varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, inspection_id))
+Hibernate: create table inspection_item (line_no integer not null, company_id varchar(5) not null, inspection_id varchar(10) not null, max_val varchar(50), min_val varchar(50), result_val varchar(50), std_val varchar(50), unit varchar(50), method varchar(100), name varchar(100), note varchar(500), primary key (line_no, company_id, inspection_id))
+Hibernate: create table inventory (delete_mark varchar(1), asset_id varchar(5), company_id varchar(5) not null, dept_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), inventory_id varchar(10) not null, status varchar(10), updated_by varchar(10), maker_name varchar(100), model varchar(100), name varchar(100), serial varchar(100), spec varchar(100), note varchar(500), primary key (company_id, inventory_id))
+Hibernate: create table inventory_closing (adj_amount numeric(18,2), adj_qty numeric(18,3), begin_amount numeric(18,2), begin_qty numeric(18,3), end_amount numeric(18,2), end_qty numeric(18,3), in_amount numeric(18,2), in_qty numeric(18,3), move_amount numeric(18,2), move_qty numeric(18,2), out_amount numeric(18,2), out_qty numeric(18,3), company_id varchar(5) not null, status varchar(5), storage_id varchar(5) not null, yyyymm varchar(6) not null, closed_at timestamp(6), closed_by varchar(10), inventory_id varchar(10) not null, primary key (company_id, storage_id, yyyymm, inventory_id))
+Hibernate: create table inventory_history (amount numeric(18,2), in_qty numeric(18,3), out_qty numeric(18,3), ref_line integer, tx_date date, unit_cost numeric(18,6), company_id varchar(5) not null, storage_id varchar(5), tx_type varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), history_id varchar(10) not null, inventory_id varchar(10), ref_no varchar(10), updated_by varchar(10), note varchar(500), primary key (company_id, history_id))
+Hibernate: create table inventory_stock (amount numeric(18,2), qty numeric(18,3), company_id varchar(5) not null, storage_id varchar(5) not null, updated_at timestamp(6), inventory_id varchar(10) not null, updated_by varchar(10), primary key (company_id, storage_id, inventory_id))
+Hibernate: create table member (delete_mark varchar(1), company_id varchar(5) not null, dept_id varchar(5), member_id varchar(5) not null, site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), email varchar(100), name varchar(100), password_hash varchar(100), phone varchar(100), note varchar(500), primary key (company_id, member_id))
+Hibernate: create table memo (company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), memo_id varchar(10) not null, ref_id varchar(10), updated_by varchar(10), ref_entity varchar(64), title varchar(100), content clob, primary key (company_id, memo_id))
+Hibernate: create table plant (delete_mark varchar(1), depre_period integer, inspection_interval integer, inspection_yn varchar(1), install_date date, last_inspection date, next_inspection date, psm_yn varchar(1), purchase_cost numeric(18,2), residual_value numeric(18,2), workpermit_yn varchar(1), asset_id varchar(5), company_id varchar(5) not null, depre_id varchar(5), dept_id varchar(5), func_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), plant_id varchar(10) not null, status varchar(10), updated_by varchar(10), maker_name varchar(100), model varchar(100), name varchar(100) not null, serial varchar(100), spec varchar(100), note varchar(500), primary key (company_id, plant_id))
+Hibernate: create table role (delete_mark varchar(1), company_id varchar(5) not null, role_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, role_id))
+Hibernate: create table sequence (module_code varchar(1) not null, next_seq integer, company_id varchar(5) not null, date_key varchar(6) not null, primary key (module_code, company_id, date_key))
+Hibernate: create table site (delete_mark varchar(1), company_id varchar(5) not null, site_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), status varchar(20), phone varchar(30), name varchar(100), address varchar(200), note varchar(500), primary key (company_id, site_id))
+Hibernate: create table storage (delete_mark varchar(1), company_id varchar(5) not null, storage_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, storage_id))
+Hibernate: create table work_order (actual_cost numeric(18,2), actual_date date, actual_labor numeric(18,2), planned_cost numeric(18,2), planned_date date, planned_labor numeric(18,2), company_id varchar(5) not null, dept_id varchar(5), job_id varchar(5), member_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), order_id varchar(10) not null, plant_id varchar(10), status varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, order_id))
+Hibernate: create table work_permit (actual_date date, planned_date date, company_id varchar(5) not null, dept_id varchar(5), job_id varchar(5), member_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), permit_id varchar(10) not null, plant_id varchar(10), status varchar(10), updated_by varchar(10), name varchar(100), hazard_factor varchar(500), note varchar(500), safety_factor varchar(500), work_summary varchar(500), checksheet_json clob, primary key (company_id, permit_id))
+2025-09-24T22:29:14.240+09:00  INFO 26452 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-24T22:29:14.549+09:00  INFO 26452 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-24T22:29:15.572+09:00  INFO 26452 --- [    Test worker] c.c.domain.company.CompanyServiceTest    : Started CompanyServiceTest in 3.288 seconds (process running for 9.06)
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=? and c1_0.delete_mark=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: insert into company (bizno,created_at,created_by,delete_mark,email,name,note,phone,updated_at,updated_by,company_id) values (?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=? and c1_0.delete_mark=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: insert into company (bizno,created_at,created_by,delete_mark,email,name,note,phone,updated_at,updated_by,company_id) values (?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into company (bizno,created_at,created_by,delete_mark,email,name,note,phone,updated_at,updated_by,company_id) values (?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into company (bizno,created_at,created_by,delete_mark,email,name,note,phone,updated_at,updated_by,company_id) values (?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.delete_mark=? and upper(c1_0.name) like upper(?) escape '\' fetch first ? rows only
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+Hibernate: insert into company (bizno,created_at,created_by,delete_mark,email,name,note,phone,updated_at,updated_by,company_id) values (?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=? and c1_0.delete_mark=?
+Hibernate: select c1_0.company_id,c1_0.bizno,c1_0.created_at,c1_0.created_by,c1_0.delete_mark,c1_0.email,c1_0.name,c1_0.note,c1_0.phone,c1_0.updated_at,c1_0.updated_by from company c1_0 where c1_0.company_id=?
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14</a> at 2025. 9. 24. 오후 10:29:21</p>
+</div>
+</div>
+</body>
+</html>

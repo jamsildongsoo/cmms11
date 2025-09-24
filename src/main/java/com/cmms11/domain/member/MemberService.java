@@ -72,6 +72,7 @@ public class MemberService {
         existing.setDeptId(member.getDeptId());
         existing.setEmail(member.getEmail());
         existing.setPhone(member.getPhone());
+        existing.setSiteId(member.getSiteId());
         existing.setNote(member.getNote());
 
         Optional.ofNullable(member.getDeleteMark()).ifPresent(existing::setDeleteMark);

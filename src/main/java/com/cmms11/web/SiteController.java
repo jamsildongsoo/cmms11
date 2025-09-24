@@ -3,11 +3,13 @@ package com.cmms11.web;
 import com.cmms11.domain.site.SiteRequest;
 import com.cmms11.domain.site.SiteResponse;
 import com.cmms11.domain.site.SiteService;
+import com.cmms11.domain.company.CompanyService;
+import com.cmms11.domain.company.CompanyResponse;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,9 +35,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SiteController {
 
     private final SiteService service;
+    private final CompanyService companyService;
 
-    public SiteController(SiteService service) {
+    public SiteController(SiteService service, CompanyService companyService) {
         this.service = service;
+        this.companyService = companyService;
     }
 
     // 웹 컨트롤러 화면 제공
@@ -134,10 +138,9 @@ public class SiteController {
         );
     }
 
-    private List<Map<String, String>> getCompanyList() {
-        // 기본 회사 목록 (실제로는 CompanyService에서 가져와야 함)
-        return List.of(
-            Map.of("companyId", "C0001", "name", "Sample Company")
-        );
+    private List<CompanyResponse> getCompanyList() {
+        // 실제 회사 목록을 CompanyService에서 가져옴
+        Page<CompanyResponse> companies = companyService.list(null, PageRequest.of(0, 1000));
+        return companies.getContent();
     }
 }

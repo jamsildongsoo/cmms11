@@ -43,17 +43,18 @@
                   <div class="section-title">필터</div>
                   <div class="grid cols-12">
                     <div class="col-span-3">
-                      <input class="input" placeholder="설비번호" />
+                      <input class="input" placeholder="설비번호" name="plantId" th:value="${plantId}" />
                     </div>         
                     <div class="col-span-3">
-                      <input class="input" placeholder="검색어(번호/이름)" />
+                      <input class="input" placeholder="검색어(번호/이름)" name="q" th:value="${keyword}" />
                     </div>   
                     <div class="col-span-3">
-                      <select>
+                      <select name="deptId">
                         <option value="">부서 전체</option>
-                        <option value="EQ">설비과</option>
-                        <option value="AS">자산과</option>
-                        <option value="EL">전기과</option>
+                        <option th:each="dept : ${depts}" 
+                                th:value="${dept.deptId}" 
+                                th:text="${dept.name}"
+                                th:selected="${deptId == dept.deptId}"></option>
                       </select>
                     </div>
                     <div class="col-span-3" style="display:flex;gap:8px;justify-content:flex-end">
@@ -101,8 +102,9 @@
                 <div class="row" style="margin-top:12px">
                   <div class="spacer"></div>
                   <div class="pagination">
-                    <button class="btn sm" disabled>이전</button>
-                    <button class="btn sm">다음</button>
+                    <button class="btn sm" th:disabled="${page.first}" th:onclick="'location.href=\'/plant/list?page=' + ${page.number - 1} + '&q=' + encodeURIComponent(\'${keyword}\')'">이전</button>
+                    <span th:text="${page.number + 1} + ' / ' + ${page.totalPages}">1 / 1</span>
+                    <button class="btn sm" th:disabled="${page.last}" th:onclick="'location.href=\'/plant/list?page=' + ${page.number + 1} + '&q=' + encodeURIComponent(\'${keyword}\')'">다음</button>
                   </div>
                 </div>
               </div>

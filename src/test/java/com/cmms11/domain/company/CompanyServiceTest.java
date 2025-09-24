@@ -53,7 +53,7 @@ class CompanyServiceTest {
 
     @Test
     void createNewCompany_insertsRecordWithAuditFields() {
-        CompanyRequest request = new CompanyRequest("C9000", "Test Company", "memo");
+        CompanyRequest request = new CompanyRequest("C9000", "Test Company", "123-45-67890", "test@company.com", "02-1234-5678", "memo");
 
         CompanyResponse response = service.create(request);
 
@@ -74,7 +74,7 @@ class CompanyServiceTest {
         existing.setDeleteMark("Y");
         repository.save(existing);
 
-        CompanyResponse response = service.create(new CompanyRequest("C8000", "Reactivated", "note"));
+        CompanyResponse response = service.create(new CompanyRequest("C8000", "Reactivated", "123-45-67890", "test@company.com", "02-1234-5678", "note"));
 
         assertThat(response.companyId()).isEqualTo("C8000");
         assertThat(response.deleteMark()).isEqualTo("N");
@@ -89,7 +89,7 @@ class CompanyServiceTest {
         existing.setDeleteMark("N");
         repository.save(existing);
 
-        assertThatThrownBy(() -> service.create(new CompanyRequest("C7000", "Another", null)))
+        assertThatThrownBy(() -> service.create(new CompanyRequest("C7000", "Another", "123-45-67890", "test@company.com", "02-1234-5678", null)))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("C7000");
     }
@@ -102,7 +102,7 @@ class CompanyServiceTest {
         existing.setDeleteMark("N");
         repository.save(existing);
 
-        CompanyResponse response = service.update("C6000", new CompanyRequest("C6000", "After", "memo"));
+        CompanyResponse response = service.update("C6000", new CompanyRequest("C6000", "After", "123-45-67890", "test@company.com", "02-1234-5678", "memo"));
 
         assertThat(response.name()).isEqualTo("After");
         assertThat(repository.findById("C6000").orElseThrow().getName()).isEqualTo("After");

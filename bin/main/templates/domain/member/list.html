@@ -69,6 +69,7 @@
                       <th>이름</th>
                       <th style="width:140px">부서</th>
                       <th style="width:200px">이메일</th>
+                      <th style="width:100px">사이트</th>
                       <th style="width:100px">상태</th>
                       <th style="width:140px">액션</th>
                     </tr>
@@ -79,6 +80,7 @@
                       <td th:text="${member.name}">-</td>
                       <td th:text="${member.deptId}">-</td>
                       <td th:text="${member.email}">-</td>
+                      <td th:text="${member.siteId}">-</td>
                       <td>
                         <span class="badge" th:text="${member.deleteMark == 'N' ? '정상' : '중지'}" th:classappend="${member.deleteMark == 'N' ? 'badge' : 'badge danger'}">-</span>
                       </td>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - InventoryServiceUploadTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>InventoryServiceUploadTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.cmms11.inventory.html">com.cmms11.inventory</a> &gt; InventoryServiceUploadTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.036s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">uploadCollectsErrorsAndPersistsValidRows()</td>
+<td class="success">0.016s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">uploadCreatesInventories()</td>
+<td class="success">0.020s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2025-09-24T22:29:19.119+09:00  INFO 26452 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.cmms11.inventory.InventoryServiceUploadTest]: InventoryServiceUploadTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-24T22:29:19.124+09:00  INFO 26452 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.cmms11.Cmms11Application for test class com.cmms11.inventory.InventoryServiceUploadTest
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where s1_0.company_id=? and s1_0.module_code=? and s1_0.date_key=? for update
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where (s1_0.company_id,s1_0.date_key,s1_0.module_code) in ((?,?,?))
+Hibernate: select i1_0.company_id,i1_0.inventory_id,i1_0.asset_id,i1_0.created_at,i1_0.created_by,i1_0.delete_mark,i1_0.dept_id,i1_0.file_group_id,i1_0.maker_name,i1_0.model,i1_0.name,i1_0.note,i1_0.serial,i1_0.spec,i1_0.status,i1_0.updated_at,i1_0.updated_by from inventory i1_0 where (i1_0.company_id,i1_0.inventory_id) in ((?,?))
+Hibernate: select i1_0.company_id,i1_0.inventory_id,i1_0.asset_id,i1_0.created_at,i1_0.created_by,i1_0.delete_mark,i1_0.dept_id,i1_0.file_group_id,i1_0.maker_name,i1_0.model,i1_0.name,i1_0.note,i1_0.serial,i1_0.spec,i1_0.status,i1_0.updated_at,i1_0.updated_by from inventory i1_0 where (i1_0.company_id,i1_0.inventory_id) in ((?,?))
+Hibernate: select i1_0.company_id,i1_0.inventory_id,i1_0.asset_id,i1_0.created_at,i1_0.created_by,i1_0.delete_mark,i1_0.dept_id,i1_0.file_group_id,i1_0.maker_name,i1_0.model,i1_0.name,i1_0.note,i1_0.serial,i1_0.spec,i1_0.status,i1_0.updated_at,i1_0.updated_by from inventory i1_0 where (i1_0.company_id,i1_0.inventory_id) in ((?,?))
+Hibernate: insert into sequence (next_seq,company_id,date_key,module_code) values (?,?,?,?)
+Hibernate: insert into inventory (asset_id,created_at,created_by,delete_mark,dept_id,file_group_id,maker_name,model,name,note,serial,spec,status,updated_at,updated_by,company_id,inventory_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into inventory (asset_id,created_at,created_by,delete_mark,dept_id,file_group_id,maker_name,model,name,note,serial,spec,status,updated_at,updated_by,company_id,inventory_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: update sequence set next_seq=? where company_id=? and date_key=? and module_code=?
+Hibernate: select i1_0.company_id,i1_0.inventory_id,i1_0.asset_id,i1_0.created_at,i1_0.created_by,i1_0.delete_mark,i1_0.dept_id,i1_0.file_group_id,i1_0.maker_name,i1_0.model,i1_0.name,i1_0.note,i1_0.serial,i1_0.spec,i1_0.status,i1_0.updated_at,i1_0.updated_by from inventory i1_0
+Hibernate: select i1_0.company_id,i1_0.inventory_id,i1_0.asset_id,i1_0.created_at,i1_0.created_by,i1_0.delete_mark,i1_0.dept_id,i1_0.file_group_id,i1_0.maker_name,i1_0.model,i1_0.name,i1_0.note,i1_0.serial,i1_0.spec,i1_0.status,i1_0.updated_at,i1_0.updated_by from inventory i1_0 where (i1_0.company_id,i1_0.inventory_id) in ((?,?))
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where s1_0.company_id=? and s1_0.module_code=? and s1_0.date_key=? for update
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where (s1_0.company_id,s1_0.date_key,s1_0.module_code) in ((?,?,?))
+Hibernate: select i1_0.company_id,i1_0.inventory_id,i1_0.asset_id,i1_0.created_at,i1_0.created_by,i1_0.delete_mark,i1_0.dept_id,i1_0.file_group_id,i1_0.maker_name,i1_0.model,i1_0.name,i1_0.note,i1_0.serial,i1_0.spec,i1_0.status,i1_0.updated_at,i1_0.updated_by from inventory i1_0 where (i1_0.company_id,i1_0.inventory_id) in ((?,?))
+Hibernate: insert into inventory (asset_id,created_at,created_by,delete_mark,dept_id,file_group_id,maker_name,model,name,note,serial,spec,status,updated_at,updated_by,company_id,inventory_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into sequence (next_seq,company_id,date_key,module_code) values (?,?,?,?)
+Hibernate: insert into inventory (asset_id,created_at,created_by,delete_mark,dept_id,file_group_id,maker_name,model,name,note,serial,spec,status,updated_at,updated_by,company_id,inventory_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: update sequence set next_seq=? where company_id=? and date_key=? and module_code=?
+Hibernate: select i1_0.company_id,i1_0.inventory_id,i1_0.asset_id,i1_0.created_at,i1_0.created_by,i1_0.delete_mark,i1_0.dept_id,i1_0.file_group_id,i1_0.maker_name,i1_0.model,i1_0.name,i1_0.note,i1_0.serial,i1_0.spec,i1_0.status,i1_0.updated_at,i1_0.updated_by from inventory i1_0
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14</a> at 2025. 9. 24. 오후 10:29:21</p>
+</div>
+</div>
+</body>
+</html>

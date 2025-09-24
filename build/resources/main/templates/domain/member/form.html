@@ -61,10 +61,10 @@
                         <label class="label" for="deptId">부서</label>
                         <select id="deptId" name="deptId">
                           <option value="">(선택)</option>
-                          <option value="ADMIN" th:selected="${member.deptId == 'ADMIN'}">ADMIN</option>
-                          <option value="EQ" th:selected="${member.deptId == 'EQ'}">설비</option>
-                          <option value="AS" th:selected="${member.deptId == 'AS'}">자산</option>
-                          <option value="EL" th:selected="${member.deptId == 'EL'}">전기</option>
+                          <option th:each="dept : ${depts}" 
+                                  th:value="${dept.deptId}" 
+                                  th:text="${dept.name}"
+                                  th:selected="${member.deptId == dept.deptId}"></option>
                         </select>
                       </div>
                     </div>
@@ -79,6 +79,13 @@
                         <input id="phone" name="phone" class="input" type="tel" maxlength="100" 
                               th:value="${member.phone}" />
                       </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="siteId">사이트</label>
+                        <input id="siteId" name="siteId" class="input" type="text" maxlength="5" 
+                              th:value="${member.siteId}" />
+                      </div>
+                    </div>
+                    <div class="grid cols-12">
                       <div class="form-row col-span-4">
                         <label class="label" for="password">비밀번호</label>
                         <input id="password" name="password" class="input" type="password" maxlength="100" autocomplete="new-password" />

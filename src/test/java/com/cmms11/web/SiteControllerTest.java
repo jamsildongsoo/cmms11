@@ -19,6 +19,8 @@ import com.cmms11.domain.site.SiteId;
 import com.cmms11.domain.site.SiteRequest;
 import com.cmms11.domain.site.SiteResponse;
 import com.cmms11.domain.site.SiteService;
+import com.cmms11.security.MemberUserDetailsService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,8 @@ class SiteControllerTest {
 
     @Test
     void listSitesDelegatesToService() throws Exception {
-        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", "Primary", "N", null, null, null, null);
+        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", "ACTIVE", "Primary", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
         Page<SiteResponse> page = new PageImpl<>(List.of(siteResponse), PageRequest.of(0, 20), 1);
 
         when(service.list(eq("Main"), any(Pageable.class))).thenReturn(page);
@@ -59,7 +62,8 @@ class SiteControllerTest {
 
     @Test
     void getSiteReturnsEntity() throws Exception {
-        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", "Primary", "N", null, null, null, null);
+        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", "ACTIVE", "Primary", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
 
         when(service.get("S0001")).thenReturn(siteResponse);
 
@@ -73,7 +77,8 @@ class SiteControllerTest {
 
     @Test
     void createSiteReturnsCreated() throws Exception {
-        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", "Primary", "N", null, null, null, null);
+        SiteResponse siteResponse = new SiteResponse("S0001", "Main Site", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", "ACTIVE", "Primary", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
 
         when(service.create(any(SiteRequest.class))).thenReturn(siteResponse);
 
@@ -89,7 +94,8 @@ class SiteControllerTest {
 
     @Test
     void updateSiteReturnsUpdated() throws Exception {
-        SiteResponse siteResponse = new SiteResponse("S0001", "Updated Site", "Updated", "N", null, null, null, null);
+        SiteResponse siteResponse = new SiteResponse("S0001", "Updated Site", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", "ACTIVE", "Updated", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
 
         when(service.update(eq("S0001"), any(SiteRequest.class))).thenReturn(siteResponse);
 

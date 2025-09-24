@@ -24,11 +24,11 @@ class SiteServiceTest {
 
     @Test
     void createSearchAndSoftDeleteSite() {
-        SiteRequest request = new SiteRequest("S0001", "Main Site", "Primary");
+        SiteRequest request = new SiteRequest("S0001", "Main Site", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", "ACTIVE", "Primary");
         SiteResponse created = service.create(request);
 
         assertThat(created.siteId()).isEqualTo("S0001");
-        assertThat(created.name()).isEqualTo("Main Site");
+        assertThat(created.siteName()).isEqualTo("Main Site");
 
         Page<SiteResponse> page = service.list(null, PageRequest.of(0, 10));
         assertThat(page.getTotalElements()).isEqualTo(1);
@@ -36,9 +36,9 @@ class SiteServiceTest {
         Page<SiteResponse> searchPage = service.list("Main", PageRequest.of(0, 10));
         assertThat(searchPage.getTotalElements()).isEqualTo(1);
 
-        SiteRequest updateRequest = new SiteRequest("S0001", "Updated Site", "Updated");
+        SiteRequest updateRequest = new SiteRequest("S0001", "Updated Site", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", "ACTIVE", "Updated");
         SiteResponse updated = service.update("S0001", updateRequest);
-        assertThat(updated.name()).isEqualTo("Updated Site");
+        assertThat(updated.siteName()).isEqualTo("Updated Site");
 
         service.delete("S0001");
 

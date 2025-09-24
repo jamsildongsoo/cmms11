@@ -31,6 +31,9 @@ public class Member {
     @Column(length = 100)
     private String phone;
 
+    @Column(name = "site_id", length = 5)
+    private String siteId;
+
     @Column(length = 500)
     private String note;
 

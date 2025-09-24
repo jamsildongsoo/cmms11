@@ -62,6 +62,7 @@ CREATE TABLE member (
   password_hash VARCHAR(100),
   email VARCHAR(100),
   phone VARCHAR(100),
+  siteId  CHAR(5),  //member의 siteId는 운영 편의를 위한 참고값임. 트랜잭션 때 기본값 설정.변경 가능 
   note       VARCHAR(500),
   delete_mark CHAR(1) DEFAULT 'N',
   created_at TIMESTAMP,

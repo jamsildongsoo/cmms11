@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.cmms11.domain.member.MemberAuthServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-09-24T13:29:16.487Z" hostname="BOOK-87K1SFE0DT" time="0.009">
+  <properties/>
+  <testcase name="getAuthenticatedMemberReturnsResponseWhenAuthenticated()" classname="com.cmms11.domain.member.MemberAuthServiceTest" time="0.004"/>
+  <testcase name="getAuthenticatedMemberThrowsWhenAuthenticationMissing()" classname="com.cmms11.domain.member.MemberAuthServiceTest" time="0.004"/>
+  <testcase name="getAuthenticatedMemberThrowsWhenAuthenticationInvalid()" classname="com.cmms11.domain.member.MemberAuthServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

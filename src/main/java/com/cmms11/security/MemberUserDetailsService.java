@@ -45,5 +45,62 @@ public class MemberUserDetailsService implements UserDetailsService {
         }
         return new User(memberId, m.getPasswordHash(), enabled, true, true, true, auths);
     }
+    
+    /**
+     * 현재 인증된 사용자의 회사코드를 반환
+     * loadUserByUsername에서 이미 파싱한 정보를 재사용
+     * @return 회사코드 (예: C0001, C0002 등)
+     */
+    public static String getCurrentUserCompanyId() {
+        try {
+            org.springframework.security.core.Authentication authentication = 
+                org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+            
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return DEFAULT_COMPANY;
+            }
+            
+            String username = authentication.getName();
+            
+            // loadUserByUsername에서 이미 파싱한 로직과 동일
+            if (username != null && username.contains(":")) {
+                String[] parts = username.split(":", 2);
+                return parts[0]; // 회사코드 반환
+            }
+            
+            return DEFAULT_COMPANY;
+            
+        } catch (Exception e) {
+            return DEFAULT_COMPANY;
+        }
+    }
+    
+    /**
+     * 현재 인증된 사용자의 멤버 ID를 반환
+     * @return 멤버 ID (예: admin, user001 등)
+     */
+    public static String getCurrentMemberId() {
+        try {
+            org.springframework.security.core.Authentication authentication = 
+                org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+            
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return "system";
+            }
+            
+            String username = authentication.getName();
+            
+            // loadUserByUsername에서 이미 파싱한 로직과 동일
+            if (username != null && username.contains(":")) {
+                String[] parts = username.split(":", 2);
+                return parts[1]; // 멤버 ID 반환
+            }
+            
+            return username != null ? username : "system";
+            
+        } catch (Exception e) {
+            return "system";
+        }
+    }
 }
 

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - PlantServiceUploadTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>PlantServiceUploadTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.cmms11.plant.html">com.cmms11.plant</a> &gt; PlantServiceUploadTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.036s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">uploadCollectsRowErrorsWithoutStoppingProcessing()</td>
+<td class="success">0.012s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">uploadCreatesMultiplePlants()</td>
+<td class="success">0.024s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2025-09-24T22:29:19.711+09:00  INFO 26452 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.cmms11.plant.PlantServiceUploadTest]: PlantServiceUploadTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-24T22:29:19.724+09:00  INFO 26452 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.cmms11.Cmms11Application for test class com.cmms11.plant.PlantServiceUploadTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2025-09-24T22:29:19.742+09:00  INFO 26452 --- [    Test worker] c.cmms11.plant.PlantServiceUploadTest    : Starting PlantServiceUploadTest using Java 21.0.8 with PID 26452 (started by polkn in C:\Users\polkn\codex\cmms11)
+2025-09-24T22:29:19.742+09:00  INFO 26452 --- [    Test worker] c.cmms11.plant.PlantServiceUploadTest    : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-09-24T22:29:19.827+09:00  INFO 26452 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-24T22:29:19.867+09:00  INFO 26452 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 39 ms. Found 24 JPA repository interfaces.
+2025-09-24T22:29:19.875+09:00  INFO 26452 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2025-09-24T22:29:19.884+09:00  INFO 26452 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:235b445e-b5df-4973-a266-06219a42facf;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2025-09-24T22:29:19.903+09:00  INFO 26452 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-24T22:29:19.907+09:00  INFO 26452 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-24T22:29:19.916+09:00  INFO 26452 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-24T22:29:19.917+09:00  WARN 26452 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-24T22:29:20.067+09:00  INFO 26452 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists approval cascade 
+Hibernate: drop table if exists approval_step cascade 
+Hibernate: drop table if exists code_item cascade 
+Hibernate: drop table if exists code_type cascade 
+Hibernate: drop table if exists company cascade 
+Hibernate: drop table if exists dept cascade 
+Hibernate: drop table if exists file_group cascade 
+Hibernate: drop table if exists file_item cascade 
+Hibernate: drop table if exists func cascade 
+Hibernate: drop table if exists inspection cascade 
+Hibernate: drop table if exists inspection_item cascade 
+Hibernate: drop table if exists inventory cascade 
+Hibernate: drop table if exists inventory_closing cascade 
+Hibernate: drop table if exists inventory_history cascade 
+Hibernate: drop table if exists inventory_stock cascade 
+Hibernate: drop table if exists member cascade 
+Hibernate: drop table if exists memo cascade 
+Hibernate: drop table if exists plant cascade 
+Hibernate: drop table if exists role cascade 
+Hibernate: drop table if exists sequence cascade 
+Hibernate: drop table if exists site cascade 
+Hibernate: drop table if exists storage cascade 
+Hibernate: drop table if exists work_order cascade 
+Hibernate: drop table if exists work_permit cascade 
+Hibernate: create table approval (company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), approval_id varchar(10) not null, created_by varchar(10), file_group_id varchar(10), ref_id varchar(10), status varchar(10), updated_by varchar(10), ref_entity varchar(64), title varchar(100), content clob, primary key (company_id, approval_id))
+Hibernate: create table approval_step (step_no integer not null, company_id varchar(5) not null, decision varchar(5), member_id varchar(5), decided_at timestamp(6), approval_id varchar(10) not null, comment varchar(500), primary key (step_no, company_id, approval_id))
+Hibernate: create table code_item (code varchar(5) not null, code_type varchar(5) not null, company_id varchar(5) not null, name varchar(100), note varchar(500), primary key (code, code_type, company_id))
+Hibernate: create table code_type (delete_mark varchar(1), code_type varchar(5) not null, company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (code_type, company_id))
+Hibernate: create table company (delete_mark varchar(1), company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), bizno varchar(50), email varchar(100), name varchar(100), phone varchar(100), note varchar(500), primary key (company_id))
+Hibernate: create table dept (delete_mark varchar(1), company_id varchar(5) not null, dept_id varchar(5) not null, parent_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), status varchar(20), phone varchar(30), name varchar(100), address varchar(200), note varchar(500), primary key (company_id, dept_id))
+Hibernate: create table file_group (delete_mark varchar(1), company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10) not null, ref_id varchar(10), updated_by varchar(10), ref_entity varchar(64), note varchar(500), primary key (company_id, file_group_id))
+Hibernate: create table file_item (delete_mark varchar(1), line_no integer, company_id varchar(5) not null, created_at timestamp(6), size bigint, updated_at timestamp(6), created_by varchar(10), ext varchar(10), file_group_id varchar(10) not null, file_id varchar(10) not null, updated_by varchar(10), checksum_sha256 varchar(64), mime varchar(100), note varchar(500), original_name varchar(255), storage_path varchar(255), stored_name varchar(255), primary key (company_id, file_group_id, file_id))
+Hibernate: create table func (delete_mark varchar(1), company_id varchar(5) not null, func_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, func_id))
+Hibernate: create table inspection (actual_date date, planned_date date, company_id varchar(5) not null, dept_id varchar(5), job_id varchar(5), member_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), inspection_id varchar(10) not null, plant_id varchar(10), status varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, inspection_id))
+Hibernate: create table inspection_item (line_no integer not null, company_id varchar(5) not null, inspection_id varchar(10) not null, max_val varchar(50), min_val varchar(50), result_val varchar(50), std_val varchar(50), unit varchar(50), method varchar(100), name varchar(100), note varchar(500), primary key (line_no, company_id, inspection_id))
+Hibernate: create table inventory (delete_mark varchar(1), asset_id varchar(5), company_id varchar(5) not null, dept_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), inventory_id varchar(10) not null, status varchar(10), updated_by varchar(10), maker_name varchar(100), model varchar(100), name varchar(100), serial varchar(100), spec varchar(100), note varchar(500), primary key (company_id, inventory_id))
+Hibernate: create table inventory_closing (adj_amount numeric(18,2), adj_qty numeric(18,3), begin_amount numeric(18,2), begin_qty numeric(18,3), end_amount numeric(18,2), end_qty numeric(18,3), in_amount numeric(18,2), in_qty numeric(18,3), move_amount numeric(18,2), move_qty numeric(18,2), out_amount numeric(18,2), out_qty numeric(18,3), company_id varchar(5) not null, status varchar(5), storage_id varchar(5) not null, yyyymm varchar(6) not null, closed_at timestamp(6), closed_by varchar(10), inventory_id varchar(10) not null, primary key (company_id, storage_id, yyyymm, inventory_id))
+Hibernate: create table inventory_history (amount numeric(18,2), in_qty numeric(18,3), out_qty numeric(18,3), ref_line integer, tx_date date, unit_cost numeric(18,6), company_id varchar(5) not null, storage_id varchar(5), tx_type varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), history_id varchar(10) not null, inventory_id varchar(10), ref_no varchar(10), updated_by varchar(10), note varchar(500), primary key (company_id, history_id))
+Hibernate: create table inventory_stock (amount numeric(18,2), qty numeric(18,3), company_id varchar(5) not null, storage_id varchar(5) not null, updated_at timestamp(6), inventory_id varchar(10) not null, updated_by varchar(10), primary key (company_id, storage_id, inventory_id))
+Hibernate: create table member (delete_mark varchar(1), company_id varchar(5) not null, dept_id varchar(5), member_id varchar(5) not null, site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), email varchar(100), name varchar(100), password_hash varchar(100), phone varchar(100), note varchar(500), primary key (company_id, member_id))
+Hibernate: create table memo (company_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), memo_id varchar(10) not null, ref_id varchar(10), updated_by varchar(10), ref_entity varchar(64), title varchar(100), content clob, primary key (company_id, memo_id))
+Hibernate: create table plant (delete_mark varchar(1), depre_period integer, inspection_interval integer, inspection_yn varchar(1), install_date date, last_inspection date, next_inspection date, psm_yn varchar(1), purchase_cost numeric(18,2), residual_value numeric(18,2), workpermit_yn varchar(1), asset_id varchar(5), company_id varchar(5) not null, depre_id varchar(5), dept_id varchar(5), func_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), plant_id varchar(10) not null, status varchar(10), updated_by varchar(10), maker_name varchar(100), model varchar(100), name varchar(100) not null, serial varchar(100), spec varchar(100), note varchar(500), primary key (company_id, plant_id))
+Hibernate: create table role (delete_mark varchar(1), company_id varchar(5) not null, role_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, role_id))
+Hibernate: create table sequence (module_code varchar(1) not null, next_seq integer, company_id varchar(5) not null, date_key varchar(6) not null, primary key (module_code, company_id, date_key))
+Hibernate: create table site (delete_mark varchar(1), company_id varchar(5) not null, site_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), status varchar(20), phone varchar(30), name varchar(100), address varchar(200), note varchar(500), primary key (company_id, site_id))
+Hibernate: create table storage (delete_mark varchar(1), company_id varchar(5) not null, storage_id varchar(5) not null, created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, storage_id))
+Hibernate: create table work_order (actual_cost numeric(18,2), actual_date date, actual_labor numeric(18,2), planned_cost numeric(18,2), planned_date date, planned_labor numeric(18,2), company_id varchar(5) not null, dept_id varchar(5), job_id varchar(5), member_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), order_id varchar(10) not null, plant_id varchar(10), status varchar(10), updated_by varchar(10), name varchar(100), note varchar(500), primary key (company_id, order_id))
+Hibernate: create table work_permit (actual_date date, planned_date date, company_id varchar(5) not null, dept_id varchar(5), job_id varchar(5), member_id varchar(5), site_id varchar(5), created_at timestamp(6), updated_at timestamp(6), created_by varchar(10), file_group_id varchar(10), permit_id varchar(10) not null, plant_id varchar(10), status varchar(10), updated_by varchar(10), name varchar(100), hazard_factor varchar(500), note varchar(500), safety_factor varchar(500), work_summary varchar(500), checksheet_json clob, primary key (company_id, permit_id))
+2025-09-24T22:29:20.078+09:00  INFO 26452 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-24T22:29:20.216+09:00  INFO 26452 --- [    Test worker] c.cmms11.plant.PlantServiceUploadTest    : Started PlantServiceUploadTest in 0.489 seconds (process running for 13.703)
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where s1_0.company_id=? and s1_0.module_code=? and s1_0.date_key=? for update
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where (s1_0.company_id,s1_0.date_key,s1_0.module_code) in ((?,?,?))
+Hibernate: select p1_0.company_id,p1_0.plant_id,p1_0.asset_id,p1_0.created_at,p1_0.created_by,p1_0.delete_mark,p1_0.depre_id,p1_0.depre_period,p1_0.dept_id,p1_0.file_group_id,p1_0.func_id,p1_0.inspection_interval,p1_0.inspection_yn,p1_0.install_date,p1_0.last_inspection,p1_0.maker_name,p1_0.model,p1_0.name,p1_0.next_inspection,p1_0.note,p1_0.psm_yn,p1_0.purchase_cost,p1_0.residual_value,p1_0.serial,p1_0.site_id,p1_0.spec,p1_0.status,p1_0.updated_at,p1_0.updated_by,p1_0.workpermit_yn from plant p1_0 where (p1_0.company_id,p1_0.plant_id) in ((?,?))
+Hibernate: select p1_0.company_id,p1_0.plant_id,p1_0.asset_id,p1_0.created_at,p1_0.created_by,p1_0.delete_mark,p1_0.depre_id,p1_0.depre_period,p1_0.dept_id,p1_0.file_group_id,p1_0.func_id,p1_0.inspection_interval,p1_0.inspection_yn,p1_0.install_date,p1_0.last_inspection,p1_0.maker_name,p1_0.model,p1_0.name,p1_0.next_inspection,p1_0.note,p1_0.psm_yn,p1_0.purchase_cost,p1_0.residual_value,p1_0.serial,p1_0.site_id,p1_0.spec,p1_0.status,p1_0.updated_at,p1_0.updated_by,p1_0.workpermit_yn from plant p1_0 where (p1_0.company_id,p1_0.plant_id) in ((?,?))
+Hibernate: select p1_0.company_id,p1_0.plant_id,p1_0.asset_id,p1_0.created_at,p1_0.created_by,p1_0.delete_mark,p1_0.depre_id,p1_0.depre_period,p1_0.dept_id,p1_0.file_group_id,p1_0.func_id,p1_0.inspection_interval,p1_0.inspection_yn,p1_0.install_date,p1_0.last_inspection,p1_0.maker_name,p1_0.model,p1_0.name,p1_0.next_inspection,p1_0.note,p1_0.psm_yn,p1_0.purchase_cost,p1_0.residual_value,p1_0.serial,p1_0.site_id,p1_0.spec,p1_0.status,p1_0.updated_at,p1_0.updated_by,p1_0.workpermit_yn from plant p1_0 where (p1_0.company_id,p1_0.plant_id) in ((?,?))
+Hibernate: insert into sequence (next_seq,company_id,date_key,module_code) values (?,?,?,?)
+Hibernate: insert into plant (asset_id,created_at,created_by,delete_mark,depre_id,depre_period,dept_id,file_group_id,func_id,inspection_interval,inspection_yn,install_date,last_inspection,maker_name,model,name,next_inspection,note,psm_yn,purchase_cost,residual_value,serial,site_id,spec,status,updated_at,updated_by,workpermit_yn,company_id,plant_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into plant (asset_id,created_at,created_by,delete_mark,depre_id,depre_period,dept_id,file_group_id,func_id,inspection_interval,inspection_yn,install_date,last_inspection,maker_name,model,name,next_inspection,note,psm_yn,purchase_cost,residual_value,serial,site_id,spec,status,updated_at,updated_by,workpermit_yn,company_id,plant_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: update sequence set next_seq=? where company_id=? and date_key=? and module_code=?
+Hibernate: select p1_0.company_id,p1_0.plant_id,p1_0.asset_id,p1_0.created_at,p1_0.created_by,p1_0.delete_mark,p1_0.depre_id,p1_0.depre_period,p1_0.dept_id,p1_0.file_group_id,p1_0.func_id,p1_0.inspection_interval,p1_0.inspection_yn,p1_0.install_date,p1_0.last_inspection,p1_0.maker_name,p1_0.model,p1_0.name,p1_0.next_inspection,p1_0.note,p1_0.psm_yn,p1_0.purchase_cost,p1_0.residual_value,p1_0.serial,p1_0.site_id,p1_0.spec,p1_0.status,p1_0.updated_at,p1_0.updated_by,p1_0.workpermit_yn from plant p1_0
+Hibernate: select p1_0.company_id,p1_0.plant_id,p1_0.asset_id,p1_0.created_at,p1_0.created_by,p1_0.delete_mark,p1_0.depre_id,p1_0.depre_period,p1_0.dept_id,p1_0.file_group_id,p1_0.func_id,p1_0.inspection_interval,p1_0.inspection_yn,p1_0.install_date,p1_0.last_inspection,p1_0.maker_name,p1_0.model,p1_0.name,p1_0.next_inspection,p1_0.note,p1_0.psm_yn,p1_0.purchase_cost,p1_0.residual_value,p1_0.serial,p1_0.site_id,p1_0.spec,p1_0.status,p1_0.updated_at,p1_0.updated_by,p1_0.workpermit_yn from plant p1_0 where (p1_0.company_id,p1_0.plant_id) in ((?,?))
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where s1_0.company_id=? and s1_0.module_code=? and s1_0.date_key=? for update
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where (s1_0.company_id,s1_0.date_key,s1_0.module_code) in ((?,?,?))
+Hibernate: insert into plant (asset_id,created_at,created_by,delete_mark,depre_id,depre_period,dept_id,file_group_id,func_id,inspection_interval,inspection_yn,install_date,last_inspection,maker_name,model,name,next_inspection,note,psm_yn,purchase_cost,residual_value,serial,site_id,spec,status,updated_at,updated_by,workpermit_yn,company_id,plant_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into sequence (next_seq,company_id,date_key,module_code) values (?,?,?,?)
+Hibernate: update sequence set next_seq=? where company_id=? and date_key=? and module_code=?
+Hibernate: select s1_0.company_id,s1_0.date_key,s1_0.module_code,s1_0.next_seq from sequence s1_0 where s1_0.company_id=? and s1_0.module_code=? and s1_0.date_key=? for update
+Hibernate: select p1_0.company_id,p1_0.plant_id,p1_0.asset_id,p1_0.created_at,p1_0.created_by,p1_0.delete_mark,p1_0.depre_id,p1_0.depre_period,p1_0.dept_id,p1_0.file_group_id,p1_0.func_id,p1_0.inspection_interval,p1_0.inspection_yn,p1_0.install_date,p1_0.last_inspection,p1_0.maker_name,p1_0.model,p1_0.name,p1_0.next_inspection,p1_0.note,p1_0.psm_yn,p1_0.purchase_cost,p1_0.residual_value,p1_0.serial,p1_0.site_id,p1_0.spec,p1_0.status,p1_0.updated_at,p1_0.updated_by,p1_0.workpermit_yn from plant p1_0 where (p1_0.company_id,p1_0.plant_id) in ((?,?))
+Hibernate: insert into plant (asset_id,created_at,created_by,delete_mark,depre_id,depre_period,dept_id,file_group_id,func_id,inspection_interval,inspection_yn,install_date,last_inspection,maker_name,model,name,next_inspection,note,psm_yn,purchase_cost,residual_value,serial,site_id,spec,status,updated_at,updated_by,workpermit_yn,company_id,plant_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: update sequence set next_seq=? where company_id=? and date_key=? and module_code=?
+Hibernate: select p1_0.company_id,p1_0.plant_id,p1_0.asset_id,p1_0.created_at,p1_0.created_by,p1_0.delete_mark,p1_0.depre_id,p1_0.depre_period,p1_0.dept_id,p1_0.file_group_id,p1_0.func_id,p1_0.inspection_interval,p1_0.inspection_yn,p1_0.install_date,p1_0.last_inspection,p1_0.maker_name,p1_0.model,p1_0.name,p1_0.next_inspection,p1_0.note,p1_0.psm_yn,p1_0.purchase_cost,p1_0.residual_value,p1_0.serial,p1_0.site_id,p1_0.spec,p1_0.status,p1_0.updated_at,p1_0.updated_by,p1_0.workpermit_yn from plant p1_0
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14</a> at 2025. 9. 24. 오후 10:29:21</p>
+</div>
+</div>
+</body>
+</html>

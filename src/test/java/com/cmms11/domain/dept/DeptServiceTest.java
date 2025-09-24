@@ -24,11 +24,11 @@ class DeptServiceTest {
 
     @Test
     void createUpdateAndSoftDeleteDept() {
-        DeptRequest request = new DeptRequest("D0001", "Maintenance", "Handles maintenance");
+        DeptRequest request = new DeptRequest("D0001", "Maintenance", "02-1234-5678", "서울시", "ACTIVE", null, "Handles maintenance");
         DeptResponse created = service.create(request);
 
         assertThat(created.deptId()).isEqualTo("D0001");
-        assertThat(created.name()).isEqualTo("Maintenance");
+        assertThat(created.deptName()).isEqualTo("Maintenance");
 
         Page<DeptResponse> page = service.list(null, PageRequest.of(0, 10));
         assertThat(page.getTotalElements()).isEqualTo(1);
@@ -36,10 +36,10 @@ class DeptServiceTest {
         Page<DeptResponse> search = service.list("Maint", PageRequest.of(0, 10));
         assertThat(search.getTotalElements()).isEqualTo(1);
 
-        DeptRequest updateRequest = new DeptRequest("D0001", "Maintenance Updated", "Updated note");
+        DeptRequest updateRequest = new DeptRequest("D0001", "Maintenance Updated", "02-1234-5678", "서울시", "ACTIVE", null, "Updated note");
         DeptResponse updated = service.update("D0001", updateRequest);
 
-        assertThat(updated.name()).isEqualTo("Maintenance Updated");
+        assertThat(updated.deptName()).isEqualTo("Maintenance Updated");
 
         service.delete("D0001");
 

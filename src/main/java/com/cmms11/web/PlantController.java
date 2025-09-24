@@ -46,10 +46,17 @@ public class PlantController {
 
     // 웹 컨트롤러 화면 제공
     @GetMapping("/plant/list")
-    public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
+    public String listForm(@RequestParam(name = "q", required = false) String q, 
+                          @RequestParam(name = "plantId", required = false) String plantId,
+                          @RequestParam(name = "deptId", required = false) String deptId,
+                          Pageable pageable, Model model) {
         Page<PlantResponse> page = service.list(q, pageable);
         model.addAttribute("page", page);
         model.addAttribute("keyword", q);
+        model.addAttribute("plantId", plantId);
+        model.addAttribute("deptId", deptId);
+        // 부서 목록 추가
+        model.addAttribute("depts", deptService.list(null, Pageable.unpaged()).getContent());
         return "plant/list";
     }
 
@@ -59,6 +66,11 @@ public class PlantController {
         model.addAttribute("isNew", true);
         addReferenceData(model);
         return "plant/form";
+    }
+
+    @GetMapping("/plant/uploadForm")
+    public String uploadForm(Model model) {
+        return "plant/uploadForm";
     }
 
     @GetMapping("/plant/edit/{plantId}")

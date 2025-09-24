@@ -3,11 +3,14 @@ package com.cmms11.web;
 import com.cmms11.domain.member.Member;
 import com.cmms11.domain.member.MemberId;
 import com.cmms11.domain.member.MemberService;
+import com.cmms11.domain.dept.DeptService;
+import com.cmms11.domain.dept.DeptResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,9 +28,11 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class MemberController {
     private final MemberService service;
+    private final DeptService deptService;
 
-    public MemberController(MemberService service) {
+    public MemberController(MemberService service, DeptService deptService) {
         this.service = service;
+        this.deptService = deptService;
     }
 
     // 웹 컨트롤러 화면 제공
@@ -43,6 +48,9 @@ public class MemberController {
     public String newForm(Model model) {
         model.addAttribute("member", MemberForm.empty());
         model.addAttribute("isNew", true);
+        // 부서 목록 추가
+        Page<DeptResponse> depts = deptService.list(null, PageRequest.of(0, 1000));
+        model.addAttribute("depts", depts.getContent());
         return "domain/member/form";
     }
 
@@ -51,6 +59,9 @@ public class MemberController {
         Member member = service.get(memberId);
         model.addAttribute("member", MemberForm.from(member));
         model.addAttribute("isNew", false);
+        // 부서 목록 추가
+        Page<DeptResponse> depts = deptService.list(null, PageRequest.of(0, 1000));
+        model.addAttribute("depts", depts.getContent());
         return "domain/member/form";
     }
 
@@ -93,6 +104,7 @@ public class MemberController {
         member.setDeptId(req.deptId);
         member.setEmail(req.email);
         member.setPhone(req.phone);
+        member.setSiteId(req.siteId);
         member.setNote(req.note);
         if (req.deleteMark != null) {
             member.setDeleteMark(req.deleteMark);
@@ -119,6 +131,9 @@ public class MemberController {
         @Size(max = 100)
         private String phone;
 
+        @Size(max = 5)
+        private String siteId;
+
         @Size(max = 500)
         private String note;
 
@@ -139,6 +154,7 @@ public class MemberController {
             form.setDeptId(member.getDeptId());
             form.setEmail(member.getEmail());
             form.setPhone(member.getPhone());
+            form.setSiteId(member.getSiteId());
             form.setNote(member.getNote());
             form.setDeleteMark(member.getDeleteMark());
             return form;
@@ -151,6 +167,7 @@ public class MemberController {
             member.setDeptId(deptId);
             member.setEmail(email);
             member.setPhone(phone);
+            member.setSiteId(siteId);
             member.setNote(note);
             member.setDeleteMark(deleteMark != null ? deleteMark : "N");
             return member;
@@ -196,6 +213,14 @@ public class MemberController {
             this.phone = phone;
         }
 
+        public String getSiteId() {
+            return siteId;
+        }
+
+        public void setSiteId(String siteId) {
+            this.siteId = siteId;
+        }
+
         public String getNote() {
             return note;
         }
@@ -227,6 +252,7 @@ public class MemberController {
         public String deptId;
         public String email;
         public String phone;
+        public String siteId;
         public String note;
         public String password; // raw password, will be encoded
         public String deleteMark; // optional, default N

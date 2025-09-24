@@ -19,6 +19,8 @@ import com.cmms11.domain.dept.DeptId;
 import com.cmms11.domain.dept.DeptRequest;
 import com.cmms11.domain.dept.DeptResponse;
 import com.cmms11.domain.dept.DeptService;
+import com.cmms11.security.MemberUserDetailsService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,8 @@ class DeptControllerTest {
 
     @Test
     void listDeptsDelegatesToService() throws Exception {
-        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", "Handles maintenance", "N", null, null, null, null);
+        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", null, "ACTIVE", "Handles maintenance", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
         Page<DeptResponse> page = new PageImpl<>(List.of(deptResponse), PageRequest.of(0, 20), 1);
 
         when(service.list(eq("Main"), any(Pageable.class))).thenReturn(page);
@@ -59,7 +62,8 @@ class DeptControllerTest {
 
     @Test
     void getDeptReturnsEntity() throws Exception {
-        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", "Handles maintenance", "N", null, null, null, null);
+        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", null, "ACTIVE", "Handles maintenance", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
 
         when(service.get("D0001")).thenReturn(deptResponse);
 
@@ -73,7 +77,8 @@ class DeptControllerTest {
 
     @Test
     void createDeptReturnsCreated() throws Exception {
-        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", "Handles maintenance", "N", null, null, null, null);
+        DeptResponse deptResponse = new DeptResponse("D0001", "Maintenance", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", null, "ACTIVE", "Handles maintenance", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
 
         when(service.create(any(DeptRequest.class))).thenReturn(deptResponse);
 
@@ -89,7 +94,8 @@ class DeptControllerTest {
 
     @Test
     void updateDeptReturnsUpdated() throws Exception {
-        DeptResponse deptResponse = new DeptResponse("D0001", "Updated Dept", "Updated", "N", null, null, null, null);
+        DeptResponse deptResponse = new DeptResponse("D0001", "Updated Dept", MemberUserDetailsService.DEFAULT_COMPANY, "02-1234-5678", "서울시", null, "ACTIVE", "Updated", "N", 
+                LocalDateTime.now(), "admin", LocalDateTime.now(), "admin");
 
         when(service.update(eq("D0001"), any(DeptRequest.class))).thenReturn(deptResponse);
 

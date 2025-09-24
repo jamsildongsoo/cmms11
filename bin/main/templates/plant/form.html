@@ -225,6 +225,7 @@
                   <!-- 첨부 -->
                   <div class="section" data-attachments>
                     <div class="section-title">첨부</div>
+                    <input type="hidden" name="file_group_id" th:value="${plant.fileGroupId}" />
                     <div class="attachments">
                         <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
                         <button type="button" class="btn" data-attachments-add>파일 선택</button>

@@ -24,6 +24,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.apache.commons:commons-csv:1.11.0'
+    
+    // AWS SDK for S3
+    implementation 'software.amazon.awssdk:s3:2.21.29'
 
     implementation 'org.flywaydb:flyway-core'
     // Flyway database support for MySQL/MariaDB
