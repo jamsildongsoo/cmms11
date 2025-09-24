@@ -64,6 +64,9 @@ public class SiteService {
                 throw new IllegalArgumentException("Site already exists: " + request.siteId());
             }
             entity.setName(request.name());
+            entity.setPhone(request.phone());
+            entity.setAddress(request.address());
+            entity.setStatus(request.status());
             entity.setNote(request.note());
             entity.setDeleteMark("N");
             entity.setUpdatedAt(now);
@@ -74,6 +77,9 @@ public class SiteService {
         Site site = new Site();
         site.setId(new SiteId(companyId, request.siteId()));
         site.setName(request.name());
+        site.setPhone(request.phone());
+        site.setAddress(request.address());
+        site.setStatus(request.status());
         site.setNote(request.note());
         site.setDeleteMark("N");
         site.setCreatedAt(now);
@@ -86,6 +92,9 @@ public class SiteService {
     public SiteResponse update(String siteId, SiteRequest request) {
         Site existing = getActiveSite(siteId);
         existing.setName(request.name());
+        existing.setPhone(request.phone());
+        existing.setAddress(request.address());
+        existing.setStatus(request.status());
         existing.setNote(request.note());
         existing.setUpdatedAt(LocalDateTime.now());
         existing.setUpdatedBy(currentMemberId());

@@ -155,6 +155,8 @@ public class DataInitializer implements ApplicationRunner {
         codeTypes.put("ASSET", "자산유형");
         codeTypes.put("JOBTP", "작업유형");
         codeTypes.put("PERMT", "허가유형");
+        codeTypes.put("DEPRE", "감가유형");
+        codeTypes.put("MODUL", "참조모듈");
 
         LocalDateTime now = LocalDateTime.now();
         codeTypes.forEach((codeType, name) -> {
@@ -190,6 +192,21 @@ public class DataInitializer implements ApplicationRunner {
 
         seedItems("PERMT", List.of(
             new SeedCodeItem("P0001", "허가1")
+        ));
+
+        seedItems("DEPRE", List.of(
+            new SeedCodeItem("STRAI", "정액법"),
+            new SeedCodeItem("DECLI", "정률법"),
+            new SeedCodeItem("SUM", "연수합법"),
+            new SeedCodeItem("NONE", "감가없음")
+        ));
+
+        seedItems("MODUL", List.of(
+            new SeedCodeItem("PLANT", "설비"),
+            new SeedCodeItem("INVET", "재고"),
+            new SeedCodeItem("INSP", "점검"),
+            new SeedCodeItem("WORD", "작업지시"),
+            new SeedCodeItem("WPER", "작업허가")
         ));
     }
 

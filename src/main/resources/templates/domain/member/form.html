@@ -1,12 +1,20 @@
-<main class="page">
-  <title>사용자 등록/수정 · CMMS</title>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>사용자 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
       <header class="appbar">
         <div class="appbar-inner">
-          <div class="brand">기본정보</div>
+          <div class="brand">사용자 관리</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">member</span>
-            <span>관리</span>
+            <span class="badge">memberId</span>
+            <span>님 환영합니다</span>
           </div>
         </div>
       </header>
@@ -19,99 +27,96 @@
           <span>등록/수정</span>
         </div>
       </nav>
-      <section class="page-body">
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">사용자 등록/수정</div>
-              <div class="toolbar">
-                <a class="btn" th:href="@{/domain/member/list}" href="/domain/member/list">목록</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">사용자 등록/수정</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/domain/member/list}" href="/domain/member/list">목록</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <form data-validate method="post" action="/domain/member/save" data-redirect="/domain/member/list">
-                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <input type="hidden" name="isNew" th:value="${isNew}" />
+              <div class="card-body">
+                <form data-validate method="post" action="/domain/member/save" data-redirect="/domain/member/list">
 
-                <div class="section">
-                  <div class="section-title">기본정보</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-4">
-                      <label class="label required" for="member_id">사용자ID</label>
-                      <input id="member_id"
-                             name="memberId"
-                             class="input"
-                             required
-                             maxlength="5"
-                             placeholder="예: admin"
-                             th:value="${member.memberId}"
-                             th:readonly="${!isNew}" />
+                  <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="hidden" name="isNew" th:value="${isNew}" />
+                  <!-- 기본정보 -->
+                  <div class="section">
+                    <div class="section-title">기본정보</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-4">
+                        <label class="label required" for="memberId">사용자ID</label>
+                        <input id="memberId" name="memberId" class="input" required maxlength="5" placeholder="예: admin" 
+                              th:value="${member.memberId}" th:readonly="${!isNew}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label required" for="name">이름</label>
+                        <input id="name" name="name" class="input" required maxlength="100" 
+                              th:value="${member.name}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="deptId">부서</label>
+                        <select id="deptId" name="deptId">
+                          <option value="">(선택)</option>
+                          <option value="ADMIN" th:selected="${member.deptId == 'ADMIN'}">ADMIN</option>
+                          <option value="EQ" th:selected="${member.deptId == 'EQ'}">설비</option>
+                          <option value="AS" th:selected="${member.deptId == 'AS'}">자산</option>
+                          <option value="EL" th:selected="${member.deptId == 'EL'}">전기</option>
+                        </select>
+                      </div>
                     </div>
-                    <div class="form-row col-span-4">
-                      <label class="label required" for="name">이름</label>
-                      <input id="name" name="name" class="input" required maxlength="100" th:value="${member.name}" />
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-4">
+                        <label class="label" for="email">이메일</label>
+                        <input id="email" name="email" class="input" type="email" maxlength="100" 
+                              th:value="${member.email}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="phone">전화번호</label>
+                        <input id="phone" name="phone" class="input" type="tel" maxlength="100" 
+                              th:value="${member.phone}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="password">비밀번호</label>
+                        <input id="password" name="password" class="input" type="password" maxlength="100" autocomplete="new-password" />
+                      </div>
                     </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="dept_id">부서</label>
-                      <input id="dept_id" name="deptId" class="input" maxlength="5" th:value="${member.deptId}" placeholder="예: EQ" />
-                    </div>
-                  </div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-4">
-                      <label class="label" for="email">이메일</label>
-                      <input id="email" name="email" class="input" type="email" maxlength="100" th:value="${member.email}" />
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="phone">전화번호</label>
-                      <input id="phone" name="phone" class="input" type="tel" maxlength="100" th:value="${member.phone}" />
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="password">비밀번호</label>
-                      <input id="password"
-                             name="password"
-                             class="input"
-                             type="password"
-                             maxlength="100"
-                             autocomplete="new-password"
-                             placeholder="새 비밀번호 입력"
-                             th:attrappend="aria-describedby=${!isNew}? 'password-help' : null" />
-                    </div>
-                  </div>
-                  <div class="form-row col-span-12">
-                    <label class="label" for="note">비고</label>
-                    <textarea id="note"
-                              name="note"
-                              rows="4"
-                              maxlength="500"
-                              placeholder="기타 메모(최대 500자)"
+                    <div class="form-row col-span-12">
+                      <label class="label" for="note">비고</label>
+                      <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
                               th:text="${member.note}"></textarea>
-                  </div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label" for="delete_mark">상태</label>
-                      <select id="delete_mark" name="deleteMark">
-                        <option value="N" th:selected="${member.deleteMark == null || member.deleteMark == 'N'}">정상</option>
-                        <option value="Y" th:selected="${member.deleteMark == 'Y'}">사용중지</option>
-                      </select>
                     </div>
-                    <div class="form-row col-span-9" th:if="${!isNew}" id="password-help">
-                      <p class="muted">비밀번호를 변경하지 않으려면 비워 두세요.</p>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label" for="deleteMark">상태</label>
+                        <select id="deleteMark" name="deleteMark">
+                          <option value="N" th:selected="${member.deleteMark == 'N'}">정상</option>
+                          <option value="Y" th:selected="${member.deleteMark == 'Y'}">사용중지</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="row" style="margin-top:16px; gap:8px; justify-content:flex-end">
-                  <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">
-                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
+                  <div class="actions" style="margin-top:16px">
+                    <button class="btn" type="button" onclick="history.back()">취소</button>
+                    <button class="btn primary" type="submit">
+                      <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </div>
+        </main>
       </section>
       <footer>
-        <div class="container">© 기본정보</div>
+        <div class="container">© 사용자 관리</div>
       </footer>
-</main>
+    </div>
+    <script src="../../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+

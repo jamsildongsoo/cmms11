@@ -4,6 +4,8 @@ import com.cmms11.domain.site.SiteRequest;
 import com.cmms11.domain.site.SiteResponse;
 import com.cmms11.domain.site.SiteService;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,7 @@ public class SiteController {
         this.service = service;
     }
 
+    // 웹 컨트롤러 화면 제공
     @GetMapping("/domain/site/list")
     public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         Page<SiteResponse> page = service.list(q, pageable);
@@ -48,6 +51,7 @@ public class SiteController {
     public String newForm(Model model) {
         model.addAttribute("site", emptySite());
         model.addAttribute("isNew", true);
+        model.addAttribute("companies", getCompanyList());
         return "domain/site/form";
     }
 
@@ -56,6 +60,7 @@ public class SiteController {
         SiteResponse site = service.get(siteId);
         model.addAttribute("site", site);
         model.addAttribute("isNew", false);
+        model.addAttribute("companies", getCompanyList());
         return "domain/site/form";
     }
 
@@ -81,6 +86,7 @@ public class SiteController {
         return service.list(q, pageable);
     }
 
+    // API 엔드포인트 제공
     @ResponseBody
     @GetMapping("/api/domain/sites/{siteId}")
     public ResponseEntity<SiteResponse> get(@PathVariable String siteId) {
@@ -116,11 +122,22 @@ public class SiteController {
             null,
             null,
             null,
+            null,
+            null,
+            "ACTIVE",
+            null,
             "N",
             null,
             null,
             null,
             null
+        );
+    }
+
+    private List<Map<String, String>> getCompanyList() {
+        // 기본 회사 목록 (실제로는 CompanyService에서 가져와야 함)
+        return List.of(
+            Map.of("companyId", "C0001", "name", "Sample Company")
         );
     }
 }

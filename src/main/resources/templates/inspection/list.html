@@ -25,75 +25,89 @@
           <span>점검</span>
         </div>
       </nav>
-      <main>
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">점검 목록</div>
-              <div class="toolbar">
-                <a class="btn" href="#">정보보기</a>
-                <a class="btn primary" href="form.html">새로 만들기</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">점검 목록</div>
+                <div class="toolbar">
+                  <a class="btn" href="#">정보보기</a>
+                  <a class="btn primary" th:href="@{/inspection/form}">새로 만들기</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <div class="section">
-                <div class="section-title">필터</div>
-                <div class="grid cols-12">
-                  <div class="col-span-3"><input class="input" placeholder="점검 번호" /></div>
-                  <div class="col-span-3"><input class="input" placeholder="설비 번호" /></div>
-                  <div class="col-span-2">
-                    <select class="input">
-                      <option value="">상태(전체)</option>
-                      <option value="PLAN">계획</option>
-                      <option value="PROC">진행</option>
-                      <option value="DONE">완료</option>
-                    </select>
+              <div class="card-body">
+                <div class="section">
+                  <div class="section-title">필터</div>
+                  <div class="grid cols-12">
+                    <div class="col-span-3"><input class="input" placeholder="점검 번호" /></div>
+                    <div class="col-span-3"><input class="input" placeholder="설비 번호" /></div>
+                    <div class="col-span-2">
+                      <select class="input">
+                        <option value="">상태(전체)</option>
+                        <option value="PLAN">계획</option>
+                        <option value="PROC">진행</option>
+                        <option value="DONE">완료</option>
+                      </select>
+                    </div>
+                    <div class="col-span-2"><input class="input" type="date" title="계획일(From)" /></div>
+                    <div class="col-span-2"><input class="input" type="date" title="계획일(To)" /></div>
                   </div>
-                  <div class="col-span-2"><input class="input" type="date" title="계획일(From)" /></div>
-                  <div class="col-span-2"><input class="input" type="date" title="계획일(To)" /></div>
+                  <div class="row" style="margin-top:8px;justify-content:flex-end;gap:8px">
+                    <button class="btn">초기화</button>
+                    <button class="btn">검색</button>
+                  </div>
                 </div>
-                <div class="row" style="margin-top:8px;justify-content:flex-end;gap:8px">
-                  <button class="btn">초기화</button>
-                  <button class="btn">검색</button>
+
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width:140px">점검 번호</th>
+                      <th>점검명</th>
+                      <th style="width:140px">설비 번호</th>
+                      <th style="width:100px">작업유형</th>
+                      <th style="width:140px">계획일</th>
+                      <th style="width:140px">실적일</th>
+                      <th style="width:100px">상태</th>
+                      <th style="width:140px">액션</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="inspection : ${page.content}">
+                      <td><a th:href="@{/inspection/edit/{id}(id=${inspection.inspectionId})}" th:text="${inspection.inspectionId}">-</a></td>
+                      <td th:text="${inspection.name}">-</td>
+                      <td th:text="${inspection.plantId}">-</td>
+                      <td th:text="${inspection.jobId}">-</td>
+                      <td th:text="${inspection.plannedDate}">-</td>
+                      <td th:text="${inspection.actualDate}">-</td>
+                      <td>
+                        <span class="badge" th:text="${inspection.status == 'PLAN' ? '계획' : inspection.status == 'PROC' ? '진행' : '완료'}" 
+                              th:classappend="${inspection.status == 'PLAN' ? 'badge' : inspection.status == 'PROC' ? 'badge warning' : 'badge success'}">-</span>
+                      </td>
+                      <td class="actions">
+                        <a class="btn btn-sm" th:href="@{/inspection/edit/{id}(id=${inspection.inspectionId})}">수정</a>
+                        <button class="btn btn-sm danger" 
+                                th:data-delete-url="@{/inspection/delete/{id}(id=${inspection.inspectionId})}"
+                                data-redirect="@{/inspection/list}"
+                                data-confirm="정말로 삭제하시겠습니까?">삭제</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="row" style="margin-top:12px">
+                  <div class="spacer"></div>
+                  <div class="pagination">
+                    <button class="btn sm" disabled>이전</button>
+                    <button class="btn sm">다음</button>
+                  </div>
                 </div>
               </div>
-
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width:140px">점검 번호</th>
-                    <th>점검명</th>
-                    <th style="width:140px">설비 번호</th>
-                    <th style="width:100px">작업유형</th>
-                    <th style="width:140px">계획일</th>
-                    <th style="width:140px">실적일</th>
-                    <th style="width:100px">상태</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr data-row-link="detail.html">
-                    <td><a href="detail.html">I250101001</a></td>
-                    <td>설비 A 정기점검</td>
-                    <td>EQP000123</td>
-                    <td>INSP</td>
-                    <td>2025-01-10</td>
-                    <td>2025-01-10</td>
-                    <td><span class="badge">계획</span></td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="row" style="margin-top:12px">
-                <div class="spacer"></div>
-                <div class="pagination">
-                  <button class="btn sm" disabled>이전</button>
-                  <button class="btn sm">다음</button>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </main>
+            </section>
+          </div>
+        </main>
+      </section>
       <footer>
         <div class="container">© 점검 관리</div>
       </footer>

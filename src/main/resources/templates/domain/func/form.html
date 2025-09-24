@@ -1,12 +1,21 @@
-<main class="page">
-  <title>기능위치 등록/수정 · CMMS</title>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>기능위치 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
       <header class="appbar">
         <div class="appbar-inner">
           <div class="brand">기본정보</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">func</span>
-            <span>관리</span>
+            <span class="badge">memberId</span>
+            <span>운영중</span>
           </div>
         </div>
       </header>
@@ -14,72 +23,68 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
+
           <a th:href="@{/domain/func/list}" href="/domain/func/list">기능위치</a>
+
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
       </nav>
-      <section class="page-body">
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">기능위치 등록/수정</div>
-              <div class="toolbar">
-                <a class="btn" th:href="@{/domain/func/list}" href="/domain/func/list">목록</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+
+                <div class="card-title">기능위치 등록/수정</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/domain/func/list}" href="/domain/func/list">목록</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <form data-validate method="post" action="/domain/func/save" data-redirect="/domain/func/list">
-                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <input type="hidden" name="isNew" th:value="${isNew}" />
+              <div class="card-body">
+                <form data-validate method="post" action="/domain/func/save" data-redirect="/domain/func/list">
 
-                <div class="section">
-                  <div class="section-title">기본정보</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-4">
-                      <label class="label required" for="func_id">기능위치코드</label>
-                      <input id="func_id"
-                             name="funcId"
-                             class="input"
-                             required
-                             maxlength="5"
-                             placeholder="예: F0001"
-                             th:value="${func.funcId}"
-                             th:readonly="${!isNew}" />
+                  <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="hidden" name="isNew" th:value="${isNew}" />
+                  <div class="section">
+                    <div class="section-title">기본정보</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-4">
+                        <label class="label required" for="funcId">기능위치 코드</label>
+                        <input id="funcId" name="funcId" class="input" required maxlength="5" placeholder="예: F0001" 
+                              th:value="${func.funcId}" th:readonly="${!isNew}" />
+                      </div>
+                      <div class="form-row col-span-8">
+                        <label class="label required" for="name">기능위치 명</label>
+                        <input id="name" name="name" class="input" required maxlength="100" 
+                              th:value="${func.name}" />
+                      </div>
                     </div>
-                    <div class="form-row col-span-8">
-                      <label class="label required" for="func_name">기능위치명</label>
-                      <input id="func_name"
-                             name="name"
-                             class="input"
-                             required
-                             maxlength="100"
-                             th:value="${func.name}" />
-                    </div>
-                  </div>
-                  <div class="form-row col-span-12">
-                    <label class="label" for="note">비고</label>
-                    <textarea id="note"
-                              name="note"
-                              rows="4"
-                              maxlength="500"
-                              placeholder="기타 메모(최대 500자)"
+                    <div class="form-row col-span-12">
+                      <label class="label" for="note">비고</label>
+                      <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
                               th:text="${func.note}"></textarea>
+                    </div>
                   </div>
-                </div>
 
-                <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
-                  <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">
-                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
+                  <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
+                    <button class="btn" type="reset">초기화</button>
+                    <button class="btn primary" type="submit">
+                      <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </div>
+        </main>
       </section>
       <footer>
         <div class="container">© 기본정보</div>
       </footer>
-</main>
+    </div>
+    <script src="../../../static/assets/js/app.js"></script>
+  </body>
+</html>
+

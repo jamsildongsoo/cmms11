@@ -64,9 +64,9 @@
           <div class="menu-group open" data-group>
             <button type="button" class="menu-title" aria-expanded="true">자산관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/form.html">등록</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/list.html">목록</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/plant/history.html">이력</a>
+              <a class="menu-item" href="@{/plant/form.html}">등록</a>
+              <a class="menu-item" href="@{/plant/list.html}">목록</a>
+              <a class="menu-item" href="@{/plant/history.html}">이력</a>
             </div>
           </div>
 
@@ -74,9 +74,9 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">점검관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/plan.html">계획</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/form.html">등록(결과)</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inspection/list.html">목록</a>
+              <a class="menu-item" href="@{/inspection/plan.html}">계획</a>
+              <a class="menu-item" href="@{/inspection/form.html}">등록(결과)</a>
+              <a class="menu-item" href="@{/inspection/list.html}">목록</a>
             </div>
           </div>
 
@@ -84,8 +84,8 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">작업관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/workorder/form.html">등록(결과)</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/workorder/list.html">목록</a>
+              <a class="menu-item" href="@{/workorder/form.html}">등록(결과)</a>
+              <a class="menu-item" href="@{/workorder/list.html}">목록</a>
             </div>
           </div>
 
@@ -93,8 +93,8 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">작업허가</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/workpermit/form.html">등록(결과)</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/workpermit/list.html">목록</a>
+              <a class="menu-item" href="@{/workpermit/form.html}">등록(결과)</a>
+              <a class="menu-item" href="@{/workpermit/list.html}">목록</a>
             </div>
           </div>
 
@@ -102,9 +102,9 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">재고처리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/transaction.html">입고</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/closing.html">마감</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/inventoryTx/ledger.html">원장(레포트)</a>
+              <a class="menu-item" href="@{/inventoryTx/transaction.html}">입고</a>
+              <a class="menu-item" href="@{/inventoryTx/closing.html}">마감</a>
+              <a class="menu-item" href="@{/inventoryTx/ledger.html}">원장(레포트)</a>
             </div>
           </div>
 
@@ -112,8 +112,8 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">결재관리</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/approval/form.html">작성</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/approval/list.html">결재함</a>
+              <a class="menu-item" href="@{/approval/form.html}">작성</a>
+              <a class="menu-item" href="@{/approval/list.html}">결재함</a>
             </div>
           </div>
 
@@ -121,8 +121,8 @@
           <div class="menu-group" data-group>
             <button type="button" class="menu-title" aria-expanded="false">문서/게시</button>
             <div class="menu-items">
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/memo/form.html">작성</a>
-              <a class="menu-item" href="/layout/defaultLayout.html?content=/memo/list.html">목록</a>
+              <a class="menu-item" href="@{/memo/form.html}">작성</a>
+              <a class="menu-item" href="@{/memo/list.html}">목록</a>
             </div>
           </div>
 
@@ -161,8 +161,24 @@
     <script src="../assets/js/app.js"></script>
     <script>
       (function() {
-        const CSRF_ERROR_NAME = 'CsrfForbiddenError';
+        // Function의 로딩 순서 (function 이름)
+        // 1. CSRF 토큰 에러 처리 및 핵심 유틸리티 함수들 정의(toCsrfError)
+        // 2. Thymeleaf 스타일 링크와 상대/절대 URL을 실제 URL로 변환하는 함수(resolveUrl)
+        // 3. 브라우저 히스토리에 상태를 저장하고 URL을 업데이트하는 함수(setState)
+        // 4. 현재 페이지에 해당하는 사이드바 메뉴 항목을 활성화하는 함수(setActive)
+        // 5. AJAX로 콘텐츠를 가져와서 슬롯에 삽입하고 폼 제출을 인터셉트하는 핵심 함수(loadContent)
+        // 6. URL을 해석하고 적절한 콘텐츠로 네비게이션하는 함수(navigate)
+        // 7. Delegate delete actions inside slot using [data-delete-url]
+        // 8. Fetch and render logged-in user info into header(loadUserInfo)
+        // 9. Intercept all clicks for SPA-like navigation(bindDeleteHandlerOnce)
+        // 10. Handle back/forward(handleBackForward)
+        // 11. Initial load(initialLoad)
+        // 12. Sidebar toggle for top-level menu groups(toggleSidebar)
 
+        // CSRF 토큰 에러 처리 및 핵심 유틸리티 함수들 정의
+        const CSRF_ERROR_NAME = 'CsrfForbiddenError'; // CSRF 에러 식별자
+
+        // CSRF 토큰 에러를 특별한 에러 객체로 변환하는 유틸리티 함수
         function toCsrfError(response) {
           if (typeof createCsrfForbiddenError === 'function') {
             return createCsrfForbiddenError(response);
@@ -173,11 +189,12 @@
           return error;
         }
 
-        const slot = document.getElementById('layout-slot');
+        const slot = document.getElementById('layout-slot'); // 콘텐츠가 삽입될 슬롯 요소
         if (!slot) return;
 
-        let currentContentUrl = '../plant/list.html';
+        let currentContentUrl = '../plant/list.html'; // 현재 로드된 콘텐츠 URL
 
+        // Thymeleaf 스타일 링크와 상대/절대 URL을 실제 URL로 변환하는 함수
         function resolveUrl(href, basePath) {
           try {
             // Handle unprocessed Thymeleaf-style links like '@{/domain/company/list}'
@@ -209,6 +226,7 @@
           }
         }
 
+        // 브라우저 히스토리에 상태를 저장하고 URL을 업데이트하는 함수
         function setState(contentUrl, push) {
           const url = '/layout/defaultLayout.html?content=' + encodeURIComponent(contentUrl);
           const state = { content: contentUrl };
@@ -216,6 +234,7 @@
           else history.replaceState(state, '', url);
         }
 
+        // 현재 페이지에 해당하는 사이드바 메뉴 항목을 활성화하는 함수
         function setActive(contentUrl) {
           try {
             const links = document.querySelectorAll('.sidebar .menu-item');
@@ -240,9 +259,31 @@
           } catch (_) { /* noop */ }
         }
 
+        // AJAX로 콘텐츠를 가져와서 슬롯에 삽입하고 폼 제출을 인터셉트하는 핵심 함수
         function loadContent(contentUrl, opts = { push: false }) {
           currentContentUrl = contentUrl;
           if (opts.push === true) setState(contentUrl, true);
+          
+          // URL 유효성 검사
+          if (!contentUrl || contentUrl.trim() === '') {
+            console.warn('Empty content URL, redirecting to default');
+            navigate('../plant/list.html');
+            return;
+          }
+          
+          // 잘못된 URL 패턴 검사
+          if (contentUrl.includes('..') && contentUrl.split('..').length > 2) {
+            console.warn('Invalid URL pattern detected:', contentUrl);
+            slot.innerHTML = `
+              <div class="notice danger">
+                <h3>잘못된 URL입니다</h3>
+                <p>보안상의 이유로 해당 URL에 접근할 수 없습니다.</p>
+                <a class="btn primary" href="@{~/domain/company/list}">목록으로 이동</a>
+              </div>
+            `;
+            return;
+          }
+          
           fetch(contentUrl, { credentials: 'same-origin' })
             .then(r => {
               if (r.status === 403) {
@@ -302,11 +343,43 @@
               if (err && err.name === CSRF_ERROR_NAME) {
                 return;
               }
-              slot.innerHTML = '<div class="notice danger-text">콘텐츠를 불러오지 못했습니다.</div>';
-              console.error(err);
+              console.error('Content load error:', err);
+              
+              // URL이 잘못된 경우 기본 페이지로 리다이렉트
+              if (err.message.includes('404') || err.message.includes('Not Found')) {
+                slot.innerHTML = `
+                  <div class="notice danger">
+                    <h3>페이지를 찾을 수 없습니다</h3>
+                    <p>요청하신 페이지가 존재하지 않습니다.</p>
+                    <a class="btn primary" href="@{~/domain/company/list}">홈으로 이동</a>
+                  </div>
+                `;
+                // 3초 후 자동으로 기본 페이지로 이동
+                setTimeout(() => {
+                  navigate('../plant/list.html');
+                }, 3000);
+              } else if (err.message.includes('403') || err.message.includes('Forbidden')) {
+                slot.innerHTML = `
+                  <div class="notice danger">
+                    <h3>접근 권한이 없습니다</h3>
+                    <p>이 페이지에 접근할 권한이 없습니다.</p>
+                    <a class="btn primary" href="@{~/domain/company/list}">목록으로 이동</a>
+                  </div>
+                `;
+              } else {
+                slot.innerHTML = `
+                  <div class="notice danger">
+                    <h3>콘텐츠를 불러오지 못했습니다</h3>
+                    <p>네트워크 오류 또는 서버 문제가 발생했습니다.</p>
+                    <button class="btn primary" onclick="location.reload()">새로고침</button>
+                    <a class="btn" href="@{~/domain/company/list}">목록으로 이동</a>
+                  </div>
+                `;
+              }
             });
         }
 
+        // URL을 해석하고 적절한 콘텐츠로 네비게이션하는 함수
         function navigate(targetHref) {
           const contentUrl = targetHref.startsWith('/layout/')
             ? (new URLSearchParams(new URL(targetHref, window.location.origin).search).get('content') || '../plant/list.html')
@@ -405,7 +478,13 @@
         // Handle back/forward
         window.addEventListener('popstate', (e) => {
           const content = e.state?.content || new URLSearchParams(window.location.search).get('content') || '../plant/list.html';
-          loadContent(content, { push: false });
+          try {
+            loadContent(content, { push: false });
+          } catch (err) {
+            console.error('Navigation error:', err);
+            // 에러 발생 시 기본 페이지로 이동
+            navigate('../plant/list.html');
+          }
         });
 
         // Initial load

@@ -44,6 +44,7 @@ public class CodeController {
         this.service = service;
     }
 
+    // 웹 컨트롤러 화면 제공
     @GetMapping("/code/list")
     public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         Page<CodeTypeResponse> page = service.listTypes(q, pageable);
@@ -56,24 +57,29 @@ public class CodeController {
     public String newForm(Model model) {
         CodeForm form = new CodeForm();
         model.addAttribute("type", form);
-        model.addAttribute("items", form.getItems());
+        model.addAttribute("items", new ArrayList<>());
         model.addAttribute("isNew", true);
         return "code/form";
     }
 
     @GetMapping("/code/edit/{codeType}")
     public String editForm(@PathVariable String codeType, Model model) {
-        CodeTypeResponse type = service.getType(codeType);
-        List<CodeItemResponse> items = service.listItems(codeType, null, Pageable.unpaged()).getContent();
-        CodeForm form = new CodeForm();
-        form.setCodeType(type.codeType());
-        form.setName(type.name());
-        form.setNote(type.note());
-        form.setItems(items.stream().map(CodeItemForm::from).collect(Collectors.toCollection(ArrayList::new)));
-        model.addAttribute("type", form);
-        model.addAttribute("items", form.getItems());
-        model.addAttribute("isNew", false);
-        return "code/form";
+        try {
+            CodeTypeResponse type = service.getType(codeType);
+            List<CodeItemResponse> items = service.listItems(codeType, null, Pageable.unpaged()).getContent();
+            CodeForm form = new CodeForm();
+            form.setCodeType(type.codeType());
+            form.setName(type.name());
+            form.setNote(type.note());
+            form.setItems(items.stream().map(CodeItemForm::from).collect(Collectors.toCollection(ArrayList::new)));
+            model.addAttribute("type", form);
+            model.addAttribute("items", form.getItems());
+            model.addAttribute("isNew", false);
+            return "code/form";
+        } catch (Exception e) {
+            // 코드 타입이 존재하지 않는 경우 목록으로 리다이렉트
+            return "redirect:/code/list?error=notfound";
+        }
     }
 
     @PostMapping("/code/save")
@@ -133,6 +139,7 @@ public class CodeController {
         return "redirect:/code/list";
     }
 
+    // API 엔드포인트 제공
     @ResponseBody
     @GetMapping("/api/codes/types")
     public Page<CodeTypeResponse> listTypes(@RequestParam(name = "q", required = false) String q, Pageable pageable) {

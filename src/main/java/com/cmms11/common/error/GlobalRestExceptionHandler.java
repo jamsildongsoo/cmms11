@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * 이름: GlobalRestExceptionHandler
@@ -69,6 +70,15 @@ public class GlobalRestExceptionHandler {
         HttpStatus status = HttpStatus.FORBIDDEN;
         ApiErrorResponse body = ApiErrorResponse.of(status.value(), status.getReasonPhrase(), ex.getMessage(), request.getRequestURI());
         log.warn("Access denied on {}: {}", request.getRequestURI(), ex.getMessage());
+        return ResponseEntity.status(status).body(body);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleNoResourceFound(NoResourceFoundException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        String message = "요청하신 리소스를 찾을 수 없습니다: " + ex.getResourcePath();
+        ApiErrorResponse body = ApiErrorResponse.of(status.value(), status.getReasonPhrase(), message, request.getRequestURI());
+        log.warn("Resource not found: {} - {}", request.getRequestURI(), ex.getResourcePath());
         return ResponseEntity.status(status).body(body);
     }
 

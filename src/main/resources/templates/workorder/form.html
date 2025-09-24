@@ -22,185 +22,209 @@
         <div class="container">
           <a href="#">작업관리</a>
           <span class="sep">/</span>
-          <a href="list.html">작업지시</a>
+          <a th:href="@{/workorder/list}" href="/workorder/list">작업지시</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
       </nav>
-      <main>
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">작업지시 등록/수정</div>
-              <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">작업지시 등록/수정</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/workorder/list}" href="/workorder/list">목록</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <form data-validate>
+              <div class="card-body">
+                <form data-validate method="post" action="/workorder/save" data-redirect="/workorder/list">
 
-                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <!-- 기본정보 -->
-                <div class="section">
-                  <div class="section-title">기본정보</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label required" for="order_id">작업지시 번호</label>
-                      <input id="order_id" name="order_id" class="input" required maxlength="10" placeholder="예: O250101001" />
+                  <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="hidden" name="isNew" th:value="${isNew}" />
+                  <!-- 기본정보 -->
+                  <div class="section">
+                    <div class="section-title">기본정보</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label required" for="workOrderId">작업지시 번호</label>
+                        <input id="workOrderId" name="workOrderId" class="input" required maxlength="10" placeholder="예: O250101001" 
+                              th:value="${workorder.workOrderId}" th:readonly="${!isNew}" />
+                      </div>
+                      <div class="form-row col-span-9">
+                        <label class="label required" for="name">작업명</label>
+                        <input id="name" name="name" class="input" required maxlength="100" 
+                              th:value="${workorder.name}" />
+                      </div>
                     </div>
-                    <div class="form-row col-span-9">
-                      <label class="label required" for="name">작업명</label>
-                      <input id="name" name="name" class="input" required maxlength="100" />
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label required" for="plant_id">설비 번호</label>
+                        <input id="plant_id" name="plantId" class="input" required maxlength="10" placeholder="EQP000123" 
+                              th:value="${workorder.plantId}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label required" for="job_id">작업 유형</label>
+                        <select id="job_id" name="jobId" required>
+                          <option value="">선택</option>
+                          <option th:each="jobType : ${jobTypes}"
+                                  th:value="${jobType.code}"
+                                  th:text="${jobType.code + ' - ' + jobType.name}"
+                                  th:selected="${workorder.jobId == jobType.code}">
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="site_id">Site</label>
+                        <select id="site_id" name="siteId">
+                          <option value="">(선택)</option>
+                          <option th:each="site : ${sites}"
+                                  th:value="${site.siteId}"
+                                  th:text="${site.siteId + ' - ' + site.siteName}"
+                                  th:selected="${workorder.siteId == site.siteId}">
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="dept_id">관리부서</label>
+                        <select id="dept_id" name="deptId">
+                          <option value="">(선택)</option>
+                          <option th:each="dept : ${depts}"
+                                  th:value="${dept.deptId}"
+                                  th:text="${dept.deptId + ' - ' + dept.deptName}"
+                                  th:selected="${workorder.deptId == dept.deptId}">
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label required" for="plant_id">설비 번호</label>
-                      <input id="plant_id" name="plant_id" class="input" required maxlength="10" placeholder="EQP000123" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label required" for="job_id">작업 유형</label>
-                      <select id="job_id" name="job_id" required>
-                        <option value="">선택</option>
-                        <option value="REPR">수리</option>
-                        <option value="PM">정기보전</option>
-                        <option value="IMPR">개선</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="site_id">Site</label>
-                      <select id="site_id" name="site_id">
-                        <option value="">(선택)</option>
-                        <option value="SEOUL">서울</option>
-                        <option value="BUSAN">부산</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="dept_id">관리부서</label>
-                      <select id="dept_id" name="dept_id">
-                        <option value="">(선택)</option>
-                        <option value="EQ">설비팀</option>
-                        <option value="AS">자산팀</option>
-                        <option value="EL">전기팀</option>
-                      </select>
+
+                  <!-- 일정 / 담당 / 계획비용 -->
+                  <div class="section">
+                    <div class="section-title">일정 / 담당 / 계획</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label" for="member_id">담당자</label>
+                        <input id="member_id" name="memberId" class="input" maxlength="5" placeholder="예: M0001" 
+                              th:value="${workorder.memberId}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="planned_date">계획일</label>
+                        <input id="planned_date" name="plannedDate" class="input" type="date" 
+                              th:value="${workorder.plannedDate}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="planned_cost">계획비용</label>
+                        <input id="planned_cost" name="plannedCost" class="input" type="number" step="0.01" min="0" 
+                              th:value="${workorder.plannedCost}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="planned_labor">계획공수</label>
+                        <input id="planned_labor" name="plannedLabor" class="input" type="number" step="0.01" min="0" 
+                              th:value="${workorder.plannedLabor}" />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- 일정 / 담당 / 계획비용 -->
-                <div class="section">
-                  <div class="section-title">일정 / 담당 / 계획</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label" for="member_id">담당자</label>
-                      <input id="member_id" name="member_id" class="input" maxlength="5" placeholder="예: M0001" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="planned_date">계획일</label>
-                      <input id="planned_date" name="planned_date" class="input" type="date" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="planned_cost">계획비용</label>
-                      <input id="planned_cost" name="planned_cost" class="input" type="number" step="0.01" min="0" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="planned_labor">계획공수</label>
-                      <input id="planned_labor" name="planned_labor" class="input" type="number" step="0.01" min="0" />
+                  <!-- 실적 / 비용 -->
+                  <div class="section">
+                    <div class="section-title">실적 / 비용</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label" for="actual_date">실적일</label>
+                        <input id="actual_date" name="actualDate" class="input" type="date" 
+                              th:value="${workorder.actualDate}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="actual_cost">실적비용</label>
+                        <input id="actual_cost" name="actualCost" class="input" type="number" step="0.01" min="0" 
+                              th:value="${workorder.actualCost}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="actual_labor">실적공수</label>
+                        <input id="actual_labor" name="actualLabor" class="input" type="number" step="0.01" min="0" 
+                              th:value="${workorder.actualLabor}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="status">상태</label>
+                        <select id="status" name="status">
+                          <option value="PLAN" th:selected="${workorder.status == 'PLAN'}">계획</option>
+                          <option value="ASGN" th:selected="${workorder.status == 'ASGN'}">배정</option>
+                          <option value="PROC" th:selected="${workorder.status == 'PROC'}">진행</option>
+                          <option value="DONE" th:selected="${workorder.status == 'DONE'}">완료</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- 실적 / 비용 -->
-                <div class="section">
-                  <div class="section-title">실적 / 비용</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label" for="actual_date">실적일</label>
-                      <input id="actual_date" name="actual_date" class="input" type="date" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="actual_cost">실적비용</label>
-                      <input id="actual_cost" name="actual_cost" class="input" type="number" step="0.01" min="0" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="actual_labor">실적공수</label>
-                      <input id="actual_labor" name="actual_labor" class="input" type="number" step="0.01" min="0" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="status">상태</label>
-                      <select id="status" name="status">
-                        <option value="PLAN">계획</option>
-                        <option value="ASGN">배정</option>
-                        <option value="PROC">진행</option>
-                        <option value="DONE">완료</option>
-                      </select>
+                  <!-- 작업 항목 -->
+                  <div class="section" data-wo-items>
+                    <div class="section-title">작업 항목</div>
+                    <div class="section-desc">work_order_item 기준: 이름, 방법, 결과, 비고</div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th style="width:44px">#</th>
+                          <th>이름</th>
+                          <th>방법</th>
+                          <th>결과</th>
+                          <th>비고</th>
+                          <th style="width:80px"></th>
+                        </tr>
+                      </thead>
+                      <tbody id="wo-items-body">
+                        <tr class="wo-item-row">
+                          <td class="cell-center line-no">1</td>
+                          <td><input class="input" name="items[0].name" required maxlength="100" placeholder="예: 베어링 교체" /></td>
+                          <td><input class="input" name="items[0].method" maxlength="100" placeholder="예: 표준작업서 #12" /></td>
+                          <td><input class="input" name="items[0].result" maxlength="100" placeholder="예: 양호" /></td>
+                          <td><input class="input" name="items[0].note" maxlength="500" /></td>
+                          <td class="cell-center"><button type="button" class="btn sm danger" data-remove-item style="display:none">삭제</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="actions" style="justify-content:flex-start;margin-top:8px">
+                      <button type="button" class="btn sm" data-add-item>항목 추가</button>
                     </div>
                   </div>
-                </div>
 
-                <!-- 작업 항목 -->
-                <div class="section" data-wo-items>
-                  <div class="section-title">작업 항목</div>
-                  <div class="section-desc">work_order_item 기준: 이름, 방법, 결과, 비고</div>
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th style="width:44px">#</th>
-                        <th>이름</th>
-                        <th>방법</th>
-                        <th>결과</th>
-                        <th>비고</th>
-                        <th style="width:80px"></th>
-                      </tr>
-                    </thead>
-                    <tbody id="wo-items-body">
-                      <tr class="wo-item-row">
-                        <td class="cell-center line-no">1</td>
-                        <td><input class="input" name="items[0].name" required maxlength="100" placeholder="예: 베어링 교체" /></td>
-                        <td><input class="input" name="items[0].method" maxlength="100" placeholder="예: 표준작업서 #12" /></td>
-                        <td><input class="input" name="items[0].result" maxlength="100" placeholder="예: 양호" /></td>
-                        <td><input class="input" name="items[0].note" maxlength="500" /></td>
-                        <td class="cell-center"><button type="button" class="btn sm danger" data-remove-item style="display:none">삭제</button></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="actions" style="justify-content:flex-start;margin-top:8px">
-                    <button type="button" class="btn sm" data-add-item>항목 추가</button>
+                  <!-- 첨부 / 메모 -->
+                  <div class="section">
+                    <div class="section-title">메모</div>
+                    <div class="form-row col-span-12">
+                      <label class="label" for="note">비고</label>
+                      <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
+                              th:text="${workorder.note}"></textarea>
+                    </div>
                   </div>
-                </div>
 
-                <!-- 첨부 / 메모 -->
-                <div class="section">
-                  <div class="section-title">메모</div>
-                  <div class="form-row col-span-12">
-                    <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                  <div class="section" data-attachments>
+                    <div class="section-title">첨부</div>
+                    <div class="attachments">
+                      <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
+                      <button type="button" class="btn" data-attachments-add>파일 선택</button>
+                      <div class="hint">선택한 파일이 아래 목록에 표시됩니다</div>
+                      <ul class="attachments-list" aria-live="polite" aria-label="첨부파일 목록">
+                        <li class="empty">첨부파일이 없습니다.</li>
+                      </ul>
+                    </div>
+                    <input type="hidden" id="fileGroupId" name="fileGroupId" />
+                  </div>               
+
+                  <div class="actions" style="margin-top:16px">
+                    <button class="btn" type="button" onclick="history.back()">취소</button>
+                    <button class="btn" type="reset">초기화</button>
+                    <button class="btn primary" type="submit">
+                      <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                    </button>
                   </div>
-                </div>
-
-                <div class="section" data-attachments>
-                  <div class="section-title">첨부</div>
-                  <div class="attachments">
-                    <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
-                    <button type="button" class="btn" data-attachments-add>파일 선택</button>
-                    <div class="hint">선택한 파일이 아래 목록에 표시됩니다</div>
-                    <ul class="attachments-list" aria-live="polite" aria-label="첨부파일 목록">
-                      <li class="empty">첨부파일이 없습니다.</li>
-                    </ul>
-                  </div>
-                  <input type="hidden" id="file_group_id" name="file_group_id" />
-                </div>               
-
-                <div class="actions" style="margin-top:16px">
-                  <button class="btn" type="button" onclick="history.back()">취소</button>
-                  <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">저장</button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
-      </main>
+                </form>
+              </div>
+            </section>
+          </div>
+        </main>
+      </section>
       <footer>
         <div class="container">© 작업관리</div>
       </footer>

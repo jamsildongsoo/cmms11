@@ -1,12 +1,20 @@
-<main class="page">
-  <title>부서 등록/수정 · CMMS</title>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>부서 등록/수정 · CMMS</title>
+    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
       <header class="appbar">
         <div class="appbar-inner">
           <div class="brand">기본정보</div>
           <div class="spacer"></div>
           <div class="meta">
-            <span class="badge">dept</span>
-            <span>관리</span>
+            <span class="badge">memberId</span>
+            <span>운영중</span>
           </div>
         </div>
       </header>
@@ -19,67 +27,83 @@
           <span>등록/수정</span>
         </div>
       </nav>
-      <section class="page-body">
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">부서 등록/수정</div>
-              <div class="toolbar">
-                <a class="btn" th:href="@{/domain/dept/list}" href="/domain/dept/list">목록</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">부서 등록/수정</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/domain/dept/list}" href="/domain/dept/list">목록</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <form data-validate method="post" action="/domain/dept/save" data-redirect="/domain/dept/list">
-                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <input type="hidden" name="isNew" th:value="${isNew}" />
+              <div class="card-body">
+                <form data-validate method="post" action="/domain/dept/save" data-redirect="/domain/dept/list">
 
-                <div class="section">
-                  <div class="section-title">기본정보</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-4">
-                      <label class="label required" for="dept_id">부서코드</label>
-                      <input id="dept_id"
-                             name="deptId"
-                             class="input"
-                             required
-                             maxlength="5"
-                             placeholder="예: D0001"
-                             th:value="${dept.deptId}"
-                             th:readonly="${!isNew}" />
+                  <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="hidden" name="isNew" th:value="${isNew}" />
+                  <div class="section">
+                    <div class="section-title">기본정보</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-4">
+                        <label class="label required" for="deptId">부서코드</label>
+                        <input id="deptId" name="deptId" class="input" required maxlength="10" placeholder="예: D0001" 
+                              th:value="${dept.deptId}" th:readonly="${!isNew}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label required" for="name">부서명</label>
+                        <input id="name" name="name" class="input" required maxlength="100" 
+                              th:value="${dept.deptName}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="phone">전화번호</label>
+                        <input id="phone" name="phone" class="input" type="tel" maxlength="30" th:value="${dept.phone}" />
+                      </div>
                     </div>
-                    <div class="form-row col-span-8">
-                      <label class="label required" for="dept_name">부서명</label>
-                      <input id="dept_name"
-                             name="name"
-                             class="input"
-                             required
-                             maxlength="100"
-                             th:value="${dept.name}" />
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-4">
+                        <label class="label" for="address">주소</label>
+                        <input id="address" name="address" class="input" maxlength="200" th:value="${dept.address}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="parentDeptId">상위부서</label>
+                        <select id="parentDeptId" name="parentDeptId">
+                          <option value="">(없음)</option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="status">상태</label>
+                        <select id="status" name="status">
+                          <option value="ACTIVE" th:selected="${dept.status == 'ACTIVE'}">정상</option>
+                          <option value="INACTIVE" th:selected="${dept.status == 'INACTIVE'}">중지</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-row col-span-12">
-                    <label class="label" for="note">비고</label>
-                    <textarea id="note"
-                              name="note"
-                              rows="4"
-                              maxlength="500"
-                              placeholder="기타 메모(최대 500자)"
+                    <div class="form-row col-span-12">
+                      <label class="label" for="note">비고</label>
+                      <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
                               th:text="${dept.note}"></textarea>
+                    </div>
                   </div>
-                </div>
 
-                <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
-                  <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">
-                    <span th:text="${isNew ? '등록' : '수정'}">등록</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
+                  <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
+                    <button class="btn" type="reset">초기화</button>
+                    <button class="btn primary" type="submit">
+                      <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </div>
+        </main>
       </section>
       <footer>
         <div class="container">© 기본정보</div>
       </footer>
-</main>
+    </div>
+    <script src="../../../static/assets/js/app.js"></script>
+  </body>
+  </html>
+

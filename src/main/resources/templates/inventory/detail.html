@@ -23,88 +23,94 @@
         <div class="container">
           <a href="#">자산정보</a>
           <span class="sep">/</span>
-          <a href="list.html">자재/재고</a>
+          <a th:href="@{/inventory/list}" href="/inventory/list">자재/재고</a>
           <span class="sep">/</span>
           <span>상세</span>
         </div>
       </nav>
-      <main>
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="row" style="width:100%;justify-content:space-between">
-                <div class="card-title">자재/재고 상세</div>
-                <div class="toolbar">
-                  <a class="btn" href="list.html">목록</a>
-                  <a class="btn" href="#" onclick="document.body.classList.add('print-preview')">출력 미리보기</a>
-                  <a class="btn" href="#" onclick="window.print()">인쇄</a>
-                  <a class="btn" href="form.html">수정</a>
-                  <button class="btn danger" data-confirm="정말 삭제하시겠습니까?">삭제</button>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <!-- TABLES.md: inventory_master 표시 -->
-              <div class="section">
-                <div class="section-title">기본정보</div>
-                <div class="grid cols-12">
-                  <div class="stack col-span-3"><div class="label">자재 번호</div><div>I200000001</div></div>
-                  <div class="stack col-span-9"><div class="label">자재명</div><div>베어링 6204</div></div>
-                  <div class="stack col-span-3"><div class="label">자산유형</div><div>INVEN</div></div>
-                  <div class="stack col-span-3"><div class="label">관리부서</div><div>설비팀</div></div>
-                  <div class="stack col-span-6"><div class="label">비고</div><div class="muted">-</div></div>
-                </div>
-              </div>
-
-              <div class="section">
-                <div class="section-title">규격 / 모델</div>
-                <div class="grid cols-12">
-                  <div class="stack col-span-4"><div class="label">제조사</div><div>ACME</div></div>
-                  <div class="stack col-span-4"><div class="label">모델</div><div>6204ZZ</div></div>
-                  <div class="stack col-span-4"><div class="label">시리얼</div><div>SN-123456</div></div>
-                  <div class="stack col-span-12"><div class="label">스펙</div><div>내경 20mm, 외경 47mm</div></div>
-                </div>
-              </div>
-
-              <div class="section">
-                <div class="section-title">첨부</div>
-                <table class="row-cols-3">
-                  <tr>
-                    <th>첨부 건수</th><td id="inv-file-count">0</td>
-                    <th>비고</th><td id="inv-file-note" colspan="3">-</td>
-                  </tr>
-                </table>
-              </div>
-
-              <div class="section">
-                <div class="section-title">메모</div>
-                <table>
-                  <tr>
-                    <th>메모</th>
-                    <td class="note">-</td>
-                  </tr>
-                </table>
-              </div>
-
-              <!-- 출력 양식 (예시) -->
-              <section class="print-form" aria-hidden="true">
-                <div class="doc">
-                  <header class="doc-header">
-                    <div class="doc-title">자재 카드</div>
-                    <div class="doc-meta">출력일시: <span id="print-date">-</span></div>
-                  </header>
-                  <div class="doc-body">
-                    <div class="row"><strong>자재 번호</strong><span class="spacer"></span><span>I200000001</span></div>
-                    <div class="row"><strong>자재명</strong><span class="spacer"></span><span>베어링 6204</span></div>
-                    <div class="row"><strong>자산유형</strong><span class="spacer"></span><span>INVEN</span></div>
-                    <div class="row"><strong>관리부서</strong><span class="spacer"></span><span>설비팀</span></div>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="row" style="width:100%;justify-content:space-between">
+                  <div class="card-title">자재/재고 상세</div>
+                  <div class="toolbar">
+                    <a class="btn" th:href="@{/inventory/list}" href="/inventory/list">목록</a>
+                    <a class="btn" href="#" onclick="document.body.classList.add('print-preview')">출력 미리보기</a>
+                    <a class="btn" href="#" onclick="window.print()">인쇄</a>
+                    <a class="btn" th:href="@{/inventory/edit/{id}(id=${inventory.inventoryId})}" href="/inventory/form">수정</a>
+                    <button class="btn danger" 
+                            th:data-delete-url="@{/inventory/delete/{id}(id=${inventory.inventoryId})}"
+                            data-redirect="@{/inventory/list}"
+                            data-confirm="정말 삭제하시겠습니까?">삭제</button>
                   </div>
                 </div>
-              </section>
-            </div>
-          </section>
-        </div>
-      </main>
+              </div>
+              <div class="card-body">
+                <!-- TABLES.md: inventory_master 표시 -->
+                <div class="section">
+                  <div class="section-title">기본정보</div>
+                  <div class="grid cols-12">
+                    <div class="stack col-span-3"><div class="label">자재 번호</div><div>I200000001</div></div>
+                    <div class="stack col-span-9"><div class="label">자재명</div><div>베어링 6204</div></div>
+                    <div class="stack col-span-3"><div class="label">자산유형</div><div>INVEN</div></div>
+                    <div class="stack col-span-3"><div class="label">관리부서</div><div>설비팀</div></div>
+                    <div class="stack col-span-6"><div class="label">비고</div><div class="muted">-</div></div>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <div class="section-title">규격 / 모델</div>
+                  <div class="grid cols-12">
+                    <div class="stack col-span-4"><div class="label">제조사</div><div>ACME</div></div>
+                    <div class="stack col-span-4"><div class="label">모델</div><div>6204ZZ</div></div>
+                    <div class="stack col-span-4"><div class="label">시리얼</div><div>SN-123456</div></div>
+                    <div class="stack col-span-12"><div class="label">스펙</div><div>내경 20mm, 외경 47mm</div></div>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <div class="section-title">첨부</div>
+                  <table class="row-cols-3">
+                    <tr>
+                      <th>첨부 건수</th><td id="inv-file-count">0</td>
+                      <th>비고</th><td id="inv-file-note" colspan="3">-</td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="section">
+                  <div class="section-title">메모</div>
+                  <table>
+                    <tr>
+                      <th>메모</th>
+                      <td class="note">-</td>
+                    </tr>
+                  </table>
+                </div>
+
+                <!-- 출력 양식 (예시) -->
+                <section class="print-form" aria-hidden="true">
+                  <div class="doc">
+                    <header class="doc-header">
+                      <div class="doc-title">자재 카드</div>
+                      <div class="doc-meta">출력일시: <span id="print-date">-</span></div>
+                    </header>
+                    <div class="doc-body">
+                      <div class="row"><strong>자재 번호</strong><span class="spacer"></span><span>I200000001</span></div>
+                      <div class="row"><strong>자재명</strong><span class="spacer"></span><span>베어링 6204</span></div>
+                      <div class="row"><strong>자산유형</strong><span class="spacer"></span><span>INVEN</span></div>
+                      <div class="row"><strong>관리부서</strong><span class="spacer"></span><span>설비팀</span></div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </section>
+          </div>
+        </main>
+      </section>
       <footer>
         <div class="container">© 자재/재고</div>
       </footer>

@@ -11,7 +11,12 @@ import java.time.LocalDateTime;
  */
 public record DeptResponse(
     String deptId,
-    String name,
+    String deptName,
+    String companyId,
+    String phone,
+    String address,
+    String parentDeptId,
+    String status,
     String note,
     String deleteMark,
     LocalDateTime createdAt,
@@ -25,6 +30,11 @@ public record DeptResponse(
         return new DeptResponse(
             dept.getId().getDeptId(),
             dept.getName(),
+            dept.getId().getCompanyId(),
+            dept.getPhone(),
+            dept.getAddress(),
+            dept.getParentId(),
+            dept.getStatus(),
             dept.getNote(),
             dept.getDeleteMark(),
             dept.getCreatedAt(),

@@ -1,5 +1,13 @@
-<main class="page">
-  <title>회사 목록 · CMMS</title>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>회사 목록 · CMMS</title>
+    <link rel="stylesheet" href="../../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
       <header class="appbar">
         <div class="appbar-inner">
           <div class="brand">기본정보</div>
@@ -17,100 +25,85 @@
           <span>회사</span>
         </div>
       </nav>
-      <section class="page-body">
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">회사 목록</div>
-              <div class="toolbar">
-                <a class="btn" href="#">정보보기</a>
-                <a class="btn primary" th:href="@{~/domain/company/form}">새로 만들기</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">회사 목록</div>
+                <div class="toolbar">
+                  <a class="btn" href="#">정보보기</a>
+                  <a class="btn primary" th:href="@{/domain/company/form}">새로 만들기</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <div class="section">
-                <div class="section-title">필터</div>
-                <div class="grid cols-12">
-                  <div class="col-span-3">
-                    <input class="input" placeholder="회사코드" />
+              <div class="card-body">
+                <div class="section">
+                  <div class="section-title">필터</div>
+                  <div class="grid cols-12">
+                    <div class="col-span-3">
+                      <input class="input" placeholder="회사코드" />
+                    </div>
+                    <div class="col-span-3">
+                      <input class="input" placeholder="회사명" />
+                    </div>
+                    <div class="col-span-3">
+                      <input class="input" placeholder="사업자등록번호" />
+                    </div>
+                    <div class="col-span-3" style="display:flex;gap:8px;justify-content:flex-end">
+                      <button class="btn">초기화</button>
+                      <button class="btn">검색</button>
+                    </div>
                   </div>
-                  <div class="col-span-3">
-                    <input class="input" placeholder="회사명" />
-                  </div>
-                  <div class="col-span-3">
-                    <input class="input" placeholder="사업자등록번호" />
-                  </div>
-                  <div class="col-span-3" style="display:flex;gap:8px;justify-content:flex-end">
-                    <button class="btn">초기화</button>
-                    <button class="btn">검색</button>
+                </div>
+
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width:120px">회사코드</th>
+                      <th>회사명</th>
+                      <th style="width:140px">사업자등록번호</th>
+                      <th>비고</th>
+                      <th style="width:120px">상태</th>
+                      <th style="width:140px">액션</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="company : ${page.content}">
+                      <td><a th:href="@{/domain/company/edit/{id}(id=${company.companyId})}" th:text="${company.companyId}">-</a></td>
+                      <td th:text="${company.name}">-</td>
+                      <td th:text="${company.bizNo}">-</td>
+                      <td th:text="${company.note}">-</td>
+                      <td>
+                        <span class="badge" th:text="${company.deleteMark == 'N' ? '정상' : '중지'}" th:classappend="${company.deleteMark == 'N' ? 'badge' : 'badge danger'}">-</span>
+                      </td>
+                      <td class="actions">
+                        <a class="btn btn-sm" th:href="@{/domain/company/edit/{id}(id=${company.companyId})}">수정</a>
+                        <button class="btn btn-sm danger" 
+                                th:data-delete-url="@{/domain/company/delete/{id}(id=${company.companyId})}"
+                                data-redirect="@{/domain/company/list}"
+                                data-confirm="정말로 삭제하시겠습니까?">삭제</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="row" style="margin-top:12px">
+                  <div class="spacer"></div>
+                  <div class="pagination">
+                    <button class="btn sm" disabled>이전</button>
+                    <button class="btn sm">다음</button>
                   </div>
                 </div>
               </div>
-
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width:120px">회사코드</th>
-                    <th>회사명</th>
-                    <th style="width:140px">사업자등록번호</th>
-                    <th>비고</th>
-                    <th style="width:120px">상태</th>
-                    <th style="width:140px">액션</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="company : ${page.content}">
-                    <td><a th:href="@{/domain/company/edit/{id}(id=${company.companyId})}" th:text="${company.companyId}">-</a></td>
-                    <td th:text="${company.name}">-</td>
-                    <td th:text="${company.bizNo}">-</td>
-                    <td th:text="${company.note}">-</td>
-                    <td>
-                      <span class="badge" th:text="${company.deleteMark == 'N' ? '정상' : '중지'}" th:classappend="${company.deleteMark == 'N' ? 'badge' : 'badge danger'}">-</span>
-                    </td>
-                    <td class="actions">
-                      <a class="btn btn-sm" th:href="@{~/domain/company/edit/{id}(id=${company.companyId})}">수정</a>
-                      <button class="btn btn-sm danger" th:data-company-id="${company.companyId}" onclick="deleteCompany(this.dataset.companyId)">삭제</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="row" style="margin-top:12px">
-                <div class="spacer"></div>
-                <div class="pagination">
-                  <button class="btn sm" disabled>이전</button>
-                  <button class="btn sm">다음</button>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
+            </section>
+          </div>
+        </main>
       </section>
       <footer>
         <div class="container">© 기본정보</div>
       </footer>
-
-  <script>
-        function deleteCompany(companyId) {
-          if (confirm('회사코드 ' + companyId + '를 삭제하시겠습니까?')) {
-            // 폼을 동적으로 생성하여 POST 요청
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/domain/company/delete/' + companyId;
-
-            // CSRF 토큰 추가
-            const csrfToken = document.querySelector('meta[name="_csrf"]');
-            if (csrfToken) {
-              const csrfInput = document.createElement('input');
-              csrfInput.type = 'hidden';
-              csrfInput.name = '_csrf';
-              csrfInput.value = csrfToken.getAttribute('content');
-              form.appendChild(csrfInput);
-            }
-
-            document.body.appendChild(form);
-            form.submit();
-          }
-        }
-      </script>
-</main>
+    </div>
+    <script src="../../../static/assets/js/app.js"></script>
+  </body>
+  </html>

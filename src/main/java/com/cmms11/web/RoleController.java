@@ -63,8 +63,13 @@ public class RoleController {
     }
 
     @PostMapping("/domain/role/save")
-    public String save() {
-        throw new UnsupportedOperationException("Role management is not implemented yet");
+    public String saveForm(@ModelAttribute RoleRequest request, @RequestParam(required = false) String isNew) {
+        if ("true".equals(isNew)) {
+            service.create(request);
+        } else {
+            service.update(request.roleId(), request);
+        }
+        return "redirect:/domain/role/list";
     }
 
     @PostMapping("/domain/role/delete/{roleId}")

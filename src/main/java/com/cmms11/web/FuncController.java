@@ -36,6 +36,7 @@ public class FuncController {
         this.service = service;
     }
 
+    // 웹 컨트롤러 화면 제공
     @GetMapping("/domain/func/list")
     public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         Page<FuncResponse> page = service.list(q, pageable);
@@ -75,6 +76,7 @@ public class FuncController {
         return "redirect:/domain/func/list";
     }
 
+    // API 엔드포인트 제공
     @ResponseBody
     @GetMapping("/api/domain/funcs")
     public Page<FuncResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {

@@ -12,12 +12,19 @@ public class WebConfig implements WebMvcConfigurer {
         // Serve plain HTML from templates as static pages
         registry.addResourceHandler("/auth/**")
                 .addResourceLocations("classpath:/templates/auth/");
+
+        registry.addResourceHandler("/code/**")
+                .addResourceLocations("classpath:/templates/code/");
+        registry.addResourceHandler("/domain/**")
+                .addResourceLocations("classpath:/templates/domain/");
+
+        registry.addResourceHandler("/layout/**")
+                .addResourceLocations("classpath:/templates/layout/");
+                
         registry.addResourceHandler("/plant/**")
                 .addResourceLocations("classpath:/templates/plant/");
         registry.addResourceHandler("/inventory/**")
-                .addResourceLocations("classpath:/templates/inventory/");
-        registry.addResourceHandler("/layout/**")
-                .addResourceLocations("classpath:/templates/layout/");
+                .addResourceLocations("classpath:/templates/inventory/");        
         registry.addResourceHandler("/inspection/**")
                 .addResourceLocations("classpath:/templates/inspection/");
         registry.addResourceHandler("/workorder/**")
@@ -30,8 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/templates/approval/");
         registry.addResourceHandler("/memo/**")
                 .addResourceLocations("classpath:/templates/memo/");
-        registry.addResourceHandler("/code/**")
-                .addResourceLocations("classpath:/templates/code/");
+        
         registry.addResourceHandler("/assets/**")
                 .addResourceLocations("classpath:/static/assets/");
         registry.addResourceHandler("/static/**")

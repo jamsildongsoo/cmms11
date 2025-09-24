@@ -57,4 +57,13 @@ public class Approval {
 
     @Column(name = "updated_by", length = 10)
     private String updatedBy;
+
+    // 편의 메서드들
+    public String getApprovalId() {
+        return id != null ? id.getApprovalId() : null;
+    }
+    
+    public String getCompanyId() {
+        return id != null ? id.getCompanyId() : null;
+    }
 }

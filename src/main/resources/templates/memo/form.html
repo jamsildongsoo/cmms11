@@ -22,78 +22,94 @@
         <div class="container">
           <a href="#">문서/게시</a>
           <span class="sep">/</span>
-          <a href="list.html">게시/메모</a>
+          <a th:href="@{/memo/list}" href="/memo/list">게시/메모</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
       </nav>
-      <main>
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">게시/메모 등록/수정</div>
-              <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">게시/메모 등록/수정</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/memo/list}" href="/memo/list">목록</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <form data-validate>
+              <div class="card-body">
+                <form data-validate method="post" action="/memo/save" data-redirect="/memo/list">
 
-                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <!-- 기본정보 -->
-                <div class="section">
-                  <div class="section-title">기본정보</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-9">
-                      <label class="label required" for="title">제목</label>
-                      <input id="title" name="title" class="input" required maxlength="100" />
+                  <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="hidden" name="isNew" th:value="${isNew}" />
+                  <!-- 기본정보 -->
+                  <div class="section">
+                    <div class="section-title">기본정보</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-9">
+                        <label class="label required" for="title">제목</label>
+                        <input id="title" name="title" class="input" required maxlength="100" 
+                              th:value="${memo.title}" />
+                      </div>
+                    </div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label" for="ref_entity">참조 모듈</label>
+                        <select id="ref_entity" name="refEntity">
+                          <option value="">(선택)</option>
+                          <option th:each="module : ${refModules}"
+                                  th:value="${module.code}"
+                                  th:text="${module.code + ' - ' + module.name}"
+                                  th:selected="${memo.refEntity == module.code}">
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="ref_id">참조 ID</label>
+                        <input id="ref_id" name="refId" class="input" maxlength="10" placeholder="예: O250101001" 
+                              th:value="${memo.refId}" />
+                      </div>
                     </div>
                   </div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label" for="ref_entity">참조 모듈</label>
-                      <input id="ref_entity" name="ref_entity" class="input" maxlength="64" placeholder="예: work_order" />
+
+                  <!-- 내용 -->
+                  <div class="section">
+                    <div class="section-title">메모</div>
+                    <div class="form-row col-span-12">
+                      <label class="label" for="content">내용</label>
+                      <textarea id="content" name="content" rows="8" placeholder="메모 내용을 입력하세요" 
+                              th:text="${memo.content}"></textarea>
                     </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="ref_id">참조 ID</label>
-                      <input id="ref_id" name="ref_id" class="input" maxlength="10" placeholder="예: O250101001" />
+                  </div>
+
+                  <!-- 첨부 -->
+                  <div class="section" data-attachments>
+                    <div class="section-title">첨부</div>
+                    <div class="attachments">
+                      <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
+                      <button type="button" class="btn" data-attachments-add>파일 선택</button>
+                      <div class="hint">선택한 파일이 아래 목록에 표시됩니다</div>
+                      <ul class="attachments-list" aria-live="polite" aria-label="첨부파일 목록">
+                        <li class="empty">첨부파일이 없습니다.</li>
+                      </ul>
                     </div>
+                    <input type="hidden" id="fileGroupId" name="fileGroupId" />
                   </div>
-                </div>
 
-                <!-- 내용 -->
-                <div class="section">
-                  <div class="section-title">메모</div>
-                  <div class="form-row col-span-12">
-                    <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
+                  <div class="actions" style="margin-top:16px">
+                    <button class="btn" type="button" onclick="history.back()">취소</button>
+                    <button class="btn" type="reset">초기화</button>
+                    <button class="btn primary" type="submit">
+                      <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                    </button>
                   </div>
-                </div>
-
-                <!-- 첨부 -->
-                <div class="section" data-attachments>
-                  <div class="section-title">첨부</div>
-                  <div class="attachments">
-                    <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
-                    <button type="button" class="btn" data-attachments-add>파일 선택</button>
-                    <div class="hint">선택한 파일이 아래 목록에 표시됩니다</div>
-                    <ul class="attachments-list" aria-live="polite" aria-label="첨부파일 목록">
-                      <li class="empty">첨부파일이 없습니다.</li>
-                    </ul>
-                  </div>
-                  <input type="hidden" id="file_group_id" name="file_group_id" />
-                </div>
-
-                <div class="actions" style="margin-top:16px">
-                  <button class="btn" type="button" onclick="history.back()">취소</button>
-                  <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">저장</button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
-      </main>
+                </form>
+              </div>
+            </section>
+          </div>
+        </main>
+      </section>
       <footer>
         <div class="container">© 문서/게시</div>
       </footer>

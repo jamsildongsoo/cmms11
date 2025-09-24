@@ -12,7 +12,11 @@ import java.time.LocalDateTime;
  */
 public record SiteResponse(
     String siteId,
-    String name,
+    String siteName,
+    String companyId,
+    String phone,
+    String address,
+    String status,
     String note,
     String deleteMark,
     LocalDateTime createdAt,
@@ -26,6 +30,10 @@ public record SiteResponse(
         return new SiteResponse(
             site.getId().getSiteId(),
             site.getName(),
+            site.getId().getCompanyId(),
+            site.getPhone(),
+            site.getAddress(),
+            site.getStatus(),
             site.getNote(),
             site.getDeleteMark(),
             site.getCreatedAt(),

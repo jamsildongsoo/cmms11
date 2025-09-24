@@ -27,69 +27,72 @@
           <span>계획 수립</span>
         </div>
       </nav>
-      <main>
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">점검 계획 수립</div>
-              <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">점검 계획 수립</div>
+                <div class="toolbar">
+                  <a class="btn" href="list.html">목록</a>
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <form data-validate>
+              <div class="card-body">
+                <form data-validate>
 
-                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <!-- 계획 대상(행 추가/삭제) -->
-                <div class="section" data-plan-items>
-                  <div class="section-title">계획 대상</div>
-                  <div class="help">각 행은 status=PLAN으로 저장됩니다.</div>
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th style="width:44px">#</th>
-                        <th>이름</th>
-                        <th style="width:140px">설비ID</th>
-                        <th style="width:100px">작업유형</th>
-                        <th style="width:100px">Site</th>
-                        <th style="width:100px">부서</th>
-                        <th style="width:100px">담당자</th>
-                        <th style="width:140px">계획일</th>
-                        <th style="width:80px"></th>
-                      </tr>
-                    </thead>
-                    <tbody id="plan-items-body">
-                      <tr class="plan-item-row">
-                        <td class="cell-center line-no">1</td>
-                        <td><input class="input" name="inspections[0].name" required maxlength="100" placeholder="예: 설비A 월간점검" /></td>
-                        <td><input class="input" name="inspections[0].plant_id" maxlength="10" placeholder="예: EQP000123" /></td>
-                        <td><input class="input" name="inspections[0].job_id" maxlength="5" placeholder="예: INSP" /></td>
-                        <td><input class="input" name="inspections[0].site_id" maxlength="5" placeholder="예: SEOUL" /></td>
-                        <td><input class="input" name="inspections[0].dept_id" maxlength="5" placeholder="예: EQ" /></td>
-                        <td><input class="input" name="inspections[0].member_id" maxlength="5" placeholder="예: M0001" /></td>
-                        <td><input class="input" name="inspections[0].planned_date" type="date" required /></td>
-                        <td class="cell-center">
-                          <button type="button" class="btn sm danger" data-remove-item style="display:none">삭제</button>
-                          <input type="hidden" name="inspections[0].status" value="PLAN" />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="actions" style="justify-content:flex-start;margin-top:8px">
-                    <button type="button" class="btn sm" data-add-item>행 추가</button>
+                  <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <!-- 계획 대상(행 추가/삭제) -->
+                  <div class="section" data-plan-items>
+                    <div class="section-title">계획 대상</div>
+                    <div class="help">각 행은 status=PLAN으로 저장됩니다.</div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th style="width:44px">#</th>
+                          <th>이름</th>
+                          <th style="width:140px">설비ID</th>
+                          <th style="width:100px">작업유형</th>
+                          <th style="width:100px">Site</th>
+                          <th style="width:100px">부서</th>
+                          <th style="width:100px">담당자</th>
+                          <th style="width:140px">계획일</th>
+                          <th style="width:80px"></th>
+                        </tr>
+                      </thead>
+                      <tbody id="plan-items-body">
+                        <tr class="plan-item-row">
+                          <td class="cell-center line-no">1</td>
+                          <td><input class="input" name="inspections[0].name" required maxlength="100" placeholder="예: 설비A 월간점검" /></td>
+                          <td><input class="input" name="inspections[0].plant_id" maxlength="10" placeholder="예: EQP000123" /></td>
+                          <td><input class="input" name="inspections[0].job_id" maxlength="5" placeholder="예: INSP" /></td>
+                          <td><input class="input" name="inspections[0].site_id" maxlength="5" placeholder="예: SEOUL" /></td>
+                          <td><input class="input" name="inspections[0].dept_id" maxlength="5" placeholder="예: EQ" /></td>
+                          <td><input class="input" name="inspections[0].member_id" maxlength="5" placeholder="예: M0001" /></td>
+                          <td><input class="input" name="inspections[0].planned_date" type="date" required /></td>
+                          <td class="cell-center">
+                            <button type="button" class="btn sm danger" data-remove-item style="display:none">삭제</button>
+                            <input type="hidden" name="inspections[0].status" value="PLAN" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="actions" style="justify-content:flex-start;margin-top:8px">
+                      <button type="button" class="btn sm" data-add-item>행 추가</button>
+                    </div>
                   </div>
-                </div>
 
-                <div class="actions" style="margin-top:16px">
-                  <button class="btn" type="button" onclick="history.back()">취소</button>
-                  <button class="btn" type="reset">초기화</button>
-                  <button class="btn primary" type="submit">계획 생성</button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
-      </main>
+                  <div class="actions" style="margin-top:16px">
+                    <button class="btn" type="button" onclick="history.back()">취소</button>
+                    <button class="btn" type="reset">초기화</button>
+                    <button class="btn primary" type="submit">계획 생성</button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </div>
+        </main>
+      </section>
       <footer>
         <div class="container">© 점검 계획</div>
       </footer>

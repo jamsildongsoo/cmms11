@@ -37,6 +37,7 @@ public class CompanyController {
         this.service = service;
     }
 
+    // 웹 컨트롤러 화면 제공
     @GetMapping("/domain/company/list")
     public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         Page<CompanyResponse> page = service.list(q, pageable);
@@ -88,6 +89,7 @@ public class CompanyController {
         return "redirect:/domain/company/list";
     }
 
+    // API 엔드포인트 제공
     @ResponseBody
     @GetMapping("/api/domain/companies")
     public Page<CompanyResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {

@@ -30,6 +30,7 @@ public class MemberController {
         this.service = service;
     }
 
+    // 웹 컨트롤러 화면 제공
     @GetMapping("/domain/member/list")
     public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         Page<Member> page = service.list(q, pageable);
@@ -70,6 +71,7 @@ public class MemberController {
         return "redirect:/domain/member/list";
     }
 
+    // API 엔드포인트 제공
     @ResponseBody
     @GetMapping("/api/members")
     public Page<Member> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {
@@ -86,14 +88,14 @@ public class MemberController {
     @PostMapping("/api/members")
     public ResponseEntity<Member> create(@Valid @RequestBody MemberCreateRequest req) {
         Member member = new Member();
-        member.setId(new MemberId(null, req.member_id));
+        member.setId(new MemberId(null, req.memberId));
         member.setName(req.name);
-        member.setDeptId(req.dept_id);
+        member.setDeptId(req.deptId);
         member.setEmail(req.email);
         member.setPhone(req.phone);
         member.setNote(req.note);
-        if (req.delete_mark != null) {
-            member.setDeleteMark(req.delete_mark);
+        if (req.deleteMark != null) {
+            member.setDeleteMark(req.deleteMark);
         }
         Member saved = service.create(member, req.password, req.actor);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
@@ -132,9 +134,7 @@ public class MemberController {
 
         public static MemberForm from(Member member) {
             MemberForm form = new MemberForm();
-            if (member.getId() != null) {
-                form.setMemberId(member.getId().getMemberId());
-            }
+            form.setMemberId(member.getMemberId());
             form.setName(member.getName());
             form.setDeptId(member.getDeptId());
             form.setEmail(member.getEmail());
@@ -222,14 +222,14 @@ public class MemberController {
     }
 
     public static class MemberCreateRequest {
-        public String member_id;
+        public String memberId;
         public String name;
-        public String dept_id;
+        public String deptId;
         public String email;
         public String phone;
         public String note;
         public String password; // raw password, will be encoded
-        public String delete_mark; // optional, default N
+        public String deleteMark; // optional, default N
         public String actor; // optional auditing user id
     }
 }

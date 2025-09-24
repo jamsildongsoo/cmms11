@@ -65,6 +65,10 @@ public class DeptService {
                 throw new IllegalArgumentException("Dept already exists: " + request.deptId());
             }
             dept.setName(request.name());
+            dept.setPhone(request.phone());
+            dept.setAddress(request.address());
+            dept.setStatus(request.status());
+            dept.setParentId(request.parentDeptId());
             dept.setNote(request.note());
             dept.setDeleteMark("N");
             dept.setUpdatedAt(now);
@@ -75,6 +79,10 @@ public class DeptService {
         Dept dept = new Dept();
         dept.setId(new DeptId(companyId, request.deptId()));
         dept.setName(request.name());
+        dept.setPhone(request.phone());
+        dept.setAddress(request.address());
+        dept.setStatus(request.status());
+        dept.setParentId(request.parentDeptId());
         dept.setNote(request.note());
         dept.setDeleteMark("N");
         dept.setCreatedAt(now);
@@ -87,6 +95,10 @@ public class DeptService {
     public DeptResponse update(String deptId, DeptRequest request) {
         Dept existing = getActiveDept(deptId);
         existing.setName(request.name());
+        existing.setPhone(request.phone());
+        existing.setAddress(request.address());
+        existing.setStatus(request.status());
+        existing.setParentId(request.parentDeptId());
         existing.setNote(request.note());
         existing.setUpdatedAt(LocalDateTime.now());
         existing.setUpdatedBy(currentMemberId());

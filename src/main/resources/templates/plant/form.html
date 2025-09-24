@@ -22,196 +22,230 @@
         <div class="container">
           <a href="#">자산정보</a>
           <span class="sep">/</span>
-          <a href="list.html">설비</a>
+          <a th:href="@{/plant/list}" href="/plant/list">설비</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
       </nav>
-      <main>
-        <div class="container">
-          <section class="card">
-            <div class="card-header">
-              <div class="card-title">설비 등록/수정</div>
-              <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
-              </div>
-            </div>
-            <div class="card-body">
-              <form data-validate>
-
-                <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <!-- 기본정보 -->
-                <div class="section">
-                  <div class="section-title">기본정보</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label required" for="plant_id">설비 번호</label>
-                      <input id="plant_id" name="plant_id" class="input" required maxlength="10" placeholder="예: EQP000123" />
-                    </div>
-                    <div class="form-row col-span-9">
-                      <label class="label required" for="name">설비 이름</label>
-                      <input id="name" name="name" class="input" required maxlength="100" placeholder="예: 순환 펌프" />
-                    </div>
-                  </div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label required" for="asset_id">자산유형</label>
-                      <select id="asset_id" name="asset_id" required>
-                        <option value="">선택</option>
-                        <option value="EQPMT">설비</option>
-                        <option value="INVEN">재고</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label required" for="site_id">Site</label>
-                      <select id="site_id" name="site_id" required>
-                        <option value="">선택</option>
-                        <option value="SEOUL">서울</option>
-                        <option value="BUSAN">부산</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label required" for="dept_id">관리부서</label>
-                      <select id="dept_id" name="dept_id" required>
-                        <option value="">선택</option>
-                        <option value="EQ">설비과</option>
-                        <option value="AS">자산과</option>
-                        <option value="EL">전기과</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="func_id">기능위치</label>
-                      <select id="func_id" name="func_id">
-                        <option value="">(선택)</option>
-                        <option value="PMP">펌프</option>
-                        <option value="CMP">컴프레서</option>
-                      </select>
-                    </div>                    
-                  </div>
-                  <div class="form-row col-span-12">
-                    <label class="label" for="note">비고</label>
-                    <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)"></textarea>
-                  </div>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">설비 등록/수정</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/plant/list}" href="/plant/list">목록</a>
                 </div>
+              </div>
+              <div class="card-body">
+                <form data-validate method="post" action="/plant/save" data-redirect="/plant/list">
 
-                <!-- 사양 / 모델 -->
-                <div class="section">
-                  <div class="section-title">사양 / 모델</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-4">
-                      <label class="label" for="maker_name">제조사</label>
-                      <input id="maker_name" name="maker_name" class="input" maxlength="100" />
+                  <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="hidden" name="isNew" th:value="${isNew}" />
+                  <!-- 기본정보 -->
+                  <div class="section">
+                    <div class="section-title">기본정보</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label required" for="plant_id">설비 번호</label>
+                        <input id="plant_id" name="plantId" class="input" required maxlength="10" placeholder="예: EQP000123" 
+                              th:value="${plant.plantId}" th:readonly="${!isNew}" />
+                      </div>
+                      <div class="form-row col-span-9">
+                        <label class="label required" for="name">설비 이름</label>
+                        <input id="name" name="name" class="input" required maxlength="100" placeholder="예: 순환 펌프" 
+                              th:value="${plant.name}" />
+                      </div>
                     </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="model">모델</label>
-                      <input id="model" name="model" class="input" maxlength="100" />
-                    </div>
-                    <div class="form-row col-span-4">
-                      <label class="label" for="serial">시리얼</label>
-                      <input id="serial" name="serial" class="input" maxlength="100" />
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label required" for="asset_id">자산유형</label>
+                        <select id="asset_id" name="assetId" required>
+                          <option value="">선택</option>
+                          <option th:each="assetType : ${assetTypes}"
+                                  th:value="${assetType.code}"
+                                  th:text="${assetType.code + ' - ' + assetType.name}"
+                                  th:selected="${plant.assetId == assetType.code}">
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label required" for="site_id">Site</label>
+                        <select id="site_id" name="siteId" required>
+                          <option value="">선택</option>
+                          <option th:each="site : ${sites}"
+                                  th:value="${site.siteId}"
+                                  th:text="${site.siteId + ' - ' + site.siteName}"
+                                  th:selected="${plant.siteId == site.siteId}">
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label required" for="dept_id">관리부서</label>
+                        <select id="dept_id" name="deptId" required>
+                          <option value="">선택</option>
+                          <option th:each="dept : ${depts}"
+                                  th:value="${dept.deptId}"
+                                  th:text="${dept.deptId + ' - ' + dept.deptName}"
+                                  th:selected="${plant.deptId == dept.deptId}">
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="func_id">기능위치</label>
+                        <select id="func_id" name="funcId">
+                          <option value="">(선택)</option>
+                          <option th:each="func : ${funcs}"
+                                  th:value="${func.funcId}"
+                                  th:text="${func.funcId + ' - ' + func.name}"
+                                  th:selected="${plant.funcId == func.funcId}">
+                          </option>
+                        </select>
+                      </div>                    
                     </div>
                     <div class="form-row col-span-12">
-                      <label class="label" for="spec">스펙</label>
-                      <textarea id="spec" name="spec" rows="3" placeholder="예: 압력 10~30 bar, 용량 40 m³/h"></textarea>
+                      <label class="label" for="note">비고</label>
+                      <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
+                              th:text="${plant.note}"></textarea>
                     </div>
                   </div>
-                </div>
 
-                <!-- 설치 / 감가상각 -->
-                <div class="section">
-                  <div class="section-title">설치 / 감가상각</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label" for="install_date">설치일</label>
-                      <input id="install_date" name="install_date" class="input" type="date" />
+                  <!-- 사양 / 모델 -->
+                  <div class="section">
+                    <div class="section-title">사양 / 모델</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-4">
+                        <label class="label" for="maker_name">제조사</label>
+                        <input id="maker_name" name="makerName" class="input" maxlength="100" 
+                              th:value="${plant.makerName}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="model">모델</label>
+                        <input id="model" name="model" class="input" maxlength="100" 
+                              th:value="${plant.model}" />
+                      </div>
+                      <div class="form-row col-span-4">
+                        <label class="label" for="serial">시리얼</label>
+                        <input id="serial" name="serial" class="input" maxlength="100" 
+                              th:value="${plant.serial}" />
+                      </div>
+                      <div class="form-row col-span-12">
+                        <label class="label" for="spec">스펙</label>
+                        <textarea id="spec" name="spec" rows="3" placeholder="예: 압력 10~30 bar, 용량 40 m³/h" 
+                              th:text="${plant.spec}"></textarea>
+                      </div>
                     </div>
                   </div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label" for="depre_id">감가유형</label>
-                      <select id="depre_id" name="depre_id">
-                        <option value="">(선택)</option>
-                        <option value="SL">정액법</option>
-                        <option value="DB">정률법</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="depre_period">감가기간(년)</label>
-                      <input id="depre_period" name="depre_period" class="input" type="number" min="0" max="100" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="purchase_cost">취득가</label>
-                      <input id="purchase_cost" name="purchase_cost" class="input" type="number" min="0" step="0.01" />
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="residual_value">잔존가</label>
-                      <input id="residual_value" name="residual_value" class="input" type="number" min="0" step="0.01" />
-                    </div>
-                  </div>
-                </div>
 
-                <!-- 운영 / 안전 -->
-                <div class="section">
-                  <div class="section-title">운영 / 안전</div>
-                  <div class="grid cols-12">
-                    <div class="form-row col-span-3">
-                      <label class="label" for="inspection_yn">점검대상</label>
-                      <select id="inspection_yn" name="inspection_yn">
-                        <option value="N">아니오</option>
-                        <option value="Y">예</option>
-                      </select>
+                  <!-- 설치 / 감가상각 -->
+                  <div class="section">
+                    <div class="section-title">설치 / 감가상각</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label" for="install_date">설치일</label>
+                        <input id="install_date" name="installDate" class="input" type="date" 
+                              th:value="${plant.installDate}" />
+                      </div>
                     </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="psm_yn">PSM 대상</label>
-                      <select id="psm_yn" name="psm_yn">
-                        <option value="N">아니오</option>
-                        <option value="Y">예</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="workpermit_yn">작업허가 대상</label>
-                      <select id="workpermit_yn" name="workpermit_yn">
-                        <option value="N">아니오</option>
-                        <option value="Y">예</option>
-                      </select>
-                    </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="inspection_interval">점검주기(개월)</label>
-                      <input id="inspection_interval" name="inspection_interval" class="input" type="number" min="0" step="1" />
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label" for="depre_id">감가유형</label>
+                        <select id="depre_id" name="depreId">
+                          <option value="">(선택)</option>
+                          <option th:each="depreType : ${depreTypes}"
+                                  th:value="${depreType.code}"
+                                  th:text="${depreType.code + ' - ' + depreType.name}"
+                                  th:selected="${plant.depreId == depreType.code}">
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="depre_period">감가기간(년)</label>
+                        <input id="depre_period" name="deprePeriod" class="input" type="number" min="0" max="100" 
+                              th:value="${plant.deprePeriod}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="purchase_cost">취득가</label>
+                        <input id="purchase_cost" name="purchaseCost" class="input" type="number" min="0" step="0.01" 
+                              th:value="${plant.purchaseCost}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="residual_value">잔존가</label>
+                        <input id="residual_value" name="residualValue" class="input" type="number" min="0" step="0.01" 
+                              th:value="${plant.residualValue}" />
+                      </div>
                     </div>
                   </div>
-                  <div class="grid cols-12">                    
-                    <div class="form-row col-span-3">
-                      <label class="label" for="last_inspection">최종 점검일</label>
-                      <input id="last_inspection" name="last_inspection" class="input" type="date" />
+
+                  <!-- 운영 / 안전 -->
+                  <div class="section">
+                    <div class="section-title">운영 / 안전</div>
+                    <div class="grid cols-12">
+                      <div class="form-row col-span-3">
+                        <label class="label" for="inspection_yn">점검대상</label>
+                        <select id="inspection_yn" name="inspectionYn">
+                          <option value="N" th:selected="${plant.inspectionYn == 'N'}">아니오</option>
+                          <option value="Y" th:selected="${plant.inspectionYn == 'Y'}">예</option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="psm_yn">PSM 대상</label>
+                        <select id="psm_yn" name="psmYn">
+                          <option value="N" th:selected="${plant.psmYn == 'N'}">아니오</option>
+                          <option value="Y" th:selected="${plant.psmYn == 'Y'}">예</option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="workpermit_yn">작업허가 대상</label>
+                        <select id="workpermit_yn" name="workpermitYn">
+                          <option value="N" th:selected="${plant.workpermitYn == 'N'}">아니오</option>
+                          <option value="Y" th:selected="${plant.workpermitYn == 'Y'}">예</option>
+                        </select>
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="inspection_interval">점검주기(개월)</label>
+                        <input id="inspection_interval" name="inspectionInterval" class="input" type="number" min="0" step="1" 
+                              th:value="${plant.inspectionInterval}" />
+                      </div>
                     </div>
-                    <div class="form-row col-span-3">
-                      <label class="label" for="next_inspection">다음 점검일</label>
-                      <input id="next_inspection" name="next_inspection" class="input" type="date" />
+                    <div class="grid cols-12">                    
+                      <div class="form-row col-span-3">
+                        <label class="label" for="last_inspection">최종 점검일</label>
+                        <input id="last_inspection" name="lastInspection" class="input" type="date" 
+                              th:value="${plant.lastInspection}" />
+                      </div>
+                      <div class="form-row col-span-3">
+                        <label class="label" for="next_inspection">다음 점검일</label>
+                        <input id="next_inspection" name="nextInspection" class="input" type="date" 
+                              th:value="${plant.nextInspection}" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <!-- 첨부 -->
-                <div class="section" data-attachments>
-                  <div class="section-title">첨부</div>
-                  <div class="attachments">
-                      <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
-                      <button type="button" class="btn" data-attachments-add>파일 선택</button>
-                      <div class="hint">선택한 파일이 아래 목록에 표시됩니다.</div>
-                      <ul class="attachments-list" aria-live="polite" aria-label="첨부된 파일 목록">
-                        <li class="empty">첨부된 파일이 없습니다.</li>
-                      </ul>
-                    </div>
-                </div>
-                <div class="actions" style="margin-top:16px">
-                  <button class="btn" type="button" onclick="history.back()">취소</button>
-                  <button class="btn primary" type="submit">저장</button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </div>
-      </main>
+                  <!-- 첨부 -->
+                  <div class="section" data-attachments>
+                    <div class="section-title">첨부</div>
+                    <div class="attachments">
+                        <input id="attachments-input" class="visually-hidden" type="file" multiple aria-hidden="true" />
+                        <button type="button" class="btn" data-attachments-add>파일 선택</button>
+                        <div class="hint">선택한 파일이 아래 목록에 표시됩니다.</div>
+                        <ul class="attachments-list" aria-live="polite" aria-label="첨부된 파일 목록">
+                          <li class="empty">첨부된 파일이 없습니다.</li>
+                        </ul>
+                      </div>
+                  </div>
+                  <div class="actions" style="margin-top:16px">
+                    <button class="btn" type="button" onclick="history.back()">취소</button>
+                    <button class="btn primary" type="submit">
+                      <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </div>
+        </main>
+      </section>
       <footer>
         <div class="container">© 설비 관리</div>
       </footer>

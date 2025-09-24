@@ -13,6 +13,10 @@ import jakarta.validation.constraints.Size;
 public record SiteRequest(
     @NotBlank @Size(max = 5) String siteId,
     @NotBlank @Size(max = 100) String name,
+    @Size(max = 5) String companyId,
+    @Size(max = 30) String phone,
+    @Size(max = 200) String address,
+    @Size(max = 20) String status,
     @Size(max = 500) String note
 ) {
 }

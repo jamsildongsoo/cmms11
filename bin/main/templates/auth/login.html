@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>로그인 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <main class="container" style="min-height:100vh;display:flex;align-items:center;justify-content:center">
+      <section class="card" style="width:100%;max-width:420px">
+        <div class="card-header">
+          <div class="card-title">로그인</div>
+        </div>
+        <div class="card-body">
+          <form data-validate action="/api/auth/login" method="post">
+            <div class="stack">
+              <label class="label" for="member_id">아이디</label>
+              <input id="member_id" name="member_id" class="input" required maxlength="5" autocomplete="username" />
+            </div>
+            <div class="stack" style="margin-top:12px">
+              <label class="label" for="password">비밀번호</label>
+              <input id="password" name="password" class="input" type="password" required maxlength="100" autocomplete="current-password" />
+            </div>
+            <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <div id="login_error" class="notice danger-text" style="display:none;margin-top:12px"></div>
+            <div class="actions" style="margin-top:16px">
+              <button class="btn primary" type="submit">로그인</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script src="../../static/assets/js/app.js"></script>
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const hasError = params.get('error');
+        const customMsg = params.get('msg');
+        const errorEl = document.getElementById('login_error');
+        if (!errorEl) return;
+        if (hasError) {
+          errorEl.textContent = customMsg ? decodeURIComponent(customMsg) : '아이디 또는 비밀번호를 확인하세요.';
+          errorEl.setAttribute('role', 'alert');
+          errorEl.style.display = 'block';
+        }
+      })();
+    </script>
+  </body>
+  </html>

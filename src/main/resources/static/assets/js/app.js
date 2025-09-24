@@ -172,3 +172,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.cmms = window.cmms || {};
 window.cmms.refreshCsrfForms = syncCsrfHiddenFields;
+
+// Fetch an HTML partial and inject into a slot element.
+// It prefers a root element marked with [data-slot-root] (e.g.,
+// <section data-slot-root th:fragment="content"> ... </section>),
+// and falls back to <main> or the entire <body>.
+window.cmms.fetchAndInject = async function fetchAndInject(url, slotEl, opts) {
+  const options = Object.assign({ pushState: false, onAfterInject: null }, opts);
+  if (!slotEl) throw new Error('fetchAndInject: slot element is required');
+  const res = await fetch(url, { credentials: 'same-origin' });
+  if (!res.ok) throw new Error('Failed to fetch: ' + res.status);
+  const html = await res.text();
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  // Prefer explicit slot root, then a main, then body.
+  const root =
+    doc.querySelector('[data-slot-root]') ||
+    doc.querySelector('main') ||
+    doc.body;
+
+  // Inject content
+  slotEl.innerHTML = root.innerHTML;
+
+  // Sync document title if provided
+  const title = doc.querySelector('title');
+  if (title && title.textContent) {
+    try { document.title = title.textContent; } catch (_) {}
+  }
+
+  // Wire up [data-validate] forms inside slot for SPA-like submit
+  const forms = slotEl.querySelectorAll('form[data-validate]');
+  forms.forEach((form) => {
+    if (form.__cmmsBound) return;
+    form.__cmmsBound = true;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const action = form.getAttribute('action') || window.location.href;
+      const method = (form.getAttribute('method') || 'post').toUpperCase();
+      const redirectTo = form.getAttribute('data-redirect');
+      fetch(action, {
+        method,
+        credentials: 'same-origin',
+        body: fd,
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('Submit failed: ' + res.status);
+          if (redirectTo) {
+            window.location.href = redirectTo;
+          } else if (typeof options.onAfterInject === 'function') {
+            options.onAfterInject({ form, res });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          const notice = document.createElement('div');
+          notice.className = 'notice danger';
+          notice.textContent = '요청이 실패했습니다. 잠시 후 다시 시도하세요.';
+          form.prepend(notice);
+        });
+    });
+  });
+
+  // Ensure CSRF hidden fields are refreshed
+  try { syncCsrfHiddenFields(); } catch (_) {}
+
+  return { doc, root };
+};

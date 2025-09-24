@@ -48,4 +48,13 @@ public class Member {
 
     @Column(name = "updated_by", length = 10)
     private String updatedBy;
+
+    // 편의 메서드들
+    public String getMemberId() {
+        return id != null ? id.getMemberId() : null;
+    }
+
+    public String getCompanyId() {
+        return id != null ? id.getCompanyId() : null;
+    }
 }

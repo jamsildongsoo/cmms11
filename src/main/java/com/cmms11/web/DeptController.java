@@ -36,6 +36,7 @@ public class DeptController {
         this.service = service;
     }
 
+    // 웹 컨트롤러 화면 제공
     @GetMapping("/domain/dept/list")
     public String listForm(@RequestParam(name = "q", required = false) String q, Pageable pageable, Model model) {
         Page<DeptResponse> page = service.list(q, pageable);
@@ -75,6 +76,7 @@ public class DeptController {
         return "redirect:/domain/dept/list";
     }
 
+    // API 엔드포인트 제공
     @ResponseBody
     @GetMapping("/api/domain/depts")
     public Page<DeptResponse> list(@RequestParam(name = "q", required = false) String q, Pageable pageable) {
@@ -115,6 +117,11 @@ public class DeptController {
         return new DeptResponse(
             null,
             null,
+            null,
+            null,
+            null,
+            null,
+            "ACTIVE",
             null,
             "N",
             null,

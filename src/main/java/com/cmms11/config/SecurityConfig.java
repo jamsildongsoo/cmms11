@@ -63,7 +63,8 @@ public class SecurityConfig {
                     "/js/**",
                     "/images/**",
                     "/favicon.ico",
-                    "/api/health"
+                    "/api/health",
+                    "/api/auth/logout"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
@@ -80,6 +81,7 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/auth/login.html")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
+                .permitAll()
             )
             .exceptionHandling(exception -> exception
                 .accessDeniedHandler(accessDeniedHandler())

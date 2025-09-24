@@ -41,52 +41,100 @@ public class PlantService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Plant> list(String q, Pageable pageable) {
+    public Page<PlantResponse> list(String q, Pageable pageable) {
         String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
+        Page<Plant> page;
         if (q == null || q.isBlank()) {
-            return repository.findByIdCompanyIdAndDeleteMark(companyId, "N", pageable);
+            page = repository.findByIdCompanyIdAndDeleteMark(companyId, "N", pageable);
+        } else {
+            page = repository.search(companyId, "N", "%" + q + "%", pageable);
         }
-        return repository.search(companyId, "N", "%" + q + "%", pageable);
+        return page.map(PlantResponse::from);
     }
 
     @Transactional(readOnly = true)
-    public Plant get(String plantId) {
-        PlantId id = new PlantId(MemberUserDetailsService.DEFAULT_COMPANY, plantId);
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Plant not found: " + plantId));
+    public PlantResponse get(String plantId) {
+        Plant plant = getActivePlant(plantId);
+        return PlantResponse.from(plant);
     }
 
-    public Plant create(Plant plant) {
+    public PlantResponse create(PlantRequest request) {
         String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
-        if (plant.getId() == null || plant.getId().getPlantId() == null || plant.getId().getPlantId().isBlank()) {
-            // MODULE CODE for Plant(master): '1' (see docs/STRUCTURES.md)
-            String newId = numberService.generateMasterId(companyId, MODULE_CODE);
-            plant.setId(new PlantId(companyId, newId));
-        } else {
-            plant.getId().setCompanyId(companyId);
-        }
-        if (plant.getDeleteMark() == null) {
-            plant.setDeleteMark("N");
-        }
-        return repository.save(plant);
+        LocalDateTime now = LocalDateTime.now();
+        String memberId = currentMemberId();
+
+        Plant plant = new Plant();
+        plant.setId(new PlantId(companyId, request.plantId()));
+        plant.setName(request.name());
+        plant.setAssetId(request.assetId());
+        plant.setSiteId(request.siteId());
+        plant.setDeptId(request.deptId());
+        plant.setFuncId(request.funcId());
+        plant.setMakerName(request.makerName());
+        plant.setSpec(request.spec());
+        plant.setModel(request.model());
+        plant.setSerial(request.serial());
+        plant.setInstallDate(request.installDate());
+        plant.setDepreId(request.depreId());
+        plant.setDeprePeriod(request.deprePeriod());
+        plant.setPurchaseCost(request.purchaseCost());
+        plant.setResidualValue(request.residualValue());
+        plant.setInspectionYn(request.inspectionYn());
+        plant.setPsmYn(request.psmYn());
+        plant.setWorkpermitYn(request.workpermitYn());
+        plant.setInspectionInterval(request.inspectionInterval());
+        plant.setLastInspection(request.lastInspection());
+        plant.setNextInspection(request.nextInspection());
+        plant.setFileGroupId(request.fileGroupId());
+        plant.setNote(request.note());
+        plant.setStatus(request.status());
+        plant.setDeleteMark("N");
+        plant.setCreatedAt(now);
+        plant.setCreatedBy(memberId);
+        plant.setUpdatedAt(now);
+        plant.setUpdatedBy(memberId);
+
+        return PlantResponse.from(repository.save(plant));
     }
 
-    public Plant update(String plantId, Plant plant) {
+    public PlantResponse update(String plantId, PlantRequest request) {
+        Plant existing = getActivePlant(plantId);
+        
+        existing.setName(request.name());
+        existing.setAssetId(request.assetId());
+        existing.setSiteId(request.siteId());
+        existing.setDeptId(request.deptId());
+        existing.setFuncId(request.funcId());
+        existing.setMakerName(request.makerName());
+        existing.setSpec(request.spec());
+        existing.setModel(request.model());
+        existing.setSerial(request.serial());
+        existing.setInstallDate(request.installDate());
+        existing.setDepreId(request.depreId());
+        existing.setDeprePeriod(request.deprePeriod());
+        existing.setPurchaseCost(request.purchaseCost());
+        existing.setResidualValue(request.residualValue());
+        existing.setInspectionYn(request.inspectionYn());
+        existing.setPsmYn(request.psmYn());
+        existing.setWorkpermitYn(request.workpermitYn());
+        existing.setInspectionInterval(request.inspectionInterval());
+        existing.setLastInspection(request.lastInspection());
+        existing.setNextInspection(request.nextInspection());
+        existing.setFileGroupId(request.fileGroupId());
+        existing.setNote(request.note());
+        existing.setStatus(request.status());
+        existing.setUpdatedAt(LocalDateTime.now());
+        existing.setUpdatedBy(currentMemberId());
+
+        return PlantResponse.from(repository.save(existing));
+    }
+
+    private Plant getActivePlant(String plantId) {
         String companyId = MemberUserDetailsService.DEFAULT_COMPANY;
         PlantId id = new PlantId(companyId, plantId);
-        
-        // 기존 Plant 존재 확인
-        Plant existing = repository.findById(id)
+        return repository.findById(id)
+            .filter(plant -> !"Y".equalsIgnoreCase(plant.getDeleteMark()))
             .orElseThrow(() -> new NotFoundException("Plant not found: " + plantId));
-        
-        // ID 설정 (수정 시에는 기존 ID 유지)
-        plant.setId(id);
-        
-        // 삭제 마크가 null이면 기존 값 유지
-        if (plant.getDeleteMark() == null) {
-            plant.setDeleteMark(existing.getDeleteMark());
-        }
-        
-        return repository.save(plant);
     }
 
     public void delete(String plantId) {
