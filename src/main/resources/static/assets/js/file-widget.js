@@ -331,55 +331,33 @@ class FileUploadWidget {
     }
 
     formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        return window.cmms.utils.formatFileSize(bytes);
     }
 
     showSuccess(message) {
-        this.showNotification(message, 'success');
+        window.cmms.notification.success(message);
     }
 
     showError(message) {
-        this.showNotification(message, 'error');
+        window.cmms.notification.error(message);
     }
 
     showUploadSuccess(fileName) {
-        this.showNotification(`${fileName} 업로드 완료`, 'success');
+        window.cmms.notification.success(`${fileName} 업로드 완료`);
     }
 
     showUploadError(fileName, error) {
-        this.showNotification(`${fileName} 업로드 실패: ${error}`, 'error');
-    }
-
-    showNotification(message, type) {
-        // 기존 알림 제거
-        const existing = this.container.querySelector('.file-notification');
-        if (existing) {
-            existing.remove();
-        }
-
-        // 새 알림 생성
-        const notification = document.createElement('div');
-        notification.className = `file-notification ${type}`;
-        notification.textContent = message;
-        
-        this.container.appendChild(notification);
-
-        // 3초 후 자동 제거
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 3000);
+        window.cmms.notification.error(`${fileName} 업로드 실패: ${error}`);
     }
 }
 
-// 전역 함수로 위젯 초기화
-window.initFileUploadWidget = function(container, options = {}) {
-    return new FileUploadWidget(container, options);
+// CMMS 네임스페이스에 파일 업로드 모듈 추가
+window.cmms = window.cmms || {};
+window.cmms.fileUpload = {
+    init: function(container, options = {}) {
+        return new FileUploadWidget(container, options);
+    },
+    FileUploadWidget: FileUploadWidget
 };
 
 // DOM 로드 시 자동 초기화
@@ -387,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const attachmentContainers = document.querySelectorAll('[data-attachments]');
     attachmentContainers.forEach(container => {
         try {
-            new FileUploadWidget(container);
+            window.cmms.fileUpload.init(container);
         } catch (error) {
             console.error('파일 업로드 위젯 초기화 실패:', error);
         }

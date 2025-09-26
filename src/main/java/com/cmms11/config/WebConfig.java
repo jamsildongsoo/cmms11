@@ -13,30 +13,30 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/auth/**")
                 .addResourceLocations("classpath:/templates/auth/");
 
-        registry.addResourceHandler("/code/**")
-                .addResourceLocations("classpath:/templates/code/");
-        registry.addResourceHandler("/domain/**")
-                .addResourceLocations("classpath:/templates/domain/");
+        // registry.addResourceHandler("/code/**")
+        //         .addResourceLocations("classpath:/templates/code/");
+        // registry.addResourceHandler("/domain/**")
+        //         .addResourceLocations("classpath:/templates/domain/");
 
-        registry.addResourceHandler("/layout/**")
-                .addResourceLocations("classpath:/templates/layout/");
+        // registry.addResourceHandler("/layout/**")
+        //         .addResourceLocations("classpath:/templates/layout/");
                 
-        registry.addResourceHandler("/plant/**")
-                .addResourceLocations("classpath:/templates/plant/");
-        registry.addResourceHandler("/inventory/**")
-                .addResourceLocations("classpath:/templates/inventory/");        
-        registry.addResourceHandler("/inspection/**")
-                .addResourceLocations("classpath:/templates/inspection/");
-        registry.addResourceHandler("/workorder/**")
-                .addResourceLocations("classpath:/templates/workorder/");
-        registry.addResourceHandler("/workpermit/**")
-                .addResourceLocations("classpath:/templates/workpermit/");
-        registry.addResourceHandler("/inventoryTx/**")
-                .addResourceLocations("classpath:/templates/inventoryTx/");
-        registry.addResourceHandler("/approval/**")
-                .addResourceLocations("classpath:/templates/approval/");
-        registry.addResourceHandler("/memo/**")
-                .addResourceLocations("classpath:/templates/memo/");
+        // registry.addResourceHandler("/plant/**")
+        //         .addResourceLocations("classpath:/templates/plant/");
+        // registry.addResourceHandler("/inventory/**")
+        //         .addResourceLocations("classpath:/templates/inventory/");        
+        // registry.addResourceHandler("/inspection/**")
+        //         .addResourceLocations("classpath:/templates/inspection/");
+        // registry.addResourceHandler("/workorder/**")
+        //         .addResourceLocations("classpath:/templates/workorder/");
+        // registry.addResourceHandler("/workpermit/**")
+        //         .addResourceLocations("classpath:/templates/workpermit/");
+        // registry.addResourceHandler("/inventoryTx/**")
+        //         .addResourceLocations("classpath:/templates/inventoryTx/");
+        // registry.addResourceHandler("/approval/**")
+        //         .addResourceLocations("classpath:/templates/approval/");
+        // registry.addResourceHandler("/memo/**")
+        //         .addResourceLocations("classpath:/templates/memo/");
         
         registry.addResourceHandler("/assets/**")
                 .addResourceLocations("classpath:/static/assets/");

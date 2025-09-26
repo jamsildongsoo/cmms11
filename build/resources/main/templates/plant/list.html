@@ -53,7 +53,7 @@
                         <option value="">부서 전체</option>
                         <option th:each="dept : ${depts}" 
                                 th:value="${dept.deptId}" 
-                                th:text="${dept.name}"
+                                th:text="${dept.deptName}"
                                 th:selected="${deptId == dept.deptId}"></option>
                       </select>
                     </div>

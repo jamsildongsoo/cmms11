@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,7 +20,7 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">자산정보</a>
+          <a th:href="@{#}" href="#">자산정보</a>
           <span class="sep">/</span>
           <span>자재/재고</span>
         </div>
@@ -33,7 +33,7 @@
                 <div class="card-header">
                 <div class="card-title">자재/재고 목록</div>
                 <div class="toolbar">
-                  <a class="btn" href="#">정보보기</a>
+                  <a class="btn" th:href="@{#}" href="#">정보보기</a>
                   <a class="btn" th:href="@{/inventory/uploadForm}">일괄 등록</a>
                   <a class="btn primary" th:href="@{/inventory/form}">새로 만들기</a>
                 </div>

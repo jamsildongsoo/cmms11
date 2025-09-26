@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
@@ -20,7 +20,7 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">기본정보</a>
+          <a th:href="@{/}">기본정보</a>
           <span class="sep">/</span>
           <span>회사</span>
         </div>
@@ -33,7 +33,7 @@
               <div class="card-header">
                 <div class="card-title">회사 목록</div>
                 <div class="toolbar">
-                  <a class="btn" href="#">정보보기</a>
+                  <a class="btn" th:href="@{/domain/company/detail}">정보보기</a>
                   <a class="btn primary" th:href="@{/domain/company/form}">새로 만들기</a>
                 </div>
               </div>
@@ -81,7 +81,7 @@
                         <a class="btn btn-sm" th:href="@{/domain/company/edit/{id}(id=${company.companyId})}">수정</a>
                         <button class="btn btn-sm danger" 
                                 th:data-delete-url="@{/domain/company/delete/{id}(id=${company.companyId})}"
-                                data-redirect="@{/domain/company/list}"
+                                th:data-redirect="@{/domain/company/list}"
                                 data-confirm="정말로 삭제하시겠습니까?">삭제</button>
                       </td>
                     </tr>

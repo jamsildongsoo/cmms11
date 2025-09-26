@@ -4,6 +4,7 @@ import com.cmms11.domain.member.MemberAuthResponse;
 import com.cmms11.domain.member.MemberAuthService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,12 @@ public class AuthController {
     @GetMapping("/me")
     public MemberAuthResponse me(Authentication authentication) {
         return memberAuthService.getAuthenticatedMember(authentication);
+    }
+
+    @PostMapping("/logout")
+    public void logout() {
+        // Spring Security handles logout automatically
+        // This endpoint is just for consistency with the frontend
     }
 }
 

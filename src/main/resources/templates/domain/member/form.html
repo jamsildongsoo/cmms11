@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="ko">
+﻿<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,9 +20,9 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">기본정보</a>
+          <a th:href="@{/}">기본정보</a>
           <span class="sep">/</span>
-          <a th:href="@{/domain/member/list}" href="/domain/member/list">사용자</a>
+          <a th:href="@{/domain/member/list}">사용자</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -35,11 +35,11 @@
               <div class="card-header">
                 <div class="card-title">사용자 등록/수정</div>
                 <div class="toolbar">
-                  <a class="btn" th:href="@{/domain/member/list}" href="/domain/member/list">목록</a>
+                  <a class="btn" th:href="@{/domain/member/list}">목록</a>
                 </div>
               </div>
               <div class="card-body">
-                <form data-validate method="post" action="/domain/member/save" data-redirect="/domain/member/list">
+                <form data-validate method="post" th:action="@{/domain/member/save}" th:data-redirect="@{/domain/member/list}">
 
                   <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <input type="hidden" name="isNew" th:value="${isNew}" />
@@ -63,7 +63,7 @@
                           <option value="">(선택)</option>
                           <option th:each="dept : ${depts}" 
                                   th:value="${dept.deptId}" 
-                                  th:text="${dept.name}"
+                                  th:text="${dept.deptName}"
                                   th:selected="${member.deptId == dept.deptId}"></option>
                         </select>
                       </div>

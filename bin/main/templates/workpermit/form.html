@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,9 +28,9 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">작업관리</a>
+          <a th:href="@{#}" href="#">작업관리</a>
           <span class="sep">/</span>
-          <a th:href="@{/workpermit/list}" href="/workpermit/list">작업허가</a>
+          <a th:href="@{/workpermit/list}">작업허가</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -43,11 +43,11 @@
               <div class="card-header">
                 <div class="card-title">작업허가 등록/수정</div>
                 <div class="toolbar">
-                  <a class="btn" th:href="@{/workpermit/list}" href="/workpermit/list">목록</a>
+                  <a class="btn" th:href="@{/workpermit/list}">목록</a>
                 </div>
               </div>
               <div class="card-body">
-                <form data-validate method="post" action="/workpermit/save" data-redirect="/workpermit/list">
+                <form data-validate method="post" th:action="@{/workpermit/save}" data-redirect="@{/workpermit/list}">
 
                   <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <input type="hidden" name="isNew" th:value="${isNew}" />
@@ -58,19 +58,19 @@
                       <div class="form-row col-span-3">
                         <label class="label required" for="workPermitId">허가 번호</label>
                         <input id="workPermitId" name="workPermitId" class="input" required maxlength="10" placeholder="예: P250101001" 
-                              th:value="${workpermit.workPermitId}" th:readonly="${!isNew}" />
+                              th:value="${workPermit.workPermitId}" th:readonly="${!isNew}" />
                       </div>
                       <div class="form-row col-span-9">
                         <label class="label required" for="name">작업명</label>
                         <input id="name" name="name" class="input" required maxlength="100" 
-                              th:value="${workpermit.name}" />
+                              th:value="${workPermit.name}" />
                       </div>
                     </div>
                     <div class="grid cols-12">
                       <div class="form-row col-span-3">
                         <label class="label required" for="plant_id">설비 번호</label>
                         <input id="plant_id" name="plantId" class="input" required maxlength="10" placeholder="EQP000123" 
-                              th:value="${workpermit.plantId}" />
+                              th:value="${workPermit.plantId}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label required" for="job_id">허가 유형</label>
@@ -79,7 +79,7 @@
                           <option th:each="permitType : ${permitTypes}"
                                   th:value="${permitType.code}"
                                   th:text="${permitType.code + ' - ' + permitType.name}"
-                                  th:selected="${workpermit.jobId == permitType.code}">
+                                  th:selected="${workPermit.jobId == permitType.code}">
                           </option>
                         </select>
                       </div>
@@ -90,7 +90,7 @@
                           <option th:each="site : ${sites}"
                                   th:value="${site.siteId}"
                                   th:text="${site.siteId + ' - ' + site.siteName}"
-                                  th:selected="${workpermit.siteId == site.siteId}">
+                                  th:selected="${workPermit.siteId == site.siteId}">
                           </option>
                         </select>
                       </div>
@@ -101,7 +101,7 @@
                           <option th:each="dept : ${depts}"
                                   th:value="${dept.deptId}"
                                   th:text="${dept.deptId + ' - ' + dept.deptName}"
-                                  th:selected="${workpermit.deptId == dept.deptId}">
+                                  th:selected="${workPermit.deptId == dept.deptId}">
                           </option>
                         </select>
                       </div>
@@ -115,25 +115,25 @@
                       <div class="form-row col-span-3">
                         <label class="label" for="member_id">담당자</label>
                         <input id="member_id" name="memberId" class="input" maxlength="5" placeholder="예: M0001" 
-                              th:value="${workpermit.memberId}" />
+                              th:value="${workPermit.memberId}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="planned_date">계획일</label>
                         <input id="planned_date" name="plannedDate" class="input" type="date" 
-                              th:value="${workpermit.plannedDate}" />
+                              th:value="${workPermit.plannedDate}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="actual_date">실적일</label>
                         <input id="actual_date" name="actualDate" class="input" type="date" 
-                              th:value="${workpermit.actualDate}" />
+                              th:value="${workPermit.actualDate}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="status">상태</label>
                         <select id="status" name="status">
-                          <option value="REQ" th:selected="${workpermit.status == 'REQ'}">요청</option>
-                          <option value="APRV" th:selected="${workpermit.status == 'APRV'}">승인</option>
-                          <option value="REJT" th:selected="${workpermit.status == 'REJT'}">반려</option>
-                          <option value="DONE" th:selected="${workpermit.status == 'DONE'}">종료</option>
+                          <option value="REQ" th:selected="${workPermit.status == 'REQ'}">요청</option>
+                          <option value="APRV" th:selected="${workPermit.status == 'APRV'}">승인</option>
+                          <option value="REJT" th:selected="${workPermit.status == 'REJT'}">반려</option>
+                          <option value="DONE" th:selected="${workPermit.status == 'DONE'}">종료</option>
                         </select>
                       </div>
                     </div>
@@ -146,17 +146,17 @@
                       <div class="form-row col-span-12">
                         <label class="label" for="work_summary">작업 개요</label>
                         <textarea id="work_summary" name="workSummary" rows="3" maxlength="500" 
-                              th:text="${workpermit.workSummary}"></textarea>
+                              th:text="${workPermit.workSummary}"></textarea>
                       </div>
                       <div class="form-row col-span-6">
                         <label class="label" for="hazard_factor">위험 요인</label>
                         <textarea id="hazard_factor" name="hazardFactor" rows="4" maxlength="500" 
-                              th:text="${workpermit.hazardFactor}"></textarea>
+                              th:text="${workPermit.hazardFactor}"></textarea>
                       </div>
                       <div class="form-row col-span-6">
                         <label class="label" for="safety_factor">안전 조치</label>
                         <textarea id="safety_factor" name="safetyFactor" rows="4" maxlength="500" 
-                              th:text="${workpermit.safetyFactor}"></textarea>
+                              th:text="${workPermit.safetyFactor}"></textarea>
                       </div>
                     </div>
                   </div>
@@ -167,7 +167,7 @@
                     <div class="form-row col-span-12">
                       <label class="label" for="note">점검항목</label>
                       <textarea id="checksheet_json" name="checksheetJson" rows="6" placeholder='[{"item":"산소농도 측정","result":"OK"}]' 
-                              th:text="${workpermit.checksheetJson}"></textarea>
+                              th:text="${workPermit.checksheetJson}"></textarea>
                     </div>
                   </div>
 
@@ -190,7 +190,7 @@
                     <div class="form-row col-span-12">
                       <label class="label" for="note">비고</label>
                       <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
-                              th:text="${workpermit.note}"></textarea>
+                              th:text="${workPermit.note}"></textarea>
                     </div>
                   </div>
 

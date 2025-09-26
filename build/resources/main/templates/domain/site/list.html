@@ -1,9 +1,9 @@
-<!doctype html>
-<html lang="ko">
+﻿<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>사업장 목록 · CMMS</title>
+    <title>사이트 목록 · CMMS</title>
     <link rel="stylesheet" href="../../../static/assets/css/base.css" />
   </head>
   <body>
@@ -20,9 +20,9 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">기본정보</a>
+          <a th:href="@{/}">기본정보</a>
           <span class="sep">/</span>
-          <span>사업장</span>
+          <span>사이트</span>
         </div>
       </nav>
       <!-- Main Content -->
@@ -31,9 +31,9 @@
           <div class="container">
             <section class="card">
               <div class="card-header">
-                <div class="card-title">사업장 목록</div>
+                <div class="card-title">사이트 목록</div>
                 <div class="toolbar">
-                  <a class="btn" href="#">정보보기</a>
+                  <a class="btn" th:href="@{/domain/site/detail}">정보보기</a>
                   <a class="btn primary" th:href="@{/domain/site/form}">새로 만들기</a>
                 </div>
               </div>
@@ -42,10 +42,10 @@
                   <div class="section-title">필터</div>
                   <div class="grid cols-12">
                     <div class="col-span-3">
-                      <input class="input" placeholder="사업장코드" />
+                      <input class="input" placeholder="사이트코드" />
                     </div>
                     <div class="col-span-3">
-                      <input class="input" placeholder="사업장명" />
+                      <input class="input" placeholder="사이트명" />
                     </div>
                     <div class="col-span-3">
                       <input class="input" placeholder="회사코드" />
@@ -60,8 +60,8 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th style="width:140px">사업장코드</th>
-                      <th>사업장명</th>
+                      <th style="width:140px">사이트코드</th>
+                      <th>사이트명</th>
                       <th style="width:140px">회사코드</th>
                       <th style="width:220px">주소</th>
                       <th style="width:120px">상태</th>
@@ -81,7 +81,7 @@
                         <a class="btn btn-sm" th:href="@{/domain/site/edit/{id}(id=${site.siteId})}">수정</a>
                         <button class="btn btn-sm danger" 
                                 th:data-delete-url="@{/domain/site/delete/{id}(id=${site.siteId})}"
-                                data-redirect="@{/domain/site/list}"
+                                th:data-redirect="@{/domain/site/list}"
                                 data-confirm="정말로 삭제하시겠습니까?">삭제</button>
                       </td>
                     </tr>
@@ -107,4 +107,3 @@
     <script src="../../../static/assets/js/app.js"></script>
   </body>
   </html>
-

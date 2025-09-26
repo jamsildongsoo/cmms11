@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,7 +20,7 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">기본정보</a>
+          <a th:href="@{/}">기본정보</a>
           <span class="sep">/</span>
           <a th:href="@{/domain/role/list}">권한</a>
           <span class="sep">/</span>
@@ -39,7 +39,7 @@
                 </div>
               </div>
               <div class="card-body">
-                <form th:action="@{/domain/role/save}" method="post" data-redirect="@{/domain/role/list}">
+                <form th:action="@{/domain/role/save}" method="post" th:data-redirect="@{/domain/role/list}">
                   <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                   <input type="hidden" name="isNew" th:value="${isNew}" />
                   

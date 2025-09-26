@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
@@ -22,7 +22,7 @@
         <div class="container">
           <a href="#">기본정보</a>
           <span class="sep">/</span>
-          <a th:href="@{/domain/company/list}" href="/domain/company/list">회사</a>
+          <a th:href="@{/domain/company/list}">회사</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -35,11 +35,11 @@
               <div class="card-header">
                 <div class="card-title">회사 등록/수정</div>
                 <div class="toolbar">
-                  <a class="btn" th:href="@{/domain/company/list}" href="/domain/company/list">목록</a>
+                  <a class="btn" th:href="@{/domain/company/list}">목록</a>
                 </div>
               </div>
               <div class="card-body">
-                <form data-validate method="post" action="/domain/company/save" data-redirect="/domain/company/list">
+                <form data-validate method="post" th:action="@{/domain/company/save}" th:data-redirect="@{/domain/company/list}">
 
                   <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <input type="hidden" name="isNew" th:value="${isNew}" />

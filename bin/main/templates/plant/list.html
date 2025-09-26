@@ -34,8 +34,8 @@
                 <div class="card-title">설비 목록</div>
                 <div class="toolbar">
                   <a class="btn" href="#">내보내기</a>
-                  <a class="btn" th:href="@{/plant/uploadForm}" href="/plant/uploadForm">일괄 등록</a>
-                  <a class="btn primary" th:href="@{/plant/form}" href="/plant/form">새로 만들기</a>
+                  <a class="btn" th:href="@{/plant/uploadForm}">일괄 등록</a>
+                  <a class="btn primary" th:href="@{/plant/form}">새로 만들기</a>
                 </div>
               </div>
               <div class="card-body">
@@ -53,7 +53,7 @@
                         <option value="">부서 전체</option>
                         <option th:each="dept : ${depts}" 
                                 th:value="${dept.deptId}" 
-                                th:text="${dept.name}"
+                                th:text="${dept.deptName}"
                                 th:selected="${deptId == dept.deptId}"></option>
                       </select>
                     </div>
@@ -102,9 +102,9 @@
                 <div class="row" style="margin-top:12px">
                   <div class="spacer"></div>
                   <div class="pagination">
-                    <button class="btn sm" th:disabled="${page.first}" th:onclick="'location.href=\'/plant/list?page=' + ${page.number - 1} + '&q=' + encodeURIComponent(\'${keyword}\')'">이전</button>
+                    <button class="btn sm" th:disabled="${page.first}" th:onclick="'location.href=&quot;/plant/list?page=' + ${page.number - 1} + '&amp;q=&quot; + encodeURIComponent(&quot;${keyword}&quot;)'">이전</button>
                     <span th:text="${page.number + 1} + ' / ' + ${page.totalPages}">1 / 1</span>
-                    <button class="btn sm" th:disabled="${page.last}" th:onclick="'location.href=\'/plant/list?page=' + ${page.number + 1} + '&q=' + encodeURIComponent(\'${keyword}\')'">다음</button>
+                    <button class="btn sm" th:disabled="${page.last}" th:onclick="'location.href=&quot;/plant/list?page=' + ${page.number + 1} + '&amp;q=&quot; + encodeURIComponent(&quot;${keyword}&quot;)'">다음</button>
                   </div>
                 </div>
               </div>

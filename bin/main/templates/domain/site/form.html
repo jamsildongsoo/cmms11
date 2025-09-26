@@ -1,9 +1,9 @@
-<!doctype html>
-<html lang="ko">
+﻿<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>사업장 등록/수정 · CMMS</title>
+    <title>사이트 등록/수정 · CMMS</title>
     <link rel="stylesheet" href="../../../static/assets/css/base.css" />
   </head>
   <body>
@@ -20,9 +20,9 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">기본정보</a>
+          <a th:href="@{/}">기본정보</a>
           <span class="sep">/</span>
-          <a th:href="@{/domain/site/list}" href="/domain/site/list">사업장</a>
+          <a th:href="@{/domain/site/list}">사이트</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -33,13 +33,13 @@
           <div class="container">
             <section class="card">
               <div class="card-header">
-                <div class="card-title">사업장 등록/수정</div>
+                <div class="card-title">사이트 등록/수정</div>
                 <div class="toolbar">
-                  <a class="btn" th:href="@{/domain/site/list}" href="/domain/site/list">목록</a>
+                  <a class="btn" th:href="@{/domain/site/list}">목록</a>
                 </div>
               </div>
               <div class="card-body">
-                <form data-validate method="post" action="/domain/site/save" data-redirect="/domain/site/list">
+                <form data-validate method="post" th:action="@{/domain/site/save}" th:data-redirect="@{/domain/site/list}">
 
                   <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <input type="hidden" name="isNew" th:value="${isNew}" />
@@ -47,11 +47,11 @@
                     <div class="section-title">기본정보</div>
                     <div class="grid cols-12">
                       <div class="form-row col-span-4">
-                        <label class="label required" for="siteId">사업장코드</label>
+                        <label class="label required" for="siteId">사이트코드</label>
                         <input id="siteId" name="siteId" class="input" required maxlength="10" placeholder="예: S0001" th:value="${site.siteId}" />
                       </div>
                       <div class="form-row col-span-4">
-                        <label class="label required" for="name">사업장명</label>
+                        <label class="label required" for="name">사이트명</label>
                         <input id="name" name="name" class="input" required maxlength="100" th:value="${site.siteName}" />
                       </div>
                       <div class="form-row col-span-4">
@@ -91,7 +91,9 @@
 
                   <div class="row" style="margin-top:12px; gap:8px; justify-content:flex-end">
                     <button class="btn" type="reset">초기화</button>
-                    <button class="btn primary" type="submit">저장</button>
+                    <button class="btn primary" type="submit">
+                      <span th:text="${isNew ? '등록' : '수정'}">등록</span>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -106,4 +108,3 @@
     <script src="../../../static/assets/js/app.js"></script>
   </body>
   </html>
-

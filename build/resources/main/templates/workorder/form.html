@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,9 +20,9 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">작업관리</a>
+          <a th:href="@{#}" href="#">작업관리</a>
           <span class="sep">/</span>
-          <a th:href="@{/workorder/list}" href="/workorder/list">작업지시</a>
+          <a th:href="@{/workorder/list}">작업지시</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -35,11 +35,11 @@
               <div class="card-header">
                 <div class="card-title">작업지시 등록/수정</div>
                 <div class="toolbar">
-                  <a class="btn" th:href="@{/workorder/list}" href="/workorder/list">목록</a>
+                  <a class="btn" th:href="@{/workorder/list}">목록</a>
                 </div>
               </div>
               <div class="card-body">
-                <form data-validate method="post" action="/workorder/save" data-redirect="/workorder/list">
+                <form data-validate method="post" th:action="@{/workorder/save}" data-redirect="@{/workorder/list}">
 
                   <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <input type="hidden" name="isNew" th:value="${isNew}" />
@@ -50,19 +50,19 @@
                       <div class="form-row col-span-3">
                         <label class="label required" for="workOrderId">작업지시 번호</label>
                         <input id="workOrderId" name="workOrderId" class="input" required maxlength="10" placeholder="예: O250101001" 
-                              th:value="${workorder.workOrderId}" th:readonly="${!isNew}" />
+                              th:value="${workOrder.workOrderId}" th:readonly="${!isNew}" />
                       </div>
                       <div class="form-row col-span-9">
                         <label class="label required" for="name">작업명</label>
                         <input id="name" name="name" class="input" required maxlength="100" 
-                              th:value="${workorder.name}" />
+                              th:value="${workOrder.name}" />
                       </div>
                     </div>
                     <div class="grid cols-12">
                       <div class="form-row col-span-3">
                         <label class="label required" for="plant_id">설비 번호</label>
                         <input id="plant_id" name="plantId" class="input" required maxlength="10" placeholder="EQP000123" 
-                              th:value="${workorder.plantId}" />
+                              th:value="${workOrder.plantId}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label required" for="job_id">작업 유형</label>
@@ -71,7 +71,7 @@
                           <option th:each="jobType : ${jobTypes}"
                                   th:value="${jobType.code}"
                                   th:text="${jobType.code + ' - ' + jobType.name}"
-                                  th:selected="${workorder.jobId == jobType.code}">
+                                  th:selected="${workOrder.jobId == jobType.code}">
                           </option>
                         </select>
                       </div>
@@ -82,7 +82,7 @@
                           <option th:each="site : ${sites}"
                                   th:value="${site.siteId}"
                                   th:text="${site.siteId + ' - ' + site.siteName}"
-                                  th:selected="${workorder.siteId == site.siteId}">
+                                  th:selected="${workOrder.siteId == site.siteId}">
                           </option>
                         </select>
                       </div>
@@ -93,7 +93,7 @@
                           <option th:each="dept : ${depts}"
                                   th:value="${dept.deptId}"
                                   th:text="${dept.deptId + ' - ' + dept.deptName}"
-                                  th:selected="${workorder.deptId == dept.deptId}">
+                                  th:selected="${workOrder.deptId == dept.deptId}">
                           </option>
                         </select>
                       </div>
@@ -107,22 +107,22 @@
                       <div class="form-row col-span-3">
                         <label class="label" for="member_id">담당자</label>
                         <input id="member_id" name="memberId" class="input" maxlength="5" placeholder="예: M0001" 
-                              th:value="${workorder.memberId}" />
+                              th:value="${workOrder.memberId}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="planned_date">계획일</label>
                         <input id="planned_date" name="plannedDate" class="input" type="date" 
-                              th:value="${workorder.plannedDate}" />
+                              th:value="${workOrder.plannedDate}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="planned_cost">계획비용</label>
                         <input id="planned_cost" name="plannedCost" class="input" type="number" step="0.01" min="0" 
-                              th:value="${workorder.plannedCost}" />
+                              th:value="${workOrder.plannedCost}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="planned_labor">계획공수</label>
                         <input id="planned_labor" name="plannedLabor" class="input" type="number" step="0.01" min="0" 
-                              th:value="${workorder.plannedLabor}" />
+                              th:value="${workOrder.plannedLabor}" />
                       </div>
                     </div>
                   </div>
@@ -134,25 +134,25 @@
                       <div class="form-row col-span-3">
                         <label class="label" for="actual_date">실적일</label>
                         <input id="actual_date" name="actualDate" class="input" type="date" 
-                              th:value="${workorder.actualDate}" />
+                              th:value="${workOrder.actualDate}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="actual_cost">실적비용</label>
                         <input id="actual_cost" name="actualCost" class="input" type="number" step="0.01" min="0" 
-                              th:value="${workorder.actualCost}" />
+                              th:value="${workOrder.actualCost}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="actual_labor">실적공수</label>
                         <input id="actual_labor" name="actualLabor" class="input" type="number" step="0.01" min="0" 
-                              th:value="${workorder.actualLabor}" />
+                              th:value="${workOrder.actualLabor}" />
                       </div>
                       <div class="form-row col-span-3">
                         <label class="label" for="status">상태</label>
                         <select id="status" name="status">
-                          <option value="PLAN" th:selected="${workorder.status == 'PLAN'}">계획</option>
-                          <option value="ASGN" th:selected="${workorder.status == 'ASGN'}">배정</option>
-                          <option value="PROC" th:selected="${workorder.status == 'PROC'}">진행</option>
-                          <option value="DONE" th:selected="${workorder.status == 'DONE'}">완료</option>
+                          <option value="PLAN" th:selected="${workOrder.status == 'PLAN'}">계획</option>
+                          <option value="ASGN" th:selected="${workOrder.status == 'ASGN'}">배정</option>
+                          <option value="PROC" th:selected="${workOrder.status == 'PROC'}">진행</option>
+                          <option value="DONE" th:selected="${workOrder.status == 'DONE'}">완료</option>
                         </select>
                       </div>
                     </div>
@@ -195,7 +195,7 @@
                     <div class="form-row col-span-12">
                       <label class="label" for="note">비고</label>
                       <textarea id="note" name="note" rows="4" maxlength="500" placeholder="기타 메모(최대 500자)" 
-                              th:text="${workorder.note}"></textarea>
+                              th:text="${workOrder.note}"></textarea>
                     </div>
                   </div>
 

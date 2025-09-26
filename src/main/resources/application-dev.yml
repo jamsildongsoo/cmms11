@@ -1,0 +1,30 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB106Dialect
+  flyway:
+    enabled: false
+
+server:
+  port: 8080
+
+app:
+  file-storage:
+    location: storage/uploads
+    max-size: 10485760
+    allowed-extensions: jpg,jpeg,png,pdf,doc,docx,xls,xlsx,hwp,hwpx,zip,txt
+
+aws:
+  s3:
+    bucket-name: devYULSLAB-bucket
+    versioning: false
+    preserve-original-filename: true
+    max-size: 10485760
+    allowed-extensions: jpg,jpeg,png,pdf,doc,docx,xls,xlsx,hwp,hwpx,zip,txt
+
+logging:
+  level:
+    com.cmms11: INFO

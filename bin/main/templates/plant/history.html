@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>설비 이력 · CMMS</title>
+    <link rel="stylesheet" href="../../static/assets/css/base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="appbar">
+        <div class="appbar-inner">
+          <div class="brand">설비 관리</div>
+          <div class="spacer"></div>
+          <div class="meta">
+            <span class="badge">memberId</span>
+            <span>시연용</span>
+          </div>
+        </div>
+      </header>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <a th:href="@{#}" href="#">자산정보</a>
+          <span class="sep">/</span>
+          <a th:href="@{/plant/list}">설비</a>
+          <span class="sep">/</span>
+          <span>이력</span>
+        </div>
+      </nav>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
+          <div class="container">
+            <!-- 설비 선택 섹션 -->
+            <section class="card">
+              <div class="card-header">
+                <div class="card-title">설비 선택</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/plant/list}">목록</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="section">
+                  <div class="section-title">설비 검색</div>
+                  <div class="grid cols-12">
+                    <div class="col-span-4">
+                      <input class="input" placeholder="설비번호" name="plantId" th:value="${plantId}" id="plant-search" />
+                    </div>         
+                    <div class="col-span-4">
+                      <input class="input" placeholder="설비명" name="plantName" th:value="${plantName}" />
+                    </div>   
+                    <div class="col-span-4" style="display:flex;gap:8px;justify-content:flex-end">
+                      <button class="btn" onclick="clearSearch()">초기화</button>
+                      <button class="btn" onclick="searchPlant()">검색</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 설비 검색 결과 -->
+                <div class="section" id="plant-search-results" style="display:none">
+                  <div class="section-title">검색 결과</div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th style="width:120px">설비번호</th>
+                        <th>설비명</th>
+                        <th style="width:120px">Site</th>
+                        <th style="width:120px">기능위치</th>
+                        <th style="width:140px">부서</th>
+                        <th style="width:140px">액션</th>
+                      </tr>
+                    </thead>
+                    <tbody id="plant-results-body">
+                      <!-- 검색 결과가 여기에 표시됩니다 -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            <!-- 선택된 설비 정보 섹션 -->
+            <section class="card" id="plant-info-section" style="display:none">
+              <div class="card-header">
+                <div class="card-title">설비 정보</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/plant/detail/{id}(id=${plantId})}" id="plant-detail-link">상세보기</a>
+                  <a class="btn" th:href="@{/plant/edit/{id}(id=${plantId})}" id="plant-edit-link">수정</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="section">
+                  <div class="section-title">기본정보</div>
+                  <div class="grid cols-12">
+                    <div class="stack col-span-3"><div class="label">설비번호</div><div id="info-plant-id">-</div></div>
+                    <div class="stack col-span-9"><div class="label">설비명</div><div id="info-plant-name">-</div></div>
+                    <div class="stack col-span-3"><div class="label">자산유형</div><div id="info-asset-type">-</div></div>
+                    <div class="stack col-span-3"><div class="label">Site</div><div id="info-site">-</div></div>
+                    <div class="stack col-span-3"><div class="label">관리부서</div><div id="info-dept">-</div></div>
+                    <div class="stack col-span-3"><div class="label">기능위치</div><div id="info-func">-</div></div>
+                    <div class="stack col-span-4"><div class="label">제조사</div><div id="info-maker">-</div></div>
+                    <div class="stack col-span-4"><div class="label">모델</div><div id="info-model">-</div></div>
+                    <div class="stack col-span-4"><div class="label">설치일</div><div id="info-install-date">-</div></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 예방점검 이력 섹션 -->
+            <section class="card" id="inspection-history-section" style="display:none">
+              <div class="card-header">
+                <div class="card-title">예방점검 이력</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/inspection/form}">새 점검</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="history-container" style="max-height: 300px; overflow-y: auto;">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th style="width:140px">점검번호</th>
+                        <th>점검명</th>
+                        <th style="width:100px">작업유형</th>
+                        <th style="width:140px">계획일</th>
+                        <th style="width:140px">실적일</th>
+                        <th style="width:100px">상태</th>
+                        <th style="width:140px">액션</th>
+                      </tr>
+                    </thead>
+                    <tbody id="inspection-history-body">
+                      <!-- 점검 이력이 여기에 표시됩니다 -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            <!-- 작업오더 이력 섹션 -->
+            <section class="card" id="workorder-history-section" style="display:none">
+              <div class="card-header">
+                <div class="card-title">작업오더 이력</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/workorder/form}">새 작업</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="history-container" style="max-height: 300px; overflow-y: auto;">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th style="width:140px">작업번호</th>
+                        <th>작업명</th>
+                        <th style="width:100px">작업유형</th>
+                        <th style="width:140px">계획일</th>
+                        <th style="width:140px">실적일</th>
+                        <th style="width:100px">상태</th>
+                        <th style="width:140px">액션</th>
+                      </tr>
+                    </thead>
+                    <tbody id="workorder-history-body">
+                      <!-- 작업오더 이력이 여기에 표시됩니다 -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            <!-- 작업허가 이력 섹션 -->
+            <section class="card" id="workpermit-history-section" style="display:none">
+              <div class="card-header">
+                <div class="card-title">작업허가 이력</div>
+                <div class="toolbar">
+                  <a class="btn" th:href="@{/workpermit/form}">새 허가</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="history-container" style="max-height: 300px; overflow-y: auto;">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th style="width:140px">허가번호</th>
+                        <th>작업명</th>
+                        <th style="width:100px">작업유형</th>
+                        <th style="width:140px">신청일</th>
+                        <th style="width:140px">승인일</th>
+                        <th style="width:100px">상태</th>
+                        <th style="width:140px">액션</th>
+                      </tr>
+                    </thead>
+                    <tbody id="workpermit-history-body">
+                      <!-- 작업허가 이력이 여기에 표시됩니다 -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </section>
+      <footer>
+        <div class="container">© 설비 관리</div>
+      </footer>
+    </div>
+    <script src="../../static/assets/js/app.js"></script>
+    <script>
+      let selectedPlantId = null;
+
+      // 설비 검색 함수
+      async function searchPlant() {
+        const plantId = document.getElementById('plant-search').value.trim();
+        if (!plantId) {
+          alert('설비번호를 입력해주세요.');
+          return;
+        }
+
+        try {
+          const response = await fetch(`/api/plants?q=${encodeURIComponent(plantId)}&size=10`);
+          const data = await response.json();
+          
+          const resultsSection = document.getElementById('plant-search-results');
+          const resultsBody = document.getElementById('plant-results-body');
+          
+          if (data.content && data.content.length > 0) {
+            resultsBody.innerHTML = '';
+            data.content.forEach(plant => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${plant.plantId}</td>
+                <td>${plant.name || '-'}</td>
+                <td>${plant.siteId || '-'}</td>
+                <td>${plant.funcId || '-'}</td>
+                <td>${plant.deptId || '-'}</td>
+                <td class="actions">
+                  <button class="btn btn-sm" onclick="selectPlant('${plant.plantId}')">선택</button>
+                </td>
+              `;
+              resultsBody.appendChild(row);
+            });
+            resultsSection.style.display = 'block';
+          } else {
+            resultsSection.style.display = 'none';
+            alert('해당 설비를 찾을 수 없습니다.');
+          }
+        } catch (error) {
+          console.error('설비 검색 오류:', error);
+          alert('설비 검색 중 오류가 발생했습니다.');
+        }
+      }
+
+      // 설비 선택 함수
+      async function selectPlant(plantId) {
+        selectedPlantId = plantId;
+        
+        try {
+          // 설비 정보 로드
+          const plantResponse = await fetch(`/api/plants/${plantId}`);
+          const plant = await plantResponse.json();
+          
+          // 설비 정보 표시
+          document.getElementById('info-plant-id').textContent = plant.plantId;
+          document.getElementById('info-plant-name').textContent = plant.name || '-';
+          document.getElementById('info-asset-type').textContent = plant.assetId || '-';
+          document.getElementById('info-site').textContent = plant.siteId || '-';
+          document.getElementById('info-dept').textContent = plant.deptId || '-';
+          document.getElementById('info-func').textContent = plant.funcId || '-';
+          document.getElementById('info-maker').textContent = plant.makerName || '-';
+          document.getElementById('info-model').textContent = plant.model || '-';
+          document.getElementById('info-install-date').textContent = plant.installDate || '-';
+          
+          // 링크 업데이트
+          document.getElementById('plant-detail-link').href = `/plant/detail/${plantId}`;
+          document.getElementById('plant-edit-link').href = `/plant/edit/${plantId}`;
+          
+          // 설비 정보 섹션 표시
+          document.getElementById('plant-info-section').style.display = 'block';
+          
+          // 이력 데이터 로드
+          await loadInspectionHistory(plantId);
+          await loadWorkorderHistory(plantId);
+          await loadWorkpermitHistory(plantId);
+          
+        } catch (error) {
+          console.error('설비 정보 로드 오류:', error);
+          alert('설비 정보를 불러오는 중 오류가 발생했습니다.');
+        }
+      }
+
+      // 예방점검 이력 로드
+      async function loadInspectionHistory(plantId) {
+        try {
+          const response = await fetch(`/api/inspections?plantId=${plantId}&size=5`);
+          const data = await response.json();
+          
+          const historyBody = document.getElementById('inspection-history-body');
+          historyBody.innerHTML = '';
+          
+          if (data.content && data.content.length > 0) {
+            data.content.forEach(inspection => {
+              const row = document.createElement('tr');
+              const statusText = inspection.status === 'PLAN' ? '계획' : 
+                               inspection.status === 'PROC' ? '진행' : '완료';
+              const statusClass = inspection.status === 'PLAN' ? 'badge' : 
+                                inspection.status === 'PROC' ? 'badge warning' : 'badge success';
+              
+              row.innerHTML = `
+                <td><a href="/inspection/edit/${inspection.inspectionId}">${inspection.inspectionId}</a></td>
+                <td>${inspection.name || '-'}</td>
+                <td>${inspection.jobId || '-'}</td>
+                <td>${inspection.plannedDate || '-'}</td>
+                <td>${inspection.actualDate || '-'}</td>
+                <td><span class="${statusClass}">${statusText}</span></td>
+                <td class="actions">
+                  <a class="btn btn-sm" href="/inspection/edit/${inspection.inspectionId}">수정</a>
+                </td>
+              `;
+              historyBody.appendChild(row);
+            });
+            document.getElementById('inspection-history-section').style.display = 'block';
+          } else {
+            document.getElementById('inspection-history-section').style.display = 'none';
+          }
+        } catch (error) {
+          console.error('점검 이력 로드 오류:', error);
+        }
+      }
+
+      // 작업오더 이력 로드
+      async function loadWorkorderHistory(plantId) {
+        try {
+          const response = await fetch(`/api/workorders?plantId=${plantId}&size=5`);
+          const data = await response.json();
+          
+          const historyBody = document.getElementById('workorder-history-body');
+          historyBody.innerHTML = '';
+          
+          if (data.content && data.content.length > 0) {
+            data.content.forEach(workorder => {
+              const row = document.createElement('tr');
+              const statusText = workorder.status === 'PLAN' ? '계획' : 
+                               workorder.status === 'PROC' ? '진행' : '완료';
+              const statusClass = workorder.status === 'PLAN' ? 'badge' : 
+                                workorder.status === 'PROC' ? 'badge warning' : 'badge success';
+              
+              row.innerHTML = `
+                <td><a href="/workorder/edit/${workorder.workorderId}">${workorder.workorderId}</a></td>
+                <td>${workorder.name || '-'}</td>
+                <td>${workorder.jobId || '-'}</td>
+                <td>${workorder.plannedDate || '-'}</td>
+                <td>${workorder.actualDate || '-'}</td>
+                <td><span class="${statusClass}">${statusText}</span></td>
+                <td class="actions">
+                  <a class="btn btn-sm" href="/workorder/edit/${workorder.workorderId}">수정</a>
+                </td>
+              `;
+              historyBody.appendChild(row);
+            });
+            document.getElementById('workorder-history-section').style.display = 'block';
+          } else {
+            document.getElementById('workorder-history-section').style.display = 'none';
+          }
+        } catch (error) {
+          console.error('작업오더 이력 로드 오류:', error);
+        }
+      }
+
+      // 작업허가 이력 로드
+      async function loadWorkpermitHistory(plantId) {
+        try {
+          const response = await fetch(`/api/workpermits?plantId=${plantId}&size=5`);
+          const data = await response.json();
+          
+          const historyBody = document.getElementById('workpermit-history-body');
+          historyBody.innerHTML = '';
+          
+          if (data.content && data.content.length > 0) {
+            data.content.forEach(workpermit => {
+              const row = document.createElement('tr');
+              const statusText = workpermit.status === 'REQUEST' ? '신청' : 
+                               workpermit.status === 'APPROVED' ? '승인' : '완료';
+              const statusClass = workpermit.status === 'REQUEST' ? 'badge' : 
+                                workpermit.status === 'APPROVED' ? 'badge warning' : 'badge success';
+              
+              row.innerHTML = `
+                <td><a href="/workpermit/edit/${workpermit.workpermitId}">${workpermit.workpermitId}</a></td>
+                <td>${workpermit.name || '-'}</td>
+                <td>${workpermit.jobId || '-'}</td>
+                <td>${workpermit.requestDate || '-'}</td>
+                <td>${workpermit.approvedDate || '-'}</td>
+                <td><span class="${statusClass}">${statusText}</span></td>
+                <td class="actions">
+                  <a class="btn btn-sm" href="/workpermit/edit/${workpermit.workpermitId}">수정</a>
+                </td>
+              `;
+              historyBody.appendChild(row);
+            });
+            document.getElementById('workpermit-history-section').style.display = 'block';
+          } else {
+            document.getElementById('workpermit-history-section').style.display = 'none';
+          }
+        } catch (error) {
+          console.error('작업허가 이력 로드 오류:', error);
+        }
+      }
+
+      // 검색 초기화
+      function clearSearch() {
+        document.getElementById('plant-search').value = '';
+        document.getElementById('plant-search-results').style.display = 'none';
+        document.getElementById('plant-info-section').style.display = 'none';
+        document.getElementById('inspection-history-section').style.display = 'none';
+        document.getElementById('workorder-history-section').style.display = 'none';
+        document.getElementById('workpermit-history-section').style.display = 'none';
+        selectedPlantId = null;
+      }
+
+      // Enter 키로 검색
+      document.getElementById('plant-search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          searchPlant();
+        }
+      });
+    </script>
+  </body>
+  </html>

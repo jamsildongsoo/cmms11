@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,22 +18,24 @@
           </div>
         </div>
       </header>
-      <nav class="breadcrumbs">ㅗ
+      <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">자산정보</a>
+          <a th:href="@{#}" href="#">자산정보</a>
           <span class="sep">/</span>
-          <a href="list.html">자재/재고</a>
+          <a th:href="@{/inventory/list}">자재/재고</a>
           <span class="sep">/</span>
           <span>일괄 등록</span>
         </div>
       </nav>
-      <main>
+      <!-- Main Content -->
+      <section data-slot-root th:fragment="content">
+        <main>
         <div class="container">
           <section class="card">
             <div class="card-header">
               <div class="card-title">자재/재고 CSV 업로드</div>
               <div class="toolbar">
-                <a class="btn" href="list.html">목록</a>
+                <a class="btn" th:href="@{/inventory/list}">목록</a>
               </div>
             </div>
             <div class="card-body">
@@ -47,7 +49,7 @@
                   <a class="btn sm" href="../../static/assets/samples/inventory-upload-sample.csv" download>샘플 CSV 다운로드</a>
                 </div>
               </div>
-              <form id="uploadForm" method="post" action="/api/inventories/upload" enctype="multipart/form-data">
+              <form id="uploadForm" method="post" th:action="@{/api/inventories/upload}" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="section">
                   <div class="section-title">CSV 파일 선택</div>
@@ -81,7 +83,8 @@
             </div>
           </section>
         </div>
-      </main>
+        </main>
+      </section>
       <footer>
         <div class="container">© 자재/재고</div>
       </footer>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,9 +20,9 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">자산정보</a>
+          <a th:href="@{#}" href="#">자산정보</a>
           <span class="sep">/</span>
-          <a th:href="@{/plant/list}" href="/plant/list">설비</a>
+          <a th:href="@{/plant/list}">설비</a>
           <span class="sep">/</span>
           <span>등록/수정</span>
         </div>
@@ -35,11 +35,11 @@
               <div class="card-header">
                 <div class="card-title">설비 등록/수정</div>
                 <div class="toolbar">
-                  <a class="btn" th:href="@{/plant/list}" href="/plant/list">목록</a>
+                  <a class="btn" th:href="@{/plant/list}">목록</a>
                 </div>
               </div>
               <div class="card-body">
-                <form data-validate method="post" action="/plant/save" data-redirect="/plant/list">
+                <form data-validate method="post" th:action="@{/plant/save}" data-redirect="@{/plant/list}">
 
                   <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <input type="hidden" name="isNew" th:value="${isNew}" />

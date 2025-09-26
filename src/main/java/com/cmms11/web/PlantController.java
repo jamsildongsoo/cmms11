@@ -73,6 +73,15 @@ public class PlantController {
         return "plant/uploadForm";
     }
 
+    @GetMapping("/plant/history")
+    public String historyForm(@RequestParam(name = "plantId", required = false) String plantId,
+                             @RequestParam(name = "plantName", required = false) String plantName,
+                             Model model) {
+        model.addAttribute("plantId", plantId);
+        model.addAttribute("plantName", plantName);
+        return "plant/history";
+    }
+
     @GetMapping("/plant/edit/{plantId}")
     public String editForm(@PathVariable String plantId, Model model) {
         PlantResponse plant = service.get(plantId);

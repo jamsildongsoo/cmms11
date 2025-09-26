@@ -1,31 +1,5 @@
 spring:
-  datasource:
-    url: jdbc:mariadb://localhost:3306/cmms11?useUnicode=true&characterEncoding=utf8
-    username: cmms11_dev
-    password: cmms
-    driver-class-name: org.mariadb.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MariaDB106Dialect
-  flyway:
-    enabled: false
-
-server:
-  port: 8080
-
-app:
-  file-storage:
-    location: storage/uploads
-    max-size: 10485760
-    allowed-extensions: jpg,jpeg,png,pdf,doc,docx,xls,xlsx,hwp,hwpx,zip,txt
-
-aws:
-  s3:
-    bucket-name: devYULSLAB-bucket
-    versioning: false
-    preserve-original-filename: true
-    max-size: 10485760
-    allowed-extensions: jpg,jpeg,png,pdf,doc,docx,xls,xlsx,hwp,hwpx,zip,txt
+  profiles:
+    active: dev
+  config:
+    import: optional:classpath:database-${spring.profiles.active}.properties

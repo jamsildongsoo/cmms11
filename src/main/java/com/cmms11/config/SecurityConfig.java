@@ -29,6 +29,8 @@ import jakarta.servlet.http.HttpServletResponse;
  * 작성일: 2025-08-20
  * 수정일:
  * 프로그램 개요: Spring Security 전역 설정 및 CSRF/로그 필터 구성.
+ * 처리순서: 로그인폼->/api/auth/login->SecurityConfig->MemberUserDetailsService->AuthenticationManager->SecurityFilterChain->filterChain
+ * 
  */
 @Configuration
 @EnableWebSecurity
@@ -73,7 +75,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/api/auth/login")
                 .usernameParameter("member_id")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/layout/defaultLayout.html?content=/plant/list.html", true)
+                .defaultSuccessUrl("/layout/defaultLayout.html?content=/memo/list", true)
                 .failureUrl("/auth/login.html?error=1")
             )
             .logout(logout -> logout
@@ -84,6 +86,9 @@ public class SecurityConfig {
                 .permitAll()
             )
             .exceptionHandling(exception -> exception
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.sendRedirect("/auth/login.html");
+                })
                 .accessDeniedHandler(accessDeniedHandler())
             );
 

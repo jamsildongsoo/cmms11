@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,7 +27,7 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">재고거래</a>
+          <a th:href="@{#}" href="#">재고거래</a>
           <span class="sep">/</span>
           <span>거래</span>
         </div>
@@ -40,7 +40,7 @@
               <div class="card-header">
                 <div class="card-title">재고 거래 입력</div>
                 <div class="toolbar">
-                  <a class="btn" href="../inventory/list.html">재고목록</a>
+                  <a class="btn" th:href="@{/inventory/list}">재고목록</a>
                 </div>
               </div>
               <div class="card-body">

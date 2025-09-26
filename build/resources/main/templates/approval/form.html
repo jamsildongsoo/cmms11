@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,14 +28,14 @@
       </header>
       <nav class="breadcrumbs">
         <div class="container">
-          <a href="#">전자결재</a>
+          <a th:href="@{/}">전자결재</a>
           <span class="sep">/</span>
           <span>결재 작성</span>
         </div>
       </nav>
       <main>
         <div class="container">
-          <form class="stack" data-validate method="post" action="/approval/save" data-redirect="/approval/list">
+          <form class="stack" data-validate method="post" th:action="@{/approval/save}" th:data-redirect="@{/approval/list}">
 
             <input type="hidden" name="_csrf" value="" data-csrf-field="true" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <input type="hidden" name="isNew" th:value="${isNew}" />
@@ -44,7 +44,7 @@
               <div class="card-header">
                 <div class="card-title">결재 작성</div>
                 <div class="toolbar">
-                  <a class="btn" th:href="@{/approval/list}" href="/approval/list">목록</a>
+                  <a class="btn" th:href="@{/approval/list}">목록</a>
                   <button class="btn" type="submit" name="action" value="draft">임시저장</button>
                   <button class="btn primary" type="submit" name="action" value="submit">
                     <span th:text="${isNew ? '상신' : '수정'}">상신</span>

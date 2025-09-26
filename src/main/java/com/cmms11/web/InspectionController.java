@@ -21,10 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 이름: InspectionController
@@ -63,6 +61,19 @@ public class InspectionController {
         model.addAttribute("isNew", true);
         addReferenceData(model);
         return "inspection/form";
+    }
+
+    @GetMapping("/inspection/plan")
+    public String planForm(Model model) {
+        addReferenceData(model);
+        return "inspection/plan";
+    }
+
+    @GetMapping("/inspection/detail/{inspectionId}")
+    public String detailForm(@PathVariable String inspectionId, Model model) {
+        InspectionResponse inspection = service.get(inspectionId);
+        model.addAttribute("inspection", inspection);
+        return "inspection/detail";
     }
 
     @GetMapping("/inspection/edit/{inspectionId}")
